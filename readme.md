@@ -21,9 +21,9 @@ var CLUESTR_SECRET = "your_cluestr_secret"
 // Your authorization code
 var code = req.params.code
 
-var cluestrOauth = new CluestrOauth(CLUESTR_ID, CLUESTR_SECRET);
+var cluestr = new CluestrOauth(CLUESTR_ID, CLUESTR_SECRET);
 
-cluestrOauth.getAccessToken(code, function(err, accessToken) {
+cluestr.getAccessToken(code, function(err, accessToken) {
   if(err) {
     throw err;
   }
@@ -44,11 +44,12 @@ var CLUESTR_SECRET = "your_cluestr_secret"
 // Your access_token
 var accessToken = getAccessTokenFromDb()
 
-var cluestrOauth = new CluestrOauth(CLUESTR_ID, CLUESTR_SECRET);
+var cluestr = new CluestrOauth(CLUESTR_ID, CLUESTR_SECRET);
 
-cluestrOauth.setAccessToken(accessToken);
+cluestr.setAccessToken(accessToken);
 
-document = {
+// Document to be sent to Cluestr.
+var document = {
   'identifier': 'http://unique-document-identifier',
   'metadatas': {
     'foo': 'bar',
@@ -56,7 +57,7 @@ document = {
   }
 }
 
-cluestrOauth.sendDocument(document, function(err, accessToken) {
+cluestr.sendDocument(document, function(err, accessToken) {
   if(err) {
     throw err;
   }
@@ -77,11 +78,13 @@ var CLUESTR_SECRET = "your_cluestr_secret"
 // Your access_token
 var accessToken = getAccessTokenFromDb()
 
-var cluestrOauth = new CluestrOauth(CLUESTR_ID, CLUESTR_SECRET);
+var cluestr = new CluestrOauth(CLUESTR_ID, CLUESTR_SECRET);
 
-cluestrOauth.setAccessToken(accessToken);
+cluestr.setAccessToken(accessToken);
 
-cluestrOauth.deleteDocument('http://unique-document-identifier', function(err) {
+var identifier = 'http://unique-document-identifier';
+
+cluestr.deleteDocument(identifier, function(err) {
   if(err) {
     throw err;
   }

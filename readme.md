@@ -1,6 +1,6 @@
 Cluestr-oauth Library
 =====================
-> You'll only be interested in this package if you use [Cluestr](http://cluestr.com).
+> You'll only be interested in this package if you want to create an hydrater / provider for [Cluestr](http://cluestr.com).
 
 This npm package makes communicating with Cluestr servers easy for providers and hydraters.
 

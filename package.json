@@ -1,6 +1,7 @@
 {
-  "name": "cluestr-oauth",
-  "version": "0.1.2",
+  "name": "cluestr",
+  "description": "Communicating with Cluestr servers made easy for providers and hydraters.",
+  "version": "0.1.4",
   "author": "Matthieu Bacconnier <matthieu.bacconnier@papiel.fr>",
   "contributors": [
     {
@@ -12,10 +13,10 @@
       "email": "dartus.pierremarie@gmail.com"
     }
   ],
-  "main": "./cluestr-oauth.js",
+  "main": "./cluestr.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Papiel/cluestr-oauth"
+    "url": "https://github.com/Papiel/cluestr.js"
   },
   "keywords": [
     "papiel",

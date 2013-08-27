@@ -1,4 +1,4 @@
-Cluestr-oauth Library
+Cluestr Library
 =====================
 > You'll only be interested in this package if you want to create an hydrater / provider for [Cluestr](http://cluestr.com).
 
@@ -11,7 +11,7 @@ Example use
 
 ### Trade authorization code
 ```javascript
-var CluestrOauth = require('cluestr-oauth');
+var Cluestr = require('cluestr');
 
 // Get your id and secret key on
 // http://cluestr.com/oauth/applications
@@ -21,7 +21,7 @@ var CLUESTR_SECRET = "your_cluestr_secret"
 // Your authorization code
 var code = req.params.code
 
-var cluestr = new CluestrOauth(CLUESTR_ID, CLUESTR_SECRET);
+var cluestr = new Cluestr(CLUESTR_ID, CLUESTR_SECRET);
 
 cluestr.getAccessToken(code, function(err, accessToken) {
   if(err) {
@@ -34,7 +34,7 @@ cluestr.getAccessToken(code, function(err, accessToken) {
 
 ### Send a document
 ```javascript
-var CluestrOauth = require('cluestr-oauth');
+var Cluestr = require('cluestr-oauth');
 
 // Get your id and secret key on
 // http://cluestr.com/oauth/applications
@@ -44,7 +44,7 @@ var CLUESTR_SECRET = "your_cluestr_secret"
 // Your access_token
 var accessToken = getAccessTokenFromDb()
 
-var cluestr = new CluestrOauth(CLUESTR_ID, CLUESTR_SECRET);
+var cluestr = new Cluestr(CLUESTR_ID, CLUESTR_SECRET);
 
 cluestr.setAccessToken(accessToken);
 
@@ -68,7 +68,7 @@ cluestr.sendDocument(document, function(err, accessToken) {
 
 ### Remove a document
 ```javascript
-var CluestrOauth = require('cluestr-oauth');
+var Cluestr = require('cluestr-oauth');
 
 // Get your id and secret key on
 // http://cluestr.com/oauth/applications
@@ -78,7 +78,7 @@ var CLUESTR_SECRET = "your_cluestr_secret"
 // Your access_token
 var accessToken = getAccessTokenFromDb()
 
-var cluestr = new CluestrOauth(CLUESTR_ID, CLUESTR_SECRET);
+var cluestr = new Cluestr(CLUESTR_ID, CLUESTR_SECRET);
 
 cluestr.setAccessToken(accessToken);
 

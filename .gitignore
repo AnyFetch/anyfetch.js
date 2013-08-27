@@ -1,0 +1,21 @@
+# OS Artifacts
+*.DS_Store
+
+# Vagrant Artifacts
+.vagrant/*
+
+# NPM Artifacts
+node_modules/*
+npm-debug.log
+libpeerconnection.log
+
+# Docco artifacts
+docs/*
+
+# IDE Artifacts
+.idea/*
+*.iml
+*.sublime-*
+
+# Jekyll artifacts
+_site/*

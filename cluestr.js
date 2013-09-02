@@ -8,11 +8,12 @@
 var request = require('request');
 
 // Root URL for the API. Can be updated for testing or VA purposes
-var API_ROOT = 'http://api.cluestr.com';
+var API_ROOT = 'http://localhost:8000';
 // Url to retrieve an access_token
 var ACCESSTOKEN_CREATION = '/oauth/token';
 // Url to create a new document
 var DOCUMENT_CREATION = '/providers/documents';
+var DOCUMENT_FILE_CREATION = '/providers/documents/file';
 
 /**
  * Cluestr Oauth libraries
@@ -26,6 +27,7 @@ module.exports = function(appId, appSecret) {
   this.API_ROOT = API_ROOT;
   this.ACCESSTOKEN_CREATION = ACCESSTOKEN_CREATION;
   this.DOCUMENT_CREATION = DOCUMENT_CREATION;
+  this.DOCUMENT_FILE_CREATION = DOCUMENT_FILE_CREATION;
 
   this.ERR_NO_ACCESS_TOKEN = new Error("This method requires you to define an accessToken.");
 
@@ -77,9 +79,31 @@ module.exports = function(appId, appSecret) {
   };
 
   /**
-   * Send a document to cluestr
+   * Send a document, and upload a file to it.
+   * Simple wrapper around `sendDocument` and `sendFile`
+   * See their respective doc.
    *
-   * @param {Object} datas to be sent to Cluestr, following the documentation for API_ROOT/providers/documents
+   * @param {Object} datas Datas parameter for `sendDocument`
+   * @param {Object} fileConfig Config parameter for `sendFile`
+   * @param {Function} cb Callback, error being first argument, then data about the new document.
+   */
+  this.sendDocumentAndFile = function(datas, fileConfig, cb) {
+    self.sendDocument(datas, function(err, doc) {
+      if(err) {
+        return cb(err);
+      }
+
+      self.sendFile(datas.identifier, fileConfig, function(err) {
+        cb(err, doc);
+      });
+    });
+  };
+
+  /**
+   * Send a document to Cluestr
+   *
+   * @param {Object} datas to be sent to Cluestr, following the documentation for API_ROOT/providers/documents.
+   * @param {Object} file Configuration object to add a file to the document. Must at least contain a `key` param, which can either be a stream (e.g. fs.createReadStream) or a Buffer object. Warning: unfortunately, due to the variety of Stream, we can't type-check, so unexpected errors will occur if you specify weird file parameters. The object can also contains a contentType key (for MIME type), and a filename.
    * @param {function} cb callback to be called once document has been created / updated. First parameter will be the error (if any), second will be the return from the API.
    *
    */
@@ -94,14 +118,13 @@ module.exports = function(appId, appSecret) {
 
     var params = {
       url: self.API_ROOT + self.DOCUMENT_CREATION,
-      form: datas,
+      json: datas,
       headers: {
         'Authorization': 'token ' + self.accessToken
       }
     };
 
     request.post(params, function(err, resp) {
-
       if(err) {
         return cb(err);
       }
@@ -111,6 +134,43 @@ module.exports = function(appId, appSecret) {
 
       cb(null, resp.body);
     });
+  };
+
+  /**
+   * Send a file for a document already uploaded
+   *
+   * @param {String} identifier Identifier for the document
+   * @param {Object} config Configuration object to add a file to the document. Must at least contain a `key` param, which can either be a stream (e.g. fs.createReadStream) or a Buffer object. Warning: unfortunately, due to the variety of Stream, we can't type-check, so unexpected errors will occur if you specify weird file parameters. The object can also contains a `contentType` key (for MIME type), and a `filename`.
+   * @param {Function} cb Callback with error if any.
+   */
+  this.sendFile = function(identifier, config, cb) {
+    if(!self.accessToken) {
+      return cb(self.ERR_NO_ACCESS_TOKEN);
+    }
+
+    var r = request.post(self.API_ROOT + self.DOCUMENT_FILE_CREATION, function(err, respFile, body) {
+      if(err) {
+        return cb(err);
+      }
+
+      if(respFile.statusCode !== 204) {
+        return cb(new Error("Cluestr returned non-204 code: " + respFile.statusCode + '. ' + (respFile.body && respFile.body.error ? respFile.body.error : '')));
+      }
+
+      cb(null);
+    });
+
+    var form = r.form();
+    form.append('identifier', identifier);
+    if(config.file instanceof Buffer) {
+      form.append('file', config.file, {
+        filename: config.filename || 'file.txt',
+        contentType: config.contentType || 'plain/text',
+        knownLength: config.file.length,
+      });
+    } else {
+      form.append('file', config.file);
+    }
   };
 
   /**

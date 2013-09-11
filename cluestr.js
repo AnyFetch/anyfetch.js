@@ -148,7 +148,14 @@ module.exports = function(appId, appSecret) {
       return cb(self.ERR_NO_ACCESS_TOKEN);
     }
 
-    var r = request.post(self.API_ROOT + self.DOCUMENT_FILE_CREATION, function(err, respFile, body) {
+    var params = {
+      url: self.API_ROOT + self.DOCUMENT_FILE_CREATION,
+      headers: {
+        'Authorization': 'token ' + self.accessToken
+      }
+    };
+
+    var r = request.post(params, function(err, respFile, body) {
       if(err) {
         return cb(err);
       }

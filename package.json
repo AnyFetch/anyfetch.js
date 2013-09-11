@@ -1,7 +1,7 @@
 {
   "name": "cluestr",
   "description": "Communicating with Cluestr servers made easy for providers and hydraters.",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "author": "Matthieu Bacconnier <matthieu.bacconnier@papiel.fr>",
   "contributors": [
     {

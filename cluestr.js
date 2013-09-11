@@ -8,7 +8,7 @@
 var request = require('request');
 
 // Root URL for the API. Can be updated for testing or VA purposes
-var API_ROOT = 'http://localhost:8000';
+var API_ROOT = process.env.CLUESTR_SERVER || 'http://cluestr.com';
 // Url to retrieve an access_token
 var ACCESSTOKEN_CREATION = '/oauth/token';
 // Url to create a new document

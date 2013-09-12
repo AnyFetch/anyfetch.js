@@ -88,7 +88,7 @@ module.exports = function(appId, appSecret) {
    * @param {Function} cb Callback, error being first argument, then data about the new document.
    */
   this.sendDocumentAndFile = function(datas, fileConfig, cb) {
-    self.sendDocument(datas, function(err, doc) {
+    self.sendDocument(datas, true, function(err, doc) {
       if(err) {
         return cb(err);
       }
@@ -103,11 +103,20 @@ module.exports = function(appId, appSecret) {
    * Send a document to Cluestr
    *
    * @param {Object} datas to be sent to Cluestr, following the documentation for API_ROOT/providers/documents.
-   * @param {Object} file Configuration object to add a file to the document. Must at least contain a `key` param, which can either be a stream (e.g. fs.createReadStream) or a Buffer object. Warning: unfortunately, due to the variety of Stream, we can't type-check, so unexpected errors will occur if you specify weird file parameters. The object can also contains a contentType key (for MIME type), and a filename.
    * @param {function} cb callback to be called once document has been created / updated. First parameter will be the error (if any), second will be the return from the API.
    *
    */
-  this.sendDocument = function(datas, cb) {
+  this.sendDocument = function(datas, hasFile, cb) {
+    if(!cb) {
+      cb = hasFile
+      hasFile = false;
+    }
+
+    // We have a file pending, so let's skip hydration for now.
+    if(hasFile) {
+      datas.no_hydration = true;
+    }
+
     if(!self.accessToken) {
       return cb(self.ERR_NO_ACCESS_TOKEN);
     }

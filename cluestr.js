@@ -44,14 +44,16 @@ module.exports = function(appId, appSecret) {
    * Retrieve an access token from Cluestr
    * 
    * @param {string} code value to be traded for tokens
+   * @param {string} redirect_uri Your uri. totally useless, see https://github.com/applicake/doorkeeper/issues/280
    * @param {function} cb callback to be called once token are retrieved, will take as params the error and the new access_token. Additionnally, the access_token will be automatically set on this instance.
    */
-  this.getAccessToken = function(code, cb) {
+  this.getAccessToken = function(code, redirect_uri, cb) {
     var params = {
       url: self.API_ROOT + self.ACCESSTOKEN_CREATION,
       form: {
         client_id: appId,
         client_secret: appSecret,
+        redirect_uri: redirect_uri,
         code: code,
         grant_type: 'authorization_code',
       }

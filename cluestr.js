@@ -8,7 +8,8 @@
 var request = require('request');
 
 // Root URL for the API. Can be updated for testing or VA purposes
-var API_ROOT = process.env.CLUESTR_SERVER || 'http://cluestr.com';
+var API_ROOT = process.env.CLUESTR_SERVER || 'http://api.cluestr.com';
+var API_FRONT = process.env.CLUESTR_FRONT || 'http://cluestr.com';
 // Url to retrieve an access_token
 var ACCESSTOKEN_CREATION = '/oauth/token';
 // Url to create a new document
@@ -25,6 +26,7 @@ var DOCUMENT_FILE_CREATION = '/providers/documents/file';
 module.exports = function(appId, appSecret) {
 
   this.API_ROOT = API_ROOT;
+  this.API_FRONT = API_FRONT;
   this.ACCESSTOKEN_CREATION = ACCESSTOKEN_CREATION;
   this.DOCUMENT_CREATION = DOCUMENT_CREATION;
   this.DOCUMENT_FILE_CREATION = DOCUMENT_FILE_CREATION;
@@ -49,7 +51,7 @@ module.exports = function(appId, appSecret) {
    */
   this.getAccessToken = function(code, redirect_uri, cb) {
     var params = {
-      url: self.API_ROOT + self.ACCESSTOKEN_CREATION,
+      url: self.API_FRONT + self.ACCESSTOKEN_CREATION,
       form: {
         client_id: appId,
         client_secret: appSecret,

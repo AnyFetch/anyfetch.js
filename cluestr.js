@@ -69,7 +69,7 @@ module.exports = function(appId, appSecret) {
         return cb(new Error("Cluestr returned non-200 code: " + resp.statusCode + '. ' + (resp.body && resp.body.error ? resp.body.error : '')));
       }
 
-      cb(null, resp.body.access_token);
+      cb(null, JSON.parse(resp.body).access_token);
     });
   };
 

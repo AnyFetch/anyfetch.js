@@ -66,7 +66,7 @@ module.exports = function(appId, appSecret) {
         return cb(err);
       }
       if(resp.statusCode !== 200) {
-        return cb(new Error("Cluestr returned non-200 code: " + resp.statusCode + '. ' + (resp.body && JSON.parse(resp.body).error ? JSON.parse(resp.body).error : '')));
+        return cb(new Error("Cluestr returned non-200 code: " + resp.statusCode + '. ' + resp.body));
       }
 
       cb(null, JSON.parse(resp.body).access_token);

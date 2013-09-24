@@ -107,6 +107,7 @@ module.exports = function(appId, appSecret) {
    * Send a document to Cluestr
    *
    * @param {Object} datas to be sent to Cluestr, following the documentation for API_ROOT/providers/documents.
+   * @param {bool} hasFile set to true if you intend to send a file with this document
    * @param {function} cb callback to be called once document has been created / updated. First parameter will be the error (if any), second will be the return from the API.
    *
    */
@@ -142,7 +143,7 @@ module.exports = function(appId, appSecret) {
         return cb(err);
       }
       if(resp.statusCode !== 200) {
-        return cb(new Error("Cluestr returned non-200 code: " + resp.statusCode + '. ' + (resp.body && resp.body.error ? resp.body.error : '')));
+        return cb(new Error("Cluestr returned non-200 code: " + resp.statusCode + '. ' + resp.body));
       }
 
       cb(null, resp.body);
@@ -174,7 +175,7 @@ module.exports = function(appId, appSecret) {
       }
 
       if(respFile.statusCode !== 204) {
-        return cb(new Error("Cluestr returned non-204 code: " + respFile.statusCode + '. ' + (respFile.body && respFile.body.error ? respFile.body.error : '')));
+        return cb(new Error("Cluestr returned non-204 code: " + respFile.statusCode + '. ' + respFile.body));
       }
 
       cb(null);
@@ -220,7 +221,7 @@ module.exports = function(appId, appSecret) {
       }
 
       if(resp.statusCode !== 204) {
-        return cb(new Error("Cluestr returned non-204 code: " + resp.statusCode + '. ' + (resp.body && resp.body.error ? resp.body.error : '')));
+        return cb(new Error("Cluestr returned non-204 code: " + resp.statusCode + '. ' + resp.body));
       }
 
       cb();

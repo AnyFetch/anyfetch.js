@@ -21,7 +21,8 @@
   "keywords": [
     "papiel",
     "cluestr",
-    "oauth"
+    "oauth",
+    "dropbox"
   ],
   "dependencies": {
     "request": "2.26.x"

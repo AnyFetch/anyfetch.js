@@ -66,7 +66,7 @@ module.exports = function(appId, appSecret) {
         return cb(err);
       }
       if(resp.statusCode !== 200) {
-        return cb(new Error("Cluestr returned non-200 code: " + resp.statusCode + '. ' + resp.body));
+        return cb(new Error("Cluestr returned non-200 code: " + resp.statusCode + '. ' + JSON.stringify(resp.body)));
       }
 
       cb(null, JSON.parse(resp.body).access_token);
@@ -113,7 +113,7 @@ module.exports = function(appId, appSecret) {
    */
   this.sendDocument = function(datas, hasFile, cb) {
     if(!cb) {
-      cb = hasFile
+      cb = hasFile;
       hasFile = false;
     }
 
@@ -127,7 +127,7 @@ module.exports = function(appId, appSecret) {
     }
 
     if(!datas.identifier) {
-      return cb(new Error("Document must include an identifier."));
+      return cb(new Error('Document must include an identifier.'));
     }
 
     var params = {
@@ -143,7 +143,7 @@ module.exports = function(appId, appSecret) {
         return cb(err);
       }
       if(resp.statusCode !== 200) {
-        return cb(new Error("Cluestr returned non-200 code: " + resp.statusCode + '. ' + resp.body));
+        return cb(new Error('Cluestr returned non-200 code: ' + resp.statusCode + '. ' + JSON.stringify(resp.body)));
       }
 
       cb(null, resp.body);
@@ -165,17 +165,18 @@ module.exports = function(appId, appSecret) {
     var params = {
       url: self.API_ROOT + self.DOCUMENT_FILE_CREATION,
       headers: {
-        'Authorization': 'token ' + self.accessToken
+        'Authorization': 'token ' + self.accessToken,
+        'Content-Length': 0
       }
     };
 
-    var r = request.post(params, function(err, respFile, body) {
+    var r = request.post(params, function(err, respFile) {
       if(err) {
         return cb(err);
       }
 
       if(respFile.statusCode !== 204) {
-        return cb(new Error("Cluestr returned non-204 code: " + respFile.statusCode + '. ' + respFile.body));
+        return cb(new Error('Cluestr returned non-204 code: ' + respFile.statusCode + '. ' + JSON.stringify(respFile.body)));
       }
 
       cb(null);
@@ -221,7 +222,7 @@ module.exports = function(appId, appSecret) {
       }
 
       if(resp.statusCode !== 204) {
-        return cb(new Error("Cluestr returned non-204 code: " + resp.statusCode + '. ' + resp.body));
+        return cb(new Error('Cluestr returned non-204 code: ' + resp.statusCode + '. ' + JSON.stringify(resp.body)));
       }
 
       cb();

@@ -164,8 +164,7 @@ module.exports = function(appId, appSecret) {
     var params = {
       url: self.API_ROOT + self.DOCUMENT_FILE_CREATION,
       headers: {
-        'Authorization': 'token ' + self.accessToken,
-        'Content-Length': 0
+        'Authorization': 'token ' + self.accessToken
       }
     };
 

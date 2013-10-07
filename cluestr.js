@@ -7,9 +7,7 @@
 
 var request = require('request');
 
-// Root URL for the API. Can be updated for testing or VA purposes
-var API_ROOT = process.env.CLUESTR_SERVER || 'http://api.cluestr.com';
-var API_FRONT = process.env.CLUESTR_FRONT || 'http://cluestr.com';
+
 // Url to retrieve an access_token
 var ACCESSTOKEN_CREATION = '/oauth/token';
 // Url to create a new document
@@ -24,9 +22,10 @@ var DOCUMENT_FILE_CREATION = '/providers/documents/file';
  * @param {string} appSecret your application secret, generated via Cluestr
  */
 module.exports = function(appId, appSecret) {
+  // Root URL for the API. Can be updated for testing, Virtual Appliance or running in LAN.
+  this.API_ROOT = process.env.CLUESTR_SERVER || 'http://api.cluestr.com';
+  this.API_FRONT = process.env.CLUESTR_FRONT || 'http://cluestr.com';
 
-  this.API_ROOT = API_ROOT;
-  this.API_FRONT = API_FRONT;
   this.ACCESSTOKEN_CREATION = ACCESSTOKEN_CREATION;
   this.DOCUMENT_CREATION = DOCUMENT_CREATION;
   this.DOCUMENT_FILE_CREATION = DOCUMENT_FILE_CREATION;

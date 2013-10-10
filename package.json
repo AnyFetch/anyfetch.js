@@ -13,7 +13,7 @@
       "email": "dartus.pierremarie@gmail.com"
     }
   ],
-  "main": "./cluestr.js",
+  "main": "./lib/cluestr.js/",
   "repository": {
     "type": "git",
     "url": "https://github.com/Papiel/cluestr.js"
@@ -21,8 +21,7 @@
   "keywords": [
     "papiel",
     "cluestr",
-    "oauth",
-    "dropbox"
+    "oauth"
   ],
   "dependencies": {
     "request": "2.26.x"

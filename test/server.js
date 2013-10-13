@@ -7,9 +7,6 @@ var CluestrClient = require('../lib/cluestr.js/index.js');
 
 describe('Client environnment', function() {
   it('should allow to override Cluestr API url', function(done) {
-    // Is this test timeouting? This is due to should conditions being done beyond the standard event loop, and not properly bubbled up to Mocha.
-    // So, in case of timeout, just uncomment the console.log a few lines below.
-
     var datas = {
       'identifier': 'fake_identifier',
       'binary_document_type': 'test_document_type',
@@ -46,7 +43,38 @@ describe('Client environnment', function() {
       var expectedReturn = datas;
       expectedReturn.authorization = "token fake_access_token";
       body.should.eql(expectedReturn);
-      done();
+
+      fakeCluestrServer.close(done);
+    });
+  });
+
+  it('should allow to override Cluestr Front url', function(done) {
+
+    process.env.CLUESTR_FRONT = 'http://localhost:1337';
+
+    var fakeCluestrServer = restify.createServer();
+
+    fakeCluestrServer.use(restify.acceptParser(fakeCluestrServer.acceptable));
+    fakeCluestrServer.use(restify.queryParser());
+    fakeCluestrServer.use(restify.bodyParser());
+
+    fakeCluestrServer.post('/oauth/token', function(req, res, next) {
+      res.send({access_token: 'fake_access_token'});
+      next(200);
+    });
+
+    fakeCluestrServer.listen(1337);
+
+    var cluestrClient = new CluestrClient('fake_app_id', 'fake_app_secret');
+    cluestrClient.getAccessToken("fake_code", "fake_redirect_uri", function(err, accessToken) {
+      if(err) {
+        throw err;
+      }
+
+      accessToken.should.equal("fake_access_token");
+
+      fakeCluestrServer.close(done);
+
     });
   });
 });

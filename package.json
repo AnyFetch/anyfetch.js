@@ -31,6 +31,7 @@
     "request": "2.26.x"
   },
   "devDependencies": {
+    "async": "0.2.x",
     "mocha": "1.13.0",
     "should": "1.2.x",
     "restify": "2.6.x",

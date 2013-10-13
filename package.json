@@ -13,6 +13,10 @@
       "email": "dartus.pierremarie@gmail.com"
     }
   ],
+  "scripts": {
+    "test": "NODE_ENV=test mocha -R spec test/",
+    "lint": "jshint lib/ test/"
+  },
   "main": "./lib/cluestr.js/",
   "repository": {
     "type": "git",
@@ -26,7 +30,12 @@
   "dependencies": {
     "request": "2.26.x"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "mocha": "1.13.0",
+    "should": "1.2.x",
+    "restify": "2.6.x",
+    "supertest": "0.7.x"
+    },
   "licence": "Copyright Papiel",
   "engines": {
     "node": ">=0.10"

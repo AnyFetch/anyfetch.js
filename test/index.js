@@ -11,8 +11,7 @@ before(function() {
   var keys = ['CLUESTR_ID', 'CLUESTR_SECRET', 'ACCESS_TOKEN'];
   keys.forEach(function(key) {
     if(!process.env[key]) {
-      process.env[key] = 'fake';
-      //throw new Error("To run this test suite, you need to specify environment variable " + key);
+      throw new Error("To run this test suite, you need to specify environment variable " + key);
     }
   });
 });
@@ -24,7 +23,7 @@ describe('getAccessToken()', function() {
 
     cluestrClient.getAccessToken("fake_code", "fake_uri",   function(err) {
       err.toString().should.include('401');
-      err.toString().should.include('Client authentication failed');
+      err.toString().should.include('The provided authorization grant is invalid');
 
       done();
     });
@@ -33,17 +32,18 @@ describe('getAccessToken()', function() {
 
 
 describe('sendDocument()', function() {
-  var cluestrClient = new CluestrClient(process.env.CLUESTR_ID, process.env.CLUESTR_SECRET);
-
   it('should require an accessToken', function(done) {
-    cluestrClient.sendDocument({}, function(err) {
+    var rawCluestrClient = new CluestrClient(process.env.CLUESTR_ID, process.env.CLUESTR_SECRET);
+    rawCluestrClient.sendDocument({}, function(err) {
       err.toString().should.include('accessToken');
       done();
     });
   });
 
+  var cluestrClient = new CluestrClient(process.env.CLUESTR_ID, process.env.CLUESTR_SECRET);
+  cluestrClient.setAccessToken(process.env.ACCESS_TOKEN);
+
   it('should require an identifier', function(done) {
-    cluestrClient.setAccessToken(process.env.ACCESS_TOKEN);
     cluestrClient.sendDocument({}, function(err) {
       err.toString().should.include('identifier');
       done();
@@ -58,5 +58,27 @@ describe('sendDocument()', function() {
     });
   });
 
+  it('should work as documented', function(done) {
+    cluestrClient.setAccessToken(process.env.ACCESS_TOKEN);
 
+    var datas = {
+      identifier: 'test-identifier',
+      binary_document_type: 'file',
+      metadatas: {
+        'foo': 'bar'
+      },
+    };
+
+    cluestrClient.sendDocument(datas, function(err, document) {
+      if(err) {
+        throw err;
+      }
+      document.should.have.property('_type', 'Document');
+      document.should.have.property('binary_document_type', '5252ce4ce4cfcd16f55cfa3b');
+      document.should.have.property('metadatas');
+      document.metadatas.should.eql(datas.metadatas);
+
+      done();
+    });
+  });
 });

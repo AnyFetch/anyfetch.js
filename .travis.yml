@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+- '0.10'
+before_script: npm install --dev
+script: npm test
+env:
+  global:
+  - secure: eM+CkgiaQLGPQsX4pe7W7z1+gDAXfvck3G5Gg4A4nvnQXOPRGItS5HS6rqLsg2Rmau4pO36WWKiKc+LA5pbzRxJXiu0oibJHebjFO7pj6zuY3izY5aVmVFFNo7ID0meHY3D+KSoopR1JZ6Mz5bwcJyq0iTz8ohEh7reLl1kGyYQ=
+  - secure: etNVY2ePXmQuchk4prRr3TkhOXlDPNkVtEWyVfpDoHPveNphCCMxc4sden5/hC7mGGD506nOZg4Vl0hGziCQtXxLde/TL5y8Nz57kZiMJWIWrWWbLj/HdQ58elBFcaIF4vUWOf76/BZBK9SxVJimcx4UtuOMyJtkw/s3PQKUhuY=
+  - secure: mIsf3acPBy/+nkmlN5yKVR4AX+0HANUoaZvLVlLsmxTzypHDNrmM/gOfGANOXR5ttQMDpIK5P4F1gsU1sOrD3t0uAfWQJ9wITiVfU2S9Od8Wb5svJZjNHOjETLTW15+16sR5oVT0kDIFspA9aimHezvg8kD5BQsH1dyDueOz0Kg=

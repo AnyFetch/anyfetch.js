@@ -178,4 +178,15 @@ describe('deleteDocument()', function() {
 
     });
   });
+
+  it('should forward errors when deleting document', function(done) {
+    var datas = {
+      'identifier': 'nonexisting-document'
+    };
+
+    cluestrClient.deleteDocument(datas.identifier, function(err) {
+      err.toString().should.include('404');
+      done();
+    });
+  });
 });

@@ -19,3 +19,5 @@ docs/*
 
 # Jekyll artifacts
 _site/*
+
+keys.sh

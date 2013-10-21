@@ -14,7 +14,7 @@
     }
   ],
   "scripts": {
-    "test": "NODE_ENV=test mocha -R spec test/ --require longjohn -t 5000",
+    "test": "NODE_ENV=test mocha -R spec test/ -t 5000",
     "lint": "jshint lib/ test/"
   },
   "main": "./lib/cluestr.js/",

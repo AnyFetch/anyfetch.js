@@ -1,0 +1,47 @@
+'use strict';
+
+require('should');
+var request = require('supertest');
+
+var CluestrClient = require('../lib/cluestr.js/index.js');
+
+describe('debug.createTestFrontServer()', function() {
+  var server = CluestrClient.debug.createTestFrontServer().listen(1337);
+
+  describe("/oauth/token", function() {
+    it('should require code parameter', function(done) {
+      request(server)
+        .post('/oauth/token')
+        .expect(409)
+        .expect(/code/)
+        .end(done);
+    });
+
+    it('should require client_id parameter', function(done) {
+      request(server)
+        .post('/oauth/token')
+        .send({code: 123})
+        .expect(409)
+        .expect(/client_id/)
+        .end(done);
+    });
+
+    it('should require client_secret parameter', function(done) {
+      request(server)
+        .post('/oauth/token')
+        .send({code: 123, client_id: 123})
+        .expect(409)
+        .expect(/client_secret/)
+        .end(done);
+    });
+
+    it('should return fake access token', function(done) {
+      request(server)
+        .post('/oauth/token')
+        .send({code: 123, client_id: 123, client_secret: 123})
+        .expect(200)
+        .expect(/"fake_access_token"/)
+        .end(done);
+    });
+  });
+});

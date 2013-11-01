@@ -5,6 +5,6 @@ before_script: npm install --dev
 script: npm test
 env:
   global:
-  - secure: FjiOQmKW2Kmq/Aorbrf0yTjC/LRmrVzVRWOo2VQSRrR4jxeIjPAu4xbr9akjG5lrhizJoPp0t5exz1rjY2gtPebSGQBerGYmpz78PkBgc2ZAzzcW2EG8NgrX7oD0EkRffV5Rh3YVZzRP0vNhXDeOBhc6kpL1OmX+wYhe8k6xV0M=
-  - secure: ehWTMkXe5vFwhvJ0n6A765BcQ8zfsMr8tUGPoYuerRkETqe1d7rGPMpVf3UnfYaXnrRh25WdNSgSXT9cqJkQm2N60EYeW4h+KXb6IdZS7vy14sDiKhcca8ezYR96nKYVdhFAlo1by1N7nofQwFuqLuwin4ge2Jg8D/4hbXEKDyM=
-  - secure: hnb5utLFwo5SFbyDf5VblO597Tf8Vt/bAOyQt1UTgWoG3bl2LhEGMlbP7ZZ75jvQvNHB/7ALbH4UZ8AAheYTWM8+vbsZGkgcDSem920850JGANU+Ydc39vuMbT9F0klYti9hznFxJle6xY8lA5a51sj68HzK0sN0jTK+tF2sfBI=
+    - CLUESTR_ID="bf0f240899bac479d307defb2f5f94eafa4768eecfc0f6f4990ad0443561f4f1"
+    - CLUESTR_SECRET="b7fdfb3f2c6ab91b335bd2a00ef9f5b338718e19cc899c88d9ff4054f4de0b3f"
+    - ACCESS_TOKEN="3a83e448626c08c7701afe9716e9d50b57658277a26385c5022db006bd908777"

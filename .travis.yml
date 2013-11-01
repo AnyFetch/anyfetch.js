@@ -1,12 +1,8 @@
 language: node_js
 node_js:
-- '0.10'
+  - '0.10'
+  - '0.11'
 before_script:
   - npm install --dev
 script:
   - npm test
-env:
-  global:
-    - CLUESTR_ID="bf0f240899bac479d307defb2f5f94eafa4768eecfc0f6f4990ad0443561f4f1"
-    - CLUESTR_SECRET="b7fdfb3f2c6ab91b335bd2a00ef9f5b338718e19cc899c88d9ff4054f4de0b3f"
-    - ACCESS_TOKEN="3a83e448626c08c7701afe9716e9d50b57658277a26385c5022db006bd908777"

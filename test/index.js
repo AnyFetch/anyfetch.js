@@ -14,11 +14,14 @@ describe('CluestrClient', function() {
   CluestrClient.debug.createTestFrontServer().listen(1337);
   CluestrClient.debug.createTestApiServer().listen(1338);
 
+  var cluestrClient = new CluestrClient(fakeCluestrId,fakeCluestrSecret);
+  cluestrClient.setAccessToken(fakeCluestrToken);
+
   describe('getAccessToken()', function() {
-    var cluestrClient = new CluestrClient(fakeCluestrId,fakeCluestrSecret);
+    var rawCluestrClient = new CluestrClient(fakeCluestrId,fakeCluestrSecret);
     it('should return access token', function(done) {
 
-      cluestrClient.getAccessToken("fake_code", "fake_uri",   function(err, token) {
+      rawCluestrClient.getAccessToken("fake_code", "fake_uri",   function(err, token) {
         should.equal(err, null);
         token.should.equal('fake_access_token');
 
@@ -29,9 +32,6 @@ describe('CluestrClient', function() {
 
 
   describe('sendDocument()', function() {
-    var cluestrClient = new CluestrClient(fakeCluestrId,fakeCluestrSecret);
-    cluestrClient.setAccessToken(fakeCluestrToken);
-
     it('should require an accessToken', function(done) {
       var rawCluestrClient = new CluestrClient(fakeCluestrId,fakeCluestrSecret);
       rawCluestrClient.sendDocument({}, function(err) {
@@ -75,59 +75,11 @@ describe('CluestrClient', function() {
     });
   });
 
-
   describe('deleteDocument()', function() {
-    var cluestrClient = new CluestrClient(process.env.CLUESTR_ID, process.env.CLUESTR_SECRET);
-    cluestrClient.setAccessToken(process.env.ACCESS_TOKEN);
-    
-    var datas = {
-      identifier: 'test-identifier',
-      binary_document_type: 'file',
-      metadatas: {
-        'foo': 'bar'
-      },
-    };
-
-    var documentId = null;
-
-    beforeEach(function(done) {
-      cluestrClient.sendDocument(datas, function(err, document) {
-        if(err) {
-          throw err;
-        }
-
-        documentId = document.id;
-        
-        done();
-      });
-    });
-
-    it('should delete document', function(done) {
-      cluestrClient.deleteDocument(datas.identifier, function(err) {
-        if(err) {
-          throw err;
-        }
-
-        // Sending the same data again should now create a new document
-        cluestrClient.sendDocument(datas, function(err, document) {
-          if(err) {
-            throw err;
-          }
-
-          document.id.should.not.equal(documentId);
-          done();
-        });
-
-      });
-    });
-
-    it('should forward errors when deleting document', function(done) {
-      var datas = {
-        'identifier': 'nonexisting-document'
-      };
-
-      cluestrClient.deleteDocument(datas.identifier, function(err) {
-        err.toString().should.include('404');
+    it('should require an accessToken', function(done) {
+      var rawCluestrClient = new CluestrClient(fakeCluestrId,fakeCluestrSecret);
+      rawCluestrClient.deleteDocument(123, function(err) {
+        err.toString().should.include('accessToken');
         done();
       });
     });

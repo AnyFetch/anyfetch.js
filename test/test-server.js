@@ -8,7 +8,7 @@ var CluestrClient = require('../lib/cluestr.js/index.js');
 describe('debug.createTestFrontServer()', function() {
   var server = CluestrClient.debug.createTestFrontServer().listen(1337);
 
-  describe("/oauth/token", function() {
+  describe("POST /oauth/token", function() {
     it('should require code parameter', function(done) {
       request(server)
         .post('/oauth/token')
@@ -41,6 +41,65 @@ describe('debug.createTestFrontServer()', function() {
         .send({code: 123, client_id: 123, client_secret: 123})
         .expect(200)
         .expect(/"fake_access_token"/)
+        .end(done);
+    });
+  });
+});
+
+describe('debug.createTestApiServer()', function() {
+  var server = CluestrClient.debug.createTestApiServer().listen(1337);
+
+  describe("POST /providers/documents", function() {
+    it('should require identifier', function(done) {
+      request(server)
+        .post('/providers/documents')
+        .expect(409)
+        .expect(/identifier/)
+        .end(done);
+    });
+
+    it('should return all params', function(done) {
+      request(server)
+        .post('/providers/documents')
+        .send({identifier: 'bar'})
+        .expect(200)
+        .expect(/"bar"/)
+        .end(done);
+    });
+  });
+
+  describe("DELETE /providers/documents", function() {
+    it('should require identifier', function(done) {
+      request(server)
+        .del('/providers/documents')
+        .expect(409)
+        .expect(/identifier/)
+        .end(done);
+    });
+
+    it('should return 204', function(done) {
+      request(server)
+        .del('/providers/documents')
+        .send({identifier: 'bar'})
+        .expect(204)
+        .end(done);
+    });
+  });
+
+  describe("POST /providers/documents/file", function() {
+    it('should require identifier', function(done) {
+      request(server)
+        .post('/providers/documents/file')
+        .expect(409)
+        .expect(/identifier/)
+        .end(done);
+    });
+
+    it('should return 204', function(done) {
+      request(server)
+        .post('/providers/documents/file')
+        .send({identifier: 'bar'})
+        .expect(204)
         .end(done);
     });
   });

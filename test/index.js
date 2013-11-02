@@ -106,6 +106,32 @@ describe('CluestrClient', function() {
     });
   });
 
+  describe('sendDocumentAndFile()', function() {
+    it('should return document', function(done) {
+      var datas = {
+        identifier: 'test-identifier',
+        binary_document_type: 'file',
+        metadatas: {
+          'foo': 'bar'
+        },
+      };
+
+      var fileConfig = {
+        file: require('fs').createReadStream(__filename),
+        filename: 'index.js',
+      };
+
+      cluestrClient.sendDocumentAndFile(datas, fileConfig, function(err, document) {
+        if(err) {
+          throw err;
+        }
+
+        document.should.eql(datas);
+        done();
+      });
+    });
+  });
+
   describe('deleteDocument()', function() {
     it('should require an accessToken', function(done) {
       var rawCluestrClient = new CluestrClient(fakeCluestrId,fakeCluestrSecret);

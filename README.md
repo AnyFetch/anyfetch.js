@@ -12,6 +12,8 @@ Example use
 -----------
 
 ### Trade authorization code
+Create a client, then call `getAccessToken()` with the code and a callback. Callback will takes two parameters: the error if any, then the access token.
+
 ```javascript
 var Cluestr = require('cluestr');
 
@@ -35,6 +37,8 @@ cluestr.getAccessToken(code, function(err, accessToken) {
 ```
 
 ### Send a document
+Create a client, then call `setAccessToken()` with some access_token. Then, call `sendDocument()` with an object hash containing the document (need to have at least an identifier key, everything else follows the rules defined in Cluestr API) and a callback (first parameter is the error if any, then the document).
+
 ```javascript
 var Cluestr = require('cluestr-oauth');
 
@@ -59,12 +63,47 @@ var document = {
   }
 }
 
-cluestr.sendDocument(document, function(err, accessToken) {
+cluestr.sendDocument(document, function(err, document) {
   if(err) {
     throw err;
   }
 
   console.log("Document successfully saved.")
+});
+```
+
+### Send a file
+Create a client, then call `setAccessToken()` with some access_token. Then, call `sendDocument()` as defined above.
+Then, you can call `sendFile()` with an object hash containing the file (needs to have at least a file key, which can be a stream or a buffer. When using home-made streams, you also need to specify a knownLength attribute with the stream size in bytes) and a callback function (first parameter is the error if any).
+
+```javascript
+var fs = require('fs');
+var Cluestr = require('cluestr-oauth');
+
+var CLUESTR_ID = "your_cluestr_id"
+var CLUESTR_SECRET = "your_cluestr_secret"
+var accessToken = getAccessTokenFromDb()
+var cluestr = new Cluestr(CLUESTR_ID, CLUESTR_SECRET);
+cluestr.setAccessToken(accessToken);
+
+// Send a document to Cluestr
+var document = {
+  'identifier': 'http://unique-document-identifier',
+  'metadatas': {
+    'foo': 'bar',
+    'hello': ['world']
+  }
+}
+cluestr.sendDocument(document, function(err, document) {
+  var fileConfig = {
+    file: fs.createReadStream('/path/to/file'),
+    filename: 'name_of_file.png',
+  };
+  cluestr.sendFile(document.identifier, fileConfig, function(err) {
+    if(err) {
+      throw err;
+    }
+  });
 });
 ```
 
@@ -94,6 +133,10 @@ cluestr.deleteDocument(identifier, function(err) {
   console.log("Document successfully deleted.")
 });
 ```
+
+### Send a document and a file
+Combine `sendDocument()` and `sendFile()`.
+Call `sendDocumentAndFile()` with an object hash defining the document, an object hash defining the file and a final callback (first parameter is the error if any, second parameter is the document).
 
 ## Helper functions
 

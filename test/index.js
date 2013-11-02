@@ -48,8 +48,10 @@ describe('CluestrClient', function() {
     });
 
     it('should allow for noHydrate parameter', function(done) {
-      cluestrClient.sendDocument({}, false, function(err) {
-        err.toString().should.include('identifier');
+      cluestrClient.sendDocument({identifier: 'lol'}, false, function(err) {
+        if(err) {
+          throw err;
+        }
         done();
       });
     });

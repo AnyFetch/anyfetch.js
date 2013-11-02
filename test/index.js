@@ -77,6 +77,25 @@ describe('CluestrClient', function() {
     });
   });
 
+  describe('sendFile()', function() {
+    it('should require an accessToken', function(done) {
+      var rawCluestrClient = new CluestrClient(fakeCluestrId,fakeCluestrSecret);
+      rawCluestrClient.sendFile('identifier', {}, function(err) {
+        err.toString().should.include('accessToken');
+        done();
+      });
+    });
+
+    it('should send file', function(done) {
+      var fileConfig = {
+        file: require('fs').createReadStream(__filename),
+        filename: 'index.js',
+      };
+
+      cluestrClient.sendFile('identifier', fileConfig, done);
+    });
+  });
+
   describe('deleteDocument()', function() {
     it('should require an accessToken', function(done) {
       var rawCluestrClient = new CluestrClient(fakeCluestrId,fakeCluestrSecret);

@@ -135,10 +135,14 @@ describe('CluestrClient', function() {
   describe('deleteDocument()', function() {
     it('should require an accessToken', function(done) {
       var rawCluestrClient = new CluestrClient(fakeCluestrId,fakeCluestrSecret);
-      rawCluestrClient.deleteDocument(123, function(err) {
+      rawCluestrClient.deleteDocument('identifier', function(err) {
         err.toString().should.include('accessToken');
         done();
       });
+    });
+
+    it('should delete document', function(done) {
+      cluestrClient.deleteDocument('identifier', done);
     });
   });
 });

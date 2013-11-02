@@ -86,6 +86,16 @@ describe('CluestrClient', function() {
       });
     });
 
+    it('should require config.file', function(done) {
+      var fileConfig = {
+      };
+
+      cluestrClient.sendFile('identifier', fileConfig, function(err) {
+        err.toString().should.include('file');
+        done();
+      });
+    });
+
     it('should send file', function(done) {
       var fileConfig = {
         file: require('fs').createReadStream(__filename),

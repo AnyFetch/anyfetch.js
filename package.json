@@ -33,13 +33,13 @@
   ],
   "dependencies": {
     "restify": "2.6.x",
-    "request": "2.26.x"
+    "request": "2.27.x"
   },
   "devDependencies": {
     "async": "0.2.x",
-    "mocha": "1.13.0",
-    "should": "1.2.x",
-    "supertest": "0.7.x"
+    "mocha": "1.14.0",
+    "should": "2.0.x",
+    "supertest": "0.8.x"
   },
   "licence": "Copyright Papiel",
   "engines": {

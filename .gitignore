@@ -3,6 +3,7 @@
 
 # Vagrant Artifacts
 .vagrant/*
+Berksfile.lock
 
 # NPM Artifacts
 node_modules/*

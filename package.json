@@ -29,7 +29,7 @@
   ],
   "dependencies": {
     "restify": "2.6.x",
-    "request": "2.27.x"
+    "request": "2.30.x"
   },
   "devDependencies": {
     "async": "0.2.x",

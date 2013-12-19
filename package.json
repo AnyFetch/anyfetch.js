@@ -33,8 +33,8 @@
   },
   "devDependencies": {
     "async": "0.2.x",
-    "mocha": "1.14.0",
-    "should": "2.0.x",
+    "mocha": "1.15.1",
+    "should": "2.1.x",
     "supertest": "0.8.x"
   },
   "licence": "Copyright Papiel",

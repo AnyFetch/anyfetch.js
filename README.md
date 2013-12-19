@@ -40,7 +40,7 @@ cluestr.getAccessToken(code, function(err, accessToken) {
 Create a client, then call `setAccessToken()` with some access_token. Then, call `sendDocument()` with an object hash containing the document (need to have at least an identifier key, everything else follows the rules defined in Cluestr API) and a callback (first parameter is the error if any, then the document).
 
 ```javascript
-var Cluestr = require('cluestr-oauth');
+var Cluestr = require('cluestr');
 
 // Get your id and secret key on
 // http://cluestr.com/oauth/applications
@@ -78,7 +78,7 @@ Then, you can call `sendFile()` with an object hash containing the file (needs t
 
 ```javascript
 var fs = require('fs');
-var Cluestr = require('cluestr-oauth');
+var Cluestr = require('cluestr');
 
 var CLUESTR_ID = "your_cluestr_id"
 var CLUESTR_SECRET = "your_cluestr_secret"
@@ -109,7 +109,7 @@ cluestr.sendDocument(document, function(err, document) {
 
 ### Remove a document
 ```javascript
-var Cluestr = require('cluestr-oauth');
+var Cluestr = require('cluestr');
 
 // Get your id and secret key on
 // http://cluestr.com/oauth/applications

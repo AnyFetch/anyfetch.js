@@ -2,7 +2,7 @@
 
 var should = require('should');
 
-var CluestrClient = require('../lib/cluestr.js/index.js');
+var CluestrClient = require('../lib/');
 
 var fakeCluestrId = 123;
 var fakeCluestrSecret = 123;

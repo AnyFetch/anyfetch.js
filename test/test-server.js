@@ -3,7 +3,7 @@
 require('should');
 var request = require('supertest');
 
-var CluestrClient = require('../lib/cluestr.js/index.js');
+var CluestrClient = require('../lib/');
 
 describe('debug.createTestFrontServer()', function() {
   var server = CluestrClient.debug.createTestFrontServer().listen(1337);

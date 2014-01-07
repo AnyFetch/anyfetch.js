@@ -97,9 +97,21 @@ describe('CluestrClient', function() {
     });
 
     it('should send file', function(done) {
-      var fileConfig = {
-        file: require('fs').createReadStream(__filename),
-        filename: 'index.js',
+      var fileConfig = function() {
+        return {
+          file: new Buffer("Hello world"),
+          filename: 'index.js',
+        };
+      };
+
+      cluestrClient.sendFile('identifier', fileConfig, done);
+    });
+    it('should allow for deffered stream creation', function(done) {
+      var fileConfig = function() {
+        return {
+          file: require('fs').createReadStream(__filename),
+          filename: 'index.js',
+        };
       };
 
       cluestrClient.sendFile('identifier', fileConfig, done);
@@ -110,15 +122,17 @@ describe('CluestrClient', function() {
     it('should return document', function(done) {
       var datas = {
         identifier: 'test-identifier',
-        binary_document_type: 'file',
+        document_type: 'file',
         metadatas: {
           'foo': 'bar'
         },
       };
 
-      var fileConfig = {
-        file: require('fs').createReadStream(__filename),
-        filename: 'index.js',
+      var fileConfig = function() {
+        return {
+          file: require('fs').createReadStream(__filename),
+          filename: 'index.js',
+        };
       };
 
       cluestrClient.sendDocumentAndFile(datas, fileConfig, function(err, document) {

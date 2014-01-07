@@ -95,10 +95,13 @@ var document = {
   }
 }
 cluestr.sendDocument(document, function(err, document) {
-  var fileConfig = {
-    file: fs.createReadStream('/path/to/file'),
-    filename: 'name_of_file.png',
-  };
+  var fileConfig = function() {
+    // Wrap this in a function to avoid creating the stream before reading it.
+    return {
+      file: fs.createReadStream('/path/to/file'),
+      filename: 'name_of_file.png',
+    };
+  }
   cluestr.sendFile(document.identifier, fileConfig, function(err) {
     if(err) {
       throw err;
@@ -137,6 +140,8 @@ cluestr.deleteDocument(identifier, function(err) {
 ### Send a document and a file
 Combine `sendDocument()` and `sendFile()`.
 Call `sendDocumentAndFile()` with an object hash defining the document, an object hash defining the file and a final callback (first parameter is the error if any, second parameter is the document).
+
+> If you use this, keep in mind you need to wrap the creation of the file object in a function. This function will be called when needed. Without the function, any stream you create will start sending datas before being listened to.
 
 ## Helper functions
 

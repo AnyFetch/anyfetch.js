@@ -95,9 +95,18 @@ describe('debug.createTestApiServer()', function() {
         .end(done);
     });
 
-    it('should return 204', function(done) {
+    it('should require a file', function(done) {
       request(server)
         .post('/providers/documents/file')
+        .send({identifier: 'bar'})
+        .expect(409)
+        .end(done);
+    });
+
+    it.skip('should return 204', function(done) {
+      request(server)
+        .post('/providers/documents/file')
+        .attach('file', __filename)
         .send({identifier: 'bar'})
         .expect(204)
         .end(done);

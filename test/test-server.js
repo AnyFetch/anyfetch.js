@@ -103,11 +103,11 @@ describe('debug.createTestApiServer()', function() {
         .end(done);
     });
 
-    it.skip('should return 204', function(done) {
+    it('should return 204', function(done) {
       request(server)
         .post('/providers/documents/file')
+        .field('identifier', 'bar')
         .attach('file', __filename)
-        .send({identifier: 'bar'})
         .expect(204)
         .end(done);
     });

@@ -7,6 +7,9 @@ var CluestrClient = require('../lib/');
 
 describe('debug.createTestFrontServer()', function() {
   var server = CluestrClient.debug.createTestFrontServer().listen(1337);
+  after(function() {
+    server.close();
+  });
 
   describe("POST /oauth/token", function() {
     it('should require code parameter', function(done) {
@@ -47,7 +50,35 @@ describe('debug.createTestFrontServer()', function() {
 });
 
 describe('debug.createTestApiServer()', function() {
-  var server = CluestrClient.debug.createTestApiServer().listen(1337);
+  var server = CluestrClient.debug.createTestApiServer();
+  server.listen(1337);
+  after(function() {
+    server.close();
+  });
+
+  it('should allow to override logging function', function(done) {
+    var wasSeen = false;
+    var cb = function(page) {
+      page.should.include('/providers/documents');
+      wasSeen = true;
+    };
+
+    var logServer = CluestrClient.debug.createTestApiServer(cb);
+    logServer.listen(7585);
+    request(logServer)
+      .post('/providers/documents')
+      .end(function(err) {
+        if(err) {
+          throw err;
+        }
+        if(!wasSeen) {
+          throw new Error("Logging function was not called.");
+        }
+
+        logServer.close();
+        done();
+      });
+  });
 
   describe("POST /providers/documents", function() {
     it('should require identifier', function(done) {

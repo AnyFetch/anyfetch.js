@@ -11,8 +11,14 @@ var fakeCluestrToken = 123;
 describe('CluestrClient', function() {
   process.env.CLUESTR_FRONT = 'http://localhost:1337';
   process.env.CLUESTR_SERVER = 'http://localhost:1338';
-  CluestrClient.debug.createTestFrontServer().listen(1337);
-  CluestrClient.debug.createTestApiServer().listen(1338);
+  var frontServer = CluestrClient.debug.createTestFrontServer();
+  frontServer.listen(1337);
+  var apiServer = CluestrClient.debug.createTestApiServer();
+  apiServer.listen(1338);
+  after(function() {
+    frontServer.close();
+    apiServer.close();
+  });
 
   var cluestrClient = new CluestrClient(fakeCluestrId,fakeCluestrSecret);
   cluestrClient.setAccessToken(fakeCluestrToken);

@@ -1,5 +1,5 @@
-https://github.com/Papiel/anyfetch.js
-=====================================
+anyFetch api wrapper for Node.js
+================================
 
 > You'll only be interested in this package if you want to create an client applications for [anyFetch](http://anyFetch.com).
 

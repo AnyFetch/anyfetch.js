@@ -1,12 +1,13 @@
-Cluestr Library
-=====================
-> You'll only be interested in this package if you want to create an hydrater / provider for [Cluestr](http://cluestr.com).
+https://github.com/Papiel/anyfetch.js
+=====================================
 
-> In most cases, you'll find [Cluestr Hydrater](https://github.com/Papiel/cluestr-file-hydrater) and [Cluestr Provider](https://github.com/Papiel/cluestr-provider) more high level, and more easy to work with.
+> You'll only be interested in this package if you want to create an client applications for [anyFetch](http://anyFetch.com).
 
-This npm package makes communicating with Cluestr servers easy for providers and hydraters.
+> In most cases, you'll find [anyFetch Hydrater Library](https://github.com/Papiel/anyfetch-hydratation.js) and [anyFetch Provider Library](https://github.com/Papiel/anyfetch-provider.js) more high level, and more easy to work with.
 
-Please note: Cluestr delivers long lived `access_token`, so you don't need to use a `refresh_token`.
+This npm package makes communicating with anyFetch servers easy for clients, providers and hydraters.
+
+Please note: anyFetch delivers long lived `access_token`, so you don't need to use a `refresh_token`.
 
 Example use
 -----------
@@ -15,19 +16,19 @@ Example use
 Create a client, then call `getAccessToken()` with the code and a callback. Callback will takes two parameters: the error if any, then the access token.
 
 ```javascript
-var Cluestr = require('cluestr');
+var AnyFetch = require('anyfetch');
 
 // Get your id and secret key on
-// http://cluestr.com/oauth/applications
-var CLUESTR_ID = "your_cluestr_id"
-var CLUESTR_SECRET = "your_cluestr_secret"
+// http://settings.anyfetch.com/oauth/applications
+var ANYFETCH_ID = "your_anyfetch_id";
+var ANYFETCH_SECRET = "your_anyfetch_secret";
 
 // Your authorization code
-var code = req.params.code
+var code = req.params.code;
 
-var cluestr = new Cluestr(CLUESTR_ID, CLUESTR_SECRET);
+var afclient = new AnyFetch(ANYFETCH_ID, ANYFETCH_SECRET);
 
-cluestr.getAccessToken(code, function(err, accessToken) {
+afclient.getAccessToken(code, function(err, accessToken) {
   if(err) {
     throw err;
   }
@@ -37,24 +38,24 @@ cluestr.getAccessToken(code, function(err, accessToken) {
 ```
 
 ### Send a document
-Create a client, then call `setAccessToken()` with some access_token. Then, call `sendDocument()` with an object hash containing the document (need to have at least an identifier key, everything else follows the rules defined in Cluestr API) and a callback (first parameter is the error if any, then the document).
+Create a client, then call `setAccessToken()` with some access_token. Then, call `sendDocument()` with an object hash containing the document (need to have at least an identifier key, everything else follows the rules defined in anyFetch API) and a callback (first parameter is the error if any, then the document).
 
 ```javascript
-var Cluestr = require('cluestr');
+var AnyFetch = require('anyfetch');
 
 // Get your id and secret key on
-// http://cluestr.com/oauth/applications
-var CLUESTR_ID = "your_cluestr_id"
-var CLUESTR_SECRET = "your_cluestr_secret"
+// http://settings.anyfetch.com/oauth/applications
+var ANYFETCH_ID = "your_anyfetch_id";
+var ANYFETCH_SECRET = "your_anyfetch_secret";
 
-// Your access_token
-var accessToken = getAccessTokenFromDb()
+// Your authorization code
+var code = req.params.code;
 
-var cluestr = new Cluestr(CLUESTR_ID, CLUESTR_SECRET);
+var afclient = new AnyFetch(ANYFETCH_ID, ANYFETCH_SECRET);
 
-cluestr.setAccessToken(accessToken);
+afclient.setAccessToken(token);
 
-// Document to be sent to Cluestr.
+// Document to be sent to anyFetch.
 var document = {
   'identifier': 'http://unique-document-identifier',
   'metadatas': {
@@ -63,7 +64,7 @@ var document = {
   }
 }
 
-cluestr.sendDocument(document, function(err, document) {
+afclient.sendDocument(document, function(err, document) {
   if(err) {
     throw err;
   }
@@ -78,15 +79,21 @@ Then, you can call `sendFile()` with an object hash containing the file (needs t
 
 ```javascript
 var fs = require('fs');
-var Cluestr = require('cluestr');
+var AnyFetch = require('anyfetch');
 
-var CLUESTR_ID = "your_cluestr_id"
-var CLUESTR_SECRET = "your_cluestr_secret"
-var accessToken = getAccessTokenFromDb()
-var cluestr = new Cluestr(CLUESTR_ID, CLUESTR_SECRET);
-cluestr.setAccessToken(accessToken);
+// Get your id and secret key on
+// http://settings.anyfetch.com/oauth/applications
+var ANYFETCH_ID = "your_anyfetch_id";
+var ANYFETCH_SECRET = "your_anyfetch_secret";
 
-// Send a document to Cluestr
+// Your authorization code
+var code = req.params.code;
+
+var afclient = new AnyFetch(ANYFETCH_ID, ANYFETCH_SECRET);
+
+afclient.setAccessToken(token);
+
+// Send a document to anyFetch
 var document = {
   'identifier': 'http://unique-document-identifier',
   'metadatas': {
@@ -94,7 +101,7 @@ var document = {
     'hello': ['world']
   }
 }
-cluestr.sendDocument(document, function(err, document) {
+afclient.sendDocument(document, function(err, document) {
   var fileConfig = function() {
     // Wrap this in a function to avoid creating the stream before reading it.
     return {
@@ -112,23 +119,23 @@ cluestr.sendDocument(document, function(err, document) {
 
 ### Remove a document
 ```javascript
-var Cluestr = require('cluestr');
+var AnyFetch = require('anyfetch');
 
 // Get your id and secret key on
-// http://cluestr.com/oauth/applications
-var CLUESTR_ID = "your_cluestr_id"
-var CLUESTR_SECRET = "your_cluestr_secret"
+// http://settings.anyfetch.com/oauth/applications
+var ANYFETCH_ID = "your_anyfetch_id";
+var ANYFETCH_SECRET = "your_anyfetch_secret";
 
-// Your access_token
-var accessToken = getAccessTokenFromDb()
+// Your authorization code
+var code = req.params.code;
 
-var cluestr = new Cluestr(CLUESTR_ID, CLUESTR_SECRET);
+var afclient = new AnyFetch(ANYFETCH_ID, ANYFETCH_SECRET);
 
-cluestr.setAccessToken(accessToken);
+afclient.setAccessToken(token);
 
 var identifier = 'http://unique-document-identifier';
 
-cluestr.deleteDocument(identifier, function(err) {
+afclient.deleteDocument(identifier, function(err) {
   if(err) {
     throw err;
   }
@@ -148,14 +155,14 @@ Call `sendDocumentAndFile()` with an object hash defining the document, an objec
 ### `debug.createTestFrontServer()`
 Create a mock server for your test, to trade authorization grants.
 Will always return an `access_token` with value `fake_access_token`.
-Use with `process.env.CLUESTR_FRONT`, for instance:
+Use with `process.env.ANYFETCH_SETTINGS_URL`, for instance:
 
 ```javascript
-var CluestrClient = require('cluestr);
-process.env.CLUESTR_FRONT = 'http://localhost:1337';
+var AnyFetch = require('anyfetch');
+process.env.ANYFETCH_SETTINGS_URL = 'http://localhost:1337';
 
 // Create a fake HTTP server
-var frontServer = CluestrClient.debug.createTestFrontServer();
+var frontServer = AnyFetch.debug.createTestFrontServer();
 frontServer.listen(1337);
 ```
 
@@ -164,14 +171,14 @@ You can enable debug mode by specifying `true` as first parameter.
 ### `debug.createTestApiServer`
 Create a mock server for your test, to upload documents and file.
 Will provide `/providers/document` (post and delete) and `/providers/document/file`.
-Use with `process.env.CLUESTR_SERVER`, for instance:
+Use with `process.env.ANYFETCH_API_URL`, for instance:
 
 ```javascript
-var CluestrClient = require('cluestr');
-process.env.CLUESTR_SERVER = 'http://localhost:1338';
+var AnyFetch = require('anyfetch');
+process.env.ANYFETCH_API_URL = 'http://localhost:1338';
 
 // Create a fake HTTP server
-var frontServer = CluestrClient.debug.createTestApiServer();
+var frontServer = AnyFetch.debug.createTestApiServer();
 frontServer.listen(1338);
 ```
 

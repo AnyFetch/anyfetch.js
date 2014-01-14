@@ -1,7 +1,7 @@
 {
-  "name": "cluestr",
-  "description": "Communicating with Cluestr servers made easy for providers and hydraters.",
-  "version": "0.2.3",
+  "name": "anyfetch",
+  "description": "anyFetch api wrapper for Node.js",
+  "version": "0.2.4",
   "author": "Matthieu Bacconnier <matthieu.bacconnier@papiel.fr>",
   "contributors": [
     {
@@ -20,12 +20,12 @@
   "main": "./lib/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Papiel/cluestr.js"
+    "url": "https://github.com/Papiel/anyfetch.js"
   },
   "keywords": [
     "papiel",
     "cluestr",
-    "oauth"
+    "anyFetch"
   ],
   "dependencies": {
     "restify": "2.6.x",
@@ -37,7 +37,7 @@
     "should": "2.1.x",
     "supertest": "0.8.x"
   },
-  "licence": "Copyright Papiel",
+  "licence": "MIT",
   "engines": {
     "node": ">=0.10"
   }

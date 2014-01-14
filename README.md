@@ -109,7 +109,7 @@ afclient.sendDocument(document, function(err, document) {
       filename: 'name_of_file.png',
     };
   };
-  cluestr.sendFile(document.identifier, fileConfig, function(err) {
+  anyFetch.sendFile(document.identifier, fileConfig, function(err) {
     if(err) {
       throw err;
     }

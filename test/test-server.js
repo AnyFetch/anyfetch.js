@@ -3,10 +3,10 @@
 require('should');
 var request = require('supertest');
 
-var CluestrClient = require('../lib/');
+var AnyFetchClient = require('../lib/');
 
 describe('debug.createTestFrontServer()', function() {
-  var server = CluestrClient.debug.createTestFrontServer().listen(1337);
+  var server = AnyFetchClient.debug.createTestFrontServer().listen(1337);
 
   describe("POST /oauth/token", function() {
     it('should require code parameter', function(done) {
@@ -47,7 +47,7 @@ describe('debug.createTestFrontServer()', function() {
 });
 
 describe('debug.createTestApiServer()', function() {
-  var server = CluestrClient.debug.createTestApiServer().listen(1337);
+  var server = AnyFetchClient.debug.createTestApiServer().listen(1337);
 
   describe("POST /providers/documents", function() {
     it('should require identifier', function(done) {

@@ -2,26 +2,26 @@
 
 var should = require('should');
 
-var CluestrClient = require('../lib/');
+var AnyFetchClient = require('../lib/');
 
-var fakeCluestrId = 123;
-var fakeCluestrSecret = 123;
-var fakeCluestrToken = 123;
+var fakeAnyFetchId = 123;
+var fakeAnyFetchSecret = 123;
+var fakeAnyFetchToken = 123;
 
-describe('CluestrClient', function() {
+describe('AnyFetchClient', function() {
   process.env.CLUESTR_FRONT = 'http://localhost:1337';
   process.env.CLUESTR_SERVER = 'http://localhost:1338';
-  CluestrClient.debug.createTestFrontServer().listen(1337);
-  CluestrClient.debug.createTestApiServer().listen(1338);
+  AnyFetchClient.debug.createTestFrontServer().listen(1337);
+  AnyFetchClient.debug.createTestApiServer().listen(1338);
 
-  var cluestrClient = new CluestrClient(fakeCluestrId,fakeCluestrSecret);
-  cluestrClient.setAccessToken(fakeCluestrToken);
+  var anyFetchClient = new AnyFetchClient(fakeAnyFetchId,fakeAnyFetchSecret);
+  anyFetchClient.setAccessToken(fakeAnyFetchToken);
 
   describe('getAccessToken()', function() {
-    var rawCluestrClient = new CluestrClient(fakeCluestrId,fakeCluestrSecret);
+    var rawAnyFetchClient = new AnyFetchClient(fakeAnyFetchId,fakeAnyFetchSecret);
     it('should return access token', function(done) {
 
-      rawCluestrClient.getAccessToken("fake_code", "fake_uri",   function(err, token) {
+      rawAnyFetchClient.getAccessToken("fake_code", "fake_uri",   function(err, token) {
         should.equal(err, null);
         token.should.equal('fake_access_token');
 
@@ -33,22 +33,22 @@ describe('CluestrClient', function() {
 
   describe('sendDocument()', function() {
     it('should require an accessToken', function(done) {
-      var rawCluestrClient = new CluestrClient(fakeCluestrId,fakeCluestrSecret);
-      rawCluestrClient.sendDocument({}, function(err) {
+      var rawAnyFetchClient = new AnyFetchClient(fakeAnyFetchId,fakeAnyFetchSecret);
+      rawAnyFetchClient.sendDocument({}, function(err) {
         err.toString().should.include('accessToken');
         done();
       });
     });
 
     it('should require an identifier', function(done) {
-      cluestrClient.sendDocument({}, function(err) {
+      anyFetchClient.sendDocument({}, function(err) {
         err.toString().should.include('identifier');
         done();
       });
     });
 
     it('should allow for noHydrate parameter', function(done) {
-      cluestrClient.sendDocument({identifier: 'lol'}, false, function(err) {
+      anyFetchClient.sendDocument({identifier: 'lol'}, false, function(err) {
         if(err) {
           throw err;
         }
@@ -65,7 +65,7 @@ describe('CluestrClient', function() {
         },
       };
 
-      cluestrClient.sendDocument(datas, function(err, document) {
+      anyFetchClient.sendDocument(datas, function(err, document) {
         if(err) {
           throw err;
         }
@@ -79,8 +79,8 @@ describe('CluestrClient', function() {
 
   describe('sendFile()', function() {
     it('should require an accessToken', function(done) {
-      var rawCluestrClient = new CluestrClient(fakeCluestrId,fakeCluestrSecret);
-      rawCluestrClient.sendFile('identifier', {}, function(err) {
+      var rawAnyFetchClient = new AnyFetchClient(fakeAnyFetchId,fakeAnyFetchSecret);
+      rawAnyFetchClient.sendFile('identifier', {}, function(err) {
         err.toString().should.include('accessToken');
         done();
       });
@@ -90,7 +90,7 @@ describe('CluestrClient', function() {
       var fileConfig = {
       };
 
-      cluestrClient.sendFile('identifier', fileConfig, function(err) {
+      anyFetchClient.sendFile('identifier', fileConfig, function(err) {
         err.toString().should.include('file');
         done();
       });
@@ -104,7 +104,7 @@ describe('CluestrClient', function() {
         };
       };
 
-      cluestrClient.sendFile('identifier', fileConfig, done);
+      anyFetchClient.sendFile('identifier', fileConfig, done);
     });
     it('should allow for deffered stream creation', function(done) {
       var fileConfig = function() {
@@ -114,7 +114,7 @@ describe('CluestrClient', function() {
         };
       };
 
-      cluestrClient.sendFile('identifier', fileConfig, done);
+      anyFetchClient.sendFile('identifier', fileConfig, done);
     });
   });
 
@@ -135,7 +135,7 @@ describe('CluestrClient', function() {
         };
       };
 
-      cluestrClient.sendDocumentAndFile(datas, fileConfig, function(err, document) {
+      anyFetchClient.sendDocumentAndFile(datas, fileConfig, function(err, document) {
         if(err) {
           throw err;
         }
@@ -148,15 +148,15 @@ describe('CluestrClient', function() {
 
   describe('deleteDocument()', function() {
     it('should require an accessToken', function(done) {
-      var rawCluestrClient = new CluestrClient(fakeCluestrId,fakeCluestrSecret);
-      rawCluestrClient.deleteDocument('identifier', function(err) {
+      var rawAnyFetchClient = new AnyFetchClient(fakeAnyFetchId,fakeAnyFetchSecret);
+      rawAnyFetchClient.deleteDocument('identifier', function(err) {
         err.toString().should.include('accessToken');
         done();
       });
     });
 
     it('should delete document', function(done) {
-      cluestrClient.deleteDocument('identifier', done);
+      anyFetchClient.deleteDocument('identifier', done);
     });
   });
 });

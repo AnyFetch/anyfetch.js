@@ -3,10 +3,10 @@
 require('should');
 var request = require('supertest');
 
-var CluestrClient = require('../lib/');
+var AnyFetchClient = require('../lib/');
 
 describe('debug.createTestFrontServer()', function() {
-  var server = CluestrClient.debug.createTestFrontServer().listen(1337);
+  var server = AnyFetchClient.debug.createTestFrontServer().listen(1337);
   after(function() {
     server.close();
   });
@@ -50,7 +50,7 @@ describe('debug.createTestFrontServer()', function() {
 });
 
 describe('debug.createTestApiServer()', function() {
-  var server = CluestrClient.debug.createTestApiServer();
+  var server = AnyFetchClient.debug.createTestApiServer();
   server.listen(1337);
   after(function() {
     server.close();
@@ -63,7 +63,7 @@ describe('debug.createTestApiServer()', function() {
       wasSeen = true;
     };
 
-    var logServer = CluestrClient.debug.createTestApiServer(cb);
+    var logServer = AnyFetchClient.debug.createTestApiServer(cb);
     logServer.listen(7585);
     request(logServer)
       .post('/providers/documents')

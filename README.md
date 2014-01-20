@@ -152,7 +152,7 @@ Call `sendDocumentAndFile()` with an object hash defining the document, an objec
 
 ## Helper functions
 
-### `debug.createTestFrontServer()`
+### `debug.createTestFrontServer(debugFunction)`
 Create a mock server for your test, to trade authorization grants.
 Will always return an `access_token` with value `fake_access_token`.
 Use with `process.env.ANYFETCH_SETTINGS_URL`, for instance:
@@ -166,9 +166,9 @@ var frontServer = AnyFetch.debug.createTestFrontServer();
 frontServer.listen(1337);
 ```
 
-You can enable debug mode by specifying `true` as first parameter.
+You can enable debug mode by specifying `true` as first parameter (will use `console.log`) or sending a custom logging function.
 
-### `debug.createTestApiServer`
+### `debug.createTestApiServer(debugFunction)`
 Create a mock server for your test, to upload documents and file.
 Will provide `/providers/document` (post and delete) and `/providers/document/file`.
 Use with `process.env.ANYFETCH_API_URL`, for instance:
@@ -182,4 +182,4 @@ var frontServer = AnyFetch.debug.createTestApiServer();
 frontServer.listen(1338);
 ```
 
-You can enable debug mode by specifying `true` as first parameter.
+You can enable debug mode by specifying `true` as first parameter (will use `console.log`) or sending a custom logging function.

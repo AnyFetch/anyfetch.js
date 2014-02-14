@@ -2,7 +2,7 @@ anyFetch api wrapper for Node.js
 ================================
 [![Build Status](https://travis-ci.org/Papiel/anyfetch.js.png?branch=master)](https://travis-ci.org/Papiel/anyfetch.js)
 [![Dependency Status](https://gemnasium.com/Papiel/anyfetch.js.png)](https://gemnasium.com/Papiel/anyfetch.js)
-[![Coverage Status](https://coveralls.io/repos/Papiel/cluestr.js/badge.png?branch=master)](https://coveralls.io/r/Papiel/cluestr.js?branch=master)
+[![Coverage Status](https://coveralls.io/repos/Papiel/anyfetch.js/badge.png?branch=master)](https://coveralls.io/r/Papiel/anyfetch.js?branch=master)
 [![NPM version](https://badge.fury.io/js/anyfetch.png)](http://badge.fury.io/js/anyfetch)
 
 

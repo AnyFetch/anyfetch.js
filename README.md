@@ -1,5 +1,9 @@
 anyFetch api wrapper for Node.js
 ================================
+[![Build Status](https://travis-ci.org/Papiel/anyfetch.js.png?branch=master)](https://travis-ci.org/Papiel/anyfetch.js)
+[![Dependency Status](https://gemnasium.com/Papiel/anyfetch.js.png)](https://gemnasium.com/Papiel/anyfetch.js)
+[![NPM version](https://badge.fury.io/js/anyfetch.png)](http://badge.fury.io/js/anyfetch)
+
 
 > You'll only be interested in this package if you want to create a client applications for [anyFetch](http://anyFetch.com).
 

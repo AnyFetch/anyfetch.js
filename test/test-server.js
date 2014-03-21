@@ -59,14 +59,14 @@ describe('debug.createTestApiServer()', function() {
   it('should allow to override logging function', function(done) {
     var wasSeen = false;
     var cb = function(page) {
-      page.should.include('/providers/documents');
+      page.should.include('/documents');
       wasSeen = true;
     };
 
     var logServer = AnyFetchClient.debug.createTestApiServer(cb);
     logServer.listen(7585);
     request(logServer)
-      .post('/providers/documents')
+      .post('/documents')
       .end(function(err) {
         if(err) {
           throw err;
@@ -80,10 +80,10 @@ describe('debug.createTestApiServer()', function() {
       });
   });
 
-  describe("POST /providers/documents", function() {
+  describe("POST /documents", function() {
     it('should require identifier', function(done) {
       request(server)
-        .post('/providers/documents')
+        .post('/documents')
         .expect(409)
         .expect(/identifier/)
         .end(done);
@@ -91,7 +91,7 @@ describe('debug.createTestApiServer()', function() {
 
     it('should return all params', function(done) {
       request(server)
-        .post('/providers/documents')
+        .post('/documents')
         .send({identifier: 'bar'})
         .expect(200)
         .expect(/"bar"/)
@@ -99,10 +99,10 @@ describe('debug.createTestApiServer()', function() {
     });
   });
 
-  describe("DELETE /providers/documents", function() {
+  describe("DELETE /documents", function() {
     it('should require identifier', function(done) {
       request(server)
-        .del('/providers/documents')
+        .del('/documents')
         .expect(409)
         .expect(/identifier/)
         .end(done);
@@ -110,17 +110,17 @@ describe('debug.createTestApiServer()', function() {
 
     it('should return 204', function(done) {
       request(server)
-        .del('/providers/documents')
+        .del('/documents')
         .send({identifier: 'bar'})
         .expect(204)
         .end(done);
     });
   });
 
-  describe("POST /providers/documents/file", function() {
+  describe("POST /documents/file", function() {
     it('should require identifier', function(done) {
       request(server)
-        .post('/providers/documents/file')
+        .post('/documents/file')
         .expect(409)
         .expect(/identifier/)
         .end(done);
@@ -128,7 +128,7 @@ describe('debug.createTestApiServer()', function() {
 
     it('should require a file', function(done) {
       request(server)
-        .post('/providers/documents/file')
+        .post('/documents/file')
         .send({identifier: 'bar'})
         .expect(409)
         .end(done);
@@ -136,7 +136,7 @@ describe('debug.createTestApiServer()', function() {
 
     it('should return 204', function(done) {
       request(server)
-        .post('/providers/documents/file')
+        .post('/documents/file')
         .field('identifier', 'bar')
         .attach('file', __filename)
         .expect(204)

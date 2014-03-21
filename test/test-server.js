@@ -117,18 +117,10 @@ describe('debug.createTestApiServer()', function() {
     });
   });
 
-  describe("POST /documents/file", function() {
-    it('should require identifier', function(done) {
-      request(server)
-        .post('/documents/file')
-        .expect(409)
-        .expect(/identifier/)
-        .end(done);
-    });
-
+  describe("POST /documents/identifier/:identifier/file", function() {
     it('should require a file', function(done) {
       request(server)
-        .post('/documents/file')
+        .post('/documents/identifier/some-identifier/file')
         .send({identifier: 'bar'})
         .expect(409)
         .end(done);
@@ -136,7 +128,7 @@ describe('debug.createTestApiServer()', function() {
 
     it('should return 204', function(done) {
       request(server)
-        .post('/documents/file')
+        .post('/documents/identifier/some-identifier/file')
         .field('identifier', 'bar')
         .attach('file', __filename)
         .expect(204)

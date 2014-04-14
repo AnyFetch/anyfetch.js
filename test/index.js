@@ -165,4 +165,12 @@ describe('AnyFetchClient', function() {
       anyFetchClient.deleteDocument('identifier', done);
     });
   });
+
+  describe('encodeParentheses', function() {
+    it('should encode parentheses', function(done) {
+      var url = "abc(d)c((e))fg(h(i)";
+      AnyFetchClient.debug.encodeParentheses(url).should.eql("abc%28d%29c%28%28e%29%29fg%28h%28i%29");
+      done();
+    });
+  });
 });

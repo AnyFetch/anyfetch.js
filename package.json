@@ -28,14 +28,14 @@
     "anyFetch"
   ],
   "dependencies": {
-    "restify": "2.6.x",
-    "request": "2.33.x"
+    "restify": "2.7.x",
+    "request": "2.34.x"
   },
   "devDependencies": {
-    "async": "0.2.x",
-    "mocha": "1.17.1",
-    "should": "3.1.x",
-    "supertest": "0.9.x"
+    "async": "0.8.x",
+    "mocha": "1.18.2",
+    "should": "3.3.x",
+    "supertest": "0.11.x"
   },
   "licence": "MIT",
   "engines": {

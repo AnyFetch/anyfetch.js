@@ -6,10 +6,7 @@ var request = require('supertest');
 var AnyFetchClient = require('../lib/');
 
 describe('debug.createTestFrontServer()', function() {
-  var server = AnyFetchClient.debug.createTestFrontServer().listen(1337);
-  after(function() {
-    server.close();
-  });
+  var server = AnyFetchClient.debug.createTestFrontServer();
 
   describe("POST /oauth/token", function() {
     it('should require code parameter', function(done) {
@@ -51,10 +48,6 @@ describe('debug.createTestFrontServer()', function() {
 
 describe('debug.createTestApiServer()', function() {
   var server = AnyFetchClient.debug.createTestApiServer();
-  server.listen(1337);
-  after(function() {
-    server.close();
-  });
 
   it('should allow to override logging function', function(done) {
     var wasSeen = false;

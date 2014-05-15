@@ -53,15 +53,6 @@ describe('AnyFetchClient', function() {
       });
     });
 
-    it('should allow for noHydrate parameter', function(done) {
-      anyFetchClient.sendDocument({identifier: 'lol'}, false, function(err) {
-        if(err) {
-          throw err;
-        }
-        done();
-      });
-    });
-
     it('should send document', function(done) {
       var datas = {
         identifier: 'test-identifier',

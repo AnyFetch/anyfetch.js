@@ -28,8 +28,8 @@
     "anyFetch"
   ],
   "dependencies": {
-    "restify": "2.7.x",
-    "request": "2.34.x"
+    "restify": "2.8.x",
+    "request": "2.x.x"
   },
   "devDependencies": {
     "async": "0.8.x",

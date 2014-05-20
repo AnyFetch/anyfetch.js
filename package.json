@@ -1,7 +1,7 @@
 {
   "name": "anyfetch",
   "description": "anyFetch api wrapper for Node.js",
-  "version": "0.2.18",
+  "version": "0.2.19",
   "author": "Matthieu Bacconnier <matthieu.bacconnier@papiel.fr>",
   "contributors": [
     {

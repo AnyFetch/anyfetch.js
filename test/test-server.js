@@ -95,7 +95,7 @@ describe('debug.createTestApiServer()', function() {
   describe("DELETE /documents", function() {
     it('should require identifier', function(done) {
       request(server)
-        .del('/documents')
+        .del('/documents/identifier/')
         .expect(409)
         .expect(/identifier/)
         .end(done);
@@ -103,8 +103,7 @@ describe('debug.createTestApiServer()', function() {
 
     it('should return 204', function(done) {
       request(server)
-        .del('/documents')
-        .send({identifier: 'bar'})
+        .del('/documents/identifier/bar')
         .expect(204)
         .end(done);
     });

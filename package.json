@@ -20,7 +20,7 @@
   "main": "./lib/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Papiel/anyfetch.js"
+    "url": "https://github.com/AnyFetch/anyfetch.js"
   },
   "keywords": [
     "papiel",

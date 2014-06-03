@@ -63,7 +63,7 @@ afclient.setAccessToken(token);
 // Document to be sent to anyFetch.
 var document = {
   'identifier': 'http://unique-document-identifier',
-  'metadatas': {
+  'metadata': {
     'foo': 'bar',
     'hello': ['world']
   }
@@ -101,7 +101,7 @@ afclient.setAccessToken(token);
 // Send a document to anyFetch
 var document = {
   'identifier': 'http://unique-document-identifier',
-  'metadatas': {
+  'metadata': {
     'foo': 'bar',
     'hello': ['world']
   }
@@ -153,7 +153,7 @@ afclient.deleteDocument(identifier, function(err) {
 Combine `sendDocument()` and `sendFile()`.
 Call `sendDocumentAndFile()` with an object hash defining the document, an object hash defining the file and a final callback (first parameter is the error if any, second parameter is the document).
 
-> If you use this, keep in mind you need to wrap the creation of the file object in a function. This function will be called when needed. Without the function, any stream you create will start sending datas before being listened to.
+> If you use this, keep in mind you need to wrap the creation of the file object in a function. This function will be called when needed. Without the function, any stream you create will start sending data before being listened to.
 
 ## Helper functions
 

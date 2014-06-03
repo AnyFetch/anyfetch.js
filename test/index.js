@@ -54,20 +54,20 @@ describe('AnyFetchClient', function() {
     });
 
     it('should send document', function(done) {
-      var datas = {
+      var data = {
         identifier: 'test-identifier',
         binary_document_type: 'file',
-        metadatas: {
+        metadata: {
           'foo': 'bar'
         },
       };
 
-      anyFetchClient.sendDocument(datas, function(err, document) {
+      anyFetchClient.sendDocument(data, function(err, document) {
         if(err) {
           throw err;
         }
 
-        document.should.eql(datas);
+        document.should.eql(data);
 
         done();
       });
@@ -117,10 +117,10 @@ describe('AnyFetchClient', function() {
 
   describe('sendDocumentAndFile()', function() {
     it('should return document', function(done) {
-      var datas = {
+      var data = {
         identifier: 'test-identifier',
         document_type: 'file',
-        metadatas: {
+        metadata: {
           'foo': 'bar'
         },
       };
@@ -132,12 +132,12 @@ describe('AnyFetchClient', function() {
         };
       };
 
-      anyFetchClient.sendDocumentAndFile(datas, fileConfig, function(err, document) {
+      anyFetchClient.sendDocumentAndFile(data, fileConfig, function(err, document) {
         if(err) {
           throw err;
         }
 
-        document.should.eql(datas);
+        document.should.eql(data);
         done();
       });
     });

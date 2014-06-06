@@ -13,3 +13,41 @@ anyFetch api wrapper for Node.js
 This npm package makes communicating with anyFetch servers easy for clients, providers and hydraters.
 
 Please note: anyFetch delivers long lived `access_token`, so you don't need to use a `refresh_token`.
+
+## Basic function / endpoint mappings
+
+The lib provides a function per endpoint, following this naming convention:
+
+```js
+verbEndpointName(function(error, result) {})
+```
+
+Callbacks are expected to be of the form: `function(err, result)`. Note that some endpoints do not yield any result (e.g. `POST /company/update`).
+
+Examples:
+
+- `getUsers(cb)` will call `GET /users`
+- `postCompanyUpdate(cb)` will call `POST /company/update`
+- `deleteCompanyReset(cb)` will call `DELETE /company/reset`
+- `deleteToken(cb)` will call `DELETE /token`
+
+We use specific names when passing parameters:
+
+- `getDocumentById(id, cb)` will call `GET /documents/{id}`
+- `getDocumentByIdentifier(identifier, cb)` will call `GET /documents/identifier/{identifier}`
+
+Some endpoints are expressed relative to a document. For the sake of clarity, we provide the following call syntax:
+
+- `getDocumentById(id).getSimilar(cb)` will call `GET /documents/{id}/similar`
+- `getDocumentById(id).getRaw(cb)` will call `GET /documents/{id}/raw`
+- `getDocumentById(id).postFile(cb)` will call `POST /documents/{id}/file`
+
+Note that the first function **does not take any callback**. It is simply responsible for building the first part of the request, which is then carried out when calling the second part.
+
+## Helper functions
+
+`anyfetch.js` provides higher level functions.
+
+## Test framework
+
+`anyfetch.js` provides a framework to easily run a mock server in order to test your app.

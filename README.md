@@ -40,6 +40,8 @@ Some endpoints are expressed relative to a document. For the sake of clarity, we
 - `getDocumentById(id).getRaw(cb)` will call `GET /documents/{id}/raw`
 - `getDocumentById(id).postFile(cb)` will call `POST /documents/{id}/file`
 
+Note that the first function **does not take any callback**. It is simply responsible for building the first part of the request, which is then carried out when calling the second part.
+
 ## Helper functions
 
 `anyfetch.js` provides higher level functions.

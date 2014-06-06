@@ -18,7 +18,9 @@ Please note: anyFetch delivers long lived `access_token`, so you don't need to u
 
 The lib provides a function per endpoint, following this naming convention:
 
-> verbEndpointName(callback(error, result))
+> `verbEndpointName(callback(error, result))`
+
+Callbacks are expected to be of the form: `function(err, result)`. Note that some endpoints do not yield any result (e.g. `POST /company/update`).
 
 Examples:
 

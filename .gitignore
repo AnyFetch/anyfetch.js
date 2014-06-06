@@ -10,7 +10,11 @@ node_modules/*
 npm-debug.log
 libpeerconnection.log
 
-# Docco artifacts
+# Foreman Artifacts
+Procfile
+.env
+
+# Docco Artifacts
 docs/*
 
 # IDE Artifacts
@@ -18,7 +22,7 @@ docs/*
 *.iml
 *.sublime-*
 
-# Jekyll artifacts
+# Jekyll Artifacts
 _site/*
 
 keys.sh

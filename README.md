@@ -37,3 +37,11 @@ Some endpoints are expressed relative to a document. For the sake of clarity, we
 - `getDocumentById(id).getSimilar(cb)` will call `GET /documents/{id}/similar`
 - `getDocumentById(id).getRaw(cb)` will call `GET /documents/{id}/raw`
 - `getDocumentById(id).postFile(cb)` will call `POST /documents/{id}/file`
+
+## Helper functions
+
+`anyfetch.js` provides higher level functions.
+
+## Test framework
+
+`anyfetch.js` provides a framework to easily run a mock server in order to test your app.

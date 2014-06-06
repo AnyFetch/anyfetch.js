@@ -13,3 +13,27 @@ anyFetch api wrapper for Node.js
 This npm package makes communicating with anyFetch servers easy for clients, providers and hydraters.
 
 Please note: anyFetch delivers long lived `access_token`, so you don't need to use a `refresh_token`.
+
+## Basic function / endpoint mappings
+
+The lib provides a function per endpoint, following this naming convention:
+
+> verbEndpointName(callback(error, result))
+
+Examples:
+
+- `getUsers(cb)` will call `GET /users`
+- `postCompanyUpdate(cb)` will call `POST /company/update`
+- `deleteCompanyReset(cb)` will call `DELETE /company/reset`
+- `deleteToken(cb)` will call `DELETE /token`
+
+We use specific names when passing parameters:
+
+- `getDocumentById(id, cb)` will call `GET /documents/{id}`
+- `getDocumentByIdentifier(identifier, cb)` will call `GET /documents/identifier/{identifier}`
+
+Some endpoints are expressed relative to a document. For the sake of clarity, we provide the following call syntax:
+
+- `getDocumentById(id).getSimilar(cb)` will call `GET /documents/{id}/similar`
+- `getDocumentById(id).getRaw(cb)` will call `GET /documents/{id}/raw`
+- `getDocumentById(id).postFile(cb)` will call `POST /documents/{id}/file`

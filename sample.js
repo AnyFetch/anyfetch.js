@@ -12,7 +12,6 @@ Anyfetch.getAccessToken(APP_ID, APP_SECRET, code, function(err, accessToken) {
 	client.getSubcompanyById(123, cb);
 
 	client.postUsers({ endpoint: 'rere' }, cb );
-	client.getDocumentById(123, cb);
 
 	client.updateCompany(cbErr);
 	client.resetCompany(cbErr);
@@ -24,5 +23,8 @@ Anyfetch.getAccessToken(APP_ID, APP_SECRET, code, function(err, accessToken) {
 	client.deleteSubcompany(subcompanyId, {force: true}, cb)
 
 	client.getDocuments(filters, cb)
+	client.getDocumentById(123, cb);
+	client.getDocumentById(123).getRelated(cb);
+	client.getDocumentById(123).postFile(file, cb);
 });
 

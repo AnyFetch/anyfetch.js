@@ -7,5 +7,5 @@ module.exports = {
   aliases: require('../config/json/aliases.json'),
   documentRelatedEndpoints: require('../config/json/document-related-endpoints.json'),
 
-  apiHost: 'https://api.anyfetch.com'
+  apiHost: process.env.API_HOST || 'https://api.anyfetch.com'
 };

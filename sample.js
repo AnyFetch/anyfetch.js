@@ -11,7 +11,7 @@ Anyfetch.getAccessToken(APP_ID, APP_SECRET, code, function(err, accessToken) {
 
 	client.getSubcompanyById(123, cb);
 
-	client.postUsers({ endpoint: 'rere' }, cb );
+	client.postUser({ name: 'Rick' }, cb );
 
 	client.updateCompany(cbErr);
 	client.resetCompany(cbErr);

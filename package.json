@@ -28,13 +28,12 @@
   ],
   "dependencies": {
     "restify": "2.8.x",
-    "request": "2.x.x"
+    "supertest": "0.11.x"
   },
   "devDependencies": {
     "async": "0.8.x",
     "mocha": "1.18.2",
-    "should": "3.3.x",
-    "supertest": "0.11.x"
+    "should": "3.3.x"
   },
   "licence": "MIT",
   "engines": {

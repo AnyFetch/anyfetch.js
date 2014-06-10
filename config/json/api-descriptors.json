@@ -73,6 +73,15 @@
     "verb":"DELETE",
     "requireId":true
   },
+  "getDocumentByIdentifier":{
+    "endpoint":"/documents/identifier/{id}",
+    "requireIdentifier":true
+  },
+  "deleteDocumentByIdentifier":{
+    "endpoint":"/documents/identifier/{id}",
+    "verb":"DELETE",
+    "requireIdentifier":true
+  },
   "getUsers":{
     "endpoint":"/users"
   },

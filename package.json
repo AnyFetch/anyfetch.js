@@ -28,7 +28,7 @@
   ],
   "dependencies": {
     "restify": "2.8.x",
-    "supertest": "0.11.x"
+    "supertest": "0.13.x"
   },
   "devDependencies": {
     "async": "0.8.x",

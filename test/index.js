@@ -4,6 +4,7 @@ var should = require('should');
 
 var Anyfetch = require('../lib/index.js');
 var configuration = require('../config/configuration.js');
+var isFunction = require('../lib/helpers/is-function.js');
 
 // Tests to write:
 // getStatus()
@@ -52,9 +53,37 @@ testEndpoint('getUsers');
 
 describe('getDocumentById', function(){
   describe('subfunctions', function(){
+    var subFunctions = Anyfetch.getDocumentById(123);
+    var subFunctionsByIdentifier = Anyfetch.getDocumentByIdentifier('aze');
+
     it('should return synchronously an object containing only functions', function(){
-      var ret = Anyfetch.getDocumentById(123);
-      // TODO: Test that `ret` is an object of functions
+      for(var i in subFunctions) {
+        isFunction(subFunctions[i]).should.be.ok;
+      }
     });
+
+    it('should only accept mongo-style ids', function(){
+      Anyfetch.getDocumentById('aze').getRelated(function(err){
+        err.message.toLowerCase().should.include('argument error');
+      });
+    });
+
+    describe('getDocumentByIdentifier', function(){
+      it('should offer the same functions as byId', function(){
+        Object.keys(subFunctionsByIdentifier).length.should.equal(Object.keys(subFunctions).length);
+
+        for(var i in subFunctionsByIdentifier) {
+          isFunction(subFunctionsByIdentifier[i]).should.be.ok;
+          subFunctions[i].should.be.ok;
+        }
+      });
+
+      it('should accept any kind of identifier', function(){
+        Anyfetch.getDocumentByIdentifier('aze').getRelated(function(err){
+          err.message.toLowerCase().should.not.include('argument error');
+        });
+      });
+    });
+
   });
 });

@@ -7,11 +7,8 @@ var configuration = require('../config/configuration.js');
 var isFunction = require('../lib/helpers/is-function.js');
 
 // Tests to write:
-// getStatus()
-// getCompany()
 // getSubcompanyById()
 // postUser()
-// postCompanyUpdate()
 // getDocumentById(123).getRaw()
 // getDocumentById(123, cb)
 
@@ -62,9 +59,10 @@ describe('getDocumentById', function(){
       }
     });
 
-    it('should only accept mongo-style ids', function(){
+    it('should only accept mongo-style ids', function(done){
       Anyfetch.getDocumentById('aze').getRelated(function(err){
         err.message.toLowerCase().should.include('argument error');
+        done();
       });
     });
 
@@ -78,9 +76,10 @@ describe('getDocumentById', function(){
         }
       });
 
-      it('should accept any kind of identifier', function(){
+      it('should accept any kind of identifier', function(done){
         Anyfetch.getDocumentByIdentifier('aze').getRelated(function(err){
-          err.message.toLowerCase().should.not.include('argument error');
+          should(err).be.exactly(null);
+          done();
         });
       });
     });

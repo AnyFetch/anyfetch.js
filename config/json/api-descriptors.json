@@ -66,7 +66,21 @@
   },
   "getDocumentById":{
     "endpoint":"/documents/{id}",
-    "requireId":true
+    "requireId":true,
+    "secondStep": {
+      "getSimilar": {
+        "endpoint": "/similar"
+      },
+      "getRelated": {
+        "endpoint": "/related"
+      },
+      "getRaw": {
+        "endpoint": "/raw"
+      },
+      "getFile": {
+        "endpoint": "/file"
+      }
+    }
   },
   "deleteDocumentById":{
     "endpoint":"/documents/{id}",
@@ -75,7 +89,21 @@
   },
   "getDocumentByIdentifier":{
     "endpoint":"/documents/identifier/{id}",
-    "requireIdentifier":true
+    "requireIdentifier":true,
+    "secondStep": {
+      "getSimilar": {
+        "endpoint": "/similar"
+      },
+      "getRelated": {
+        "endpoint": "/related"
+      },
+      "getRaw": {
+        "endpoint": "/raw"
+      },
+      "getFile": {
+        "endpoint": "/file"
+      }
+    }
   },
   "deleteDocumentByIdentifier":{
     "endpoint":"/documents/identifier/{id}",

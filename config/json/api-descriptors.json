@@ -67,7 +67,7 @@
   "getDocumentById":{
     "endpoint":"/documents/{id}",
     "requireId":true,
-    "secondStep": {
+    "subFunctions": {
       "getSimilar": {
         "endpoint": "/similar"
       },
@@ -90,7 +90,7 @@
   "getDocumentByIdentifier":{
     "endpoint":"/documents/identifier/{id}",
     "requireIdentifier":true,
-    "secondStep": {
+    "subFunctions": {
       "getSimilar": {
         "endpoint": "/similar"
       },

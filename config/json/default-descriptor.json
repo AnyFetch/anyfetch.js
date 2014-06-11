@@ -4,5 +4,6 @@
   "requireId": false,
   "requireIdentifier": false,
   "params": null,
-  "body": null
+  "body": null,
+  "secondStep": null
 }

@@ -15,6 +15,10 @@ var cb = function(err, res) {
   }
 };
 
+// console.log(m);
+// console.log(m.getDocumentByIdentifier('aze'));
+// console.log(m.getDocumentById(123));
+
 m.getStatus(cb);
 
 m.getDocumentById(123, cb);

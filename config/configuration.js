@@ -6,5 +6,6 @@ module.exports = {
   apiDescriptors: require('../config/json/api-descriptors.json'),
   aliases: require('../config/json/aliases.json'),
 
-  apiHost: process.env.API_HOST || 'https://api.anyfetch.com'
+  apiHost: process.env.API_HOST || 'https://api.anyfetch.com',
+  accessToken: process.env.ACCESS_TOKEN
 };

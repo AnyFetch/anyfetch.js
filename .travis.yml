@@ -1,6 +1,9 @@
 language: node_js
 node_js:
   - '0.10'
+env:
+  global:
+    secure: RoI8yX8u/VNYmOQ1Y84iTJDeXrNZ13veoZhBXgr6enVNMi0Sm8aI/m2EYksHdjXdju83N3KVcy0mxMwDVSK3YWu2nfNQkQECeaK1mHlq8FEv2CWaljEEkLJSPtWUSzGhHWCD32HQ2V3Opa9DFOf6Qu8Lq1rjV2BPStdFcBHL6Bo=
 before_script:
   - npm install -g istanbul
   - npm install coveralls

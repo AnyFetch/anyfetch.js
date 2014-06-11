@@ -1,6 +1,10 @@
 'use strict';
+
+// TODO: use a proper test methodology
 var fs = require('fs');
-var m = require('./index.js');
+
+var m = require('../lib/index.js');
+
 
 var cb = function(err, res) {
   console.log(err);

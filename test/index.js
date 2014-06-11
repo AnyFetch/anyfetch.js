@@ -49,9 +49,31 @@ testEndpoint('getDocuments');
 testEndpoint('getUsers');
 
 describe('getDocumentById', function(){
+  var documentId = null;
+  var documentIdentifier = 'some_identifier';
+
+  // Create phony document
+  before(function(done){
+    var body = {
+      identifier: documentIdentifier,
+      document_type: 'file',
+      data: {
+        foo: 'some_string'
+      },
+      metadata: {
+        some_key: 'some random sentence'
+      }
+    };
+
+    Anyfetch.postDocument(body, function(err, res) {
+      documentId = res.body.id;
+      done();
+    });
+  });
+
   describe('subfunctions', function(){
-    var subFunctions = Anyfetch.getDocumentById(123);
-    var subFunctionsByIdentifier = Anyfetch.getDocumentByIdentifier('aze');
+    var subFunctions = Anyfetch.getDocumentById(documentId);
+    var subFunctionsByIdentifier = Anyfetch.getDocumentByIdentifier(documentIdentifier);
 
     it('should return synchronously an object containing only functions', function(){
       for(var i in subFunctions) {
@@ -77,7 +99,7 @@ describe('getDocumentById', function(){
       });
 
       it('should accept any kind of identifier', function(done){
-        Anyfetch.getDocumentByIdentifier('aze').getRelated(function(err){
+        subFunctionsByIdentifier.getRelated(function(err){
           should(err).be.exactly(null);
           done();
         });
@@ -85,4 +107,51 @@ describe('getDocumentById', function(){
     });
 
   });
+
+  // Delete phony document
+  after(function(done){
+    Anyfetch.deleteDocumentById(documentId, function(err, res) {
+      documentId = res.body.id;
+      done();
+    });
+  });
+});
+
+describe('postUser', function(){
+  var config = configuration.apiDescriptors['postUsers'];
+  var res = null;
+  var err = null;
+  var userId = null;
+
+  // Create phony user
+  before(function(done){
+    var body = {
+      email: 'chuck@norris.com',
+      name: 'Chuck Norris',
+      password: 'no_need',
+      is_admin: false,
+    };
+
+    Anyfetch.postUser(body, function(e, r) {
+      res = r;
+      err = e;
+      userId = res.body.id;
+      done();
+    });
+  });
+
+  it('should allow the specified body parameters', function(){
+    should(err).be.exactly(null);
+  });
+
+  // Delete the phony user
+  after(function(done){
+    Anyfetch.deleteUserById(userId, function(err) {
+      if(err) {
+        throw err;
+      }
+      done();
+    });
+  });
+
 });

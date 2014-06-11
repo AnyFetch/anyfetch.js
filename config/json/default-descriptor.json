@@ -2,6 +2,8 @@
   "expectedStatus": 200,
   "verb": "GET",
   "requireId": false,
+  "requireIdentifier": false,
   "params": null,
-  "body": null
+  "body": null,
+  "subFunctions": null
 }

@@ -1,22 +1,22 @@
 {
-  "getStatus":{
+  "getStatus": {
     "endpoint":"/status"
   },
-  "getIndex":{
+  "getIndex": {
     "endpoint":"/"
   },
-  "getCompany":{
+  "getCompany": {
     "endpoint":"/company"
   },
-  "postCompanyUpdate":{
+  "postCompanyUpdate": {
     "endpoint":"/company/update",
     "verb":"POST",
     "expectedStatus":202
   },
-  "getSubcompanies":{
+  "getSubcompanies": {
     "endpoint":"/subcompanies"
   },
-  "postSubcompanies":{
+  "postSubcompanies": {
     "endpoint":"/subcompanies",
     "verb":"POST",
     "body":[
@@ -24,11 +24,11 @@
       "hydraters"
     ]
   },
-  "getSubcompanyById":{
+  "getSubcompanyById": {
     "endpoint":"/subcompanies/{id}",
     "requireId":true
   },
-  "deleteSubcompanyById":{
+  "deleteSubcompanyById": {
     "endpoint":"/subcompanies/{id}",
     "verb":"DELETE",
     "requireId":true,
@@ -36,7 +36,7 @@
       "force"
     ]
   },
-  "getDocuments":{
+  "getDocuments": {
     "endpoint":"/documents",
     "params":[
       "search",
@@ -51,7 +51,7 @@
       "limit"
     ]
   },
-  "postDocuments":{
+  "postDocuments": {
     "endpoint":"/documents",
     "verb":"POST",
     "body":[
@@ -64,19 +64,56 @@
       "user_access"
     ]
   },
-  "getDocumentById":{
+  "getDocumentById": {
     "endpoint":"/documents/{id}",
-    "requireId":true
+    "requireId":true,
+    "subFunctions": {
+      "getSimilar": {
+        "endpoint": "/similar"
+      },
+      "getRelated": {
+        "endpoint": "/related"
+      },
+      "getRaw": {
+        "endpoint": "/raw"
+      },
+      "getFile": {
+        "endpoint": "/file"
+      }
+    }
   },
-  "deleteDocumentById":{
+  "deleteDocumentById": {
     "endpoint":"/documents/{id}",
     "verb":"DELETE",
     "requireId":true
   },
-  "getUsers":{
+  "getDocumentByIdentifier": {
+    "endpoint":"/documents/identifier/{identifier}",
+    "requireIdentifier":true,
+    "subFunctions": {
+      "getSimilar": {
+        "endpoint": "/similar"
+      },
+      "getRelated": {
+        "endpoint": "/related"
+      },
+      "getRaw": {
+        "endpoint": "/raw"
+      },
+      "getFile": {
+        "endpoint": "/file"
+      }
+    }
+  },
+  "deleteDocumentByIdentifier": {
+    "endpoint":"/documents/identifier/{identifier}",
+    "verb":"DELETE",
+    "requireIdentifier":true
+  },
+  "getUsers": {
     "endpoint":"/users"
   },
-  "postUsers":{
+  "postUsers": {
     "endpoint":"/users",
     "verb":"POST",
     "body":[
@@ -86,20 +123,20 @@
       "is_admin"
     ]
   },
-  "getUserById":{
+  "getUserById": {
     "endpoint":"/users/{id}",
     "requireId":true
   },
-  "deleteUserById":{
+  "deleteUserById": {
     "endpoint":"/users/{id}",
     "verb":"DELETE",
     "requireId":true,
     "expectedStatus":204
   },
-  "getDocumentTypes":{
+  "getDocumentTypes": {
     "endpoint":"/document_types"
   },
-  "getProviders":{
+  "getProviders": {
     "endpoint":"/providers"
   }
 }

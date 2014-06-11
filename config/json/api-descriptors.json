@@ -24,11 +24,11 @@
       "hydraters"
     ]
   },
-  "getSubcompanyById": {
+  "getSubcompaniesById": {
     "endpoint":"/subcompanies/{id}",
     "requireId":true
   },
-  "deleteSubcompanyById": {
+  "deleteSubcompaniesById": {
     "endpoint":"/subcompanies/{id}",
     "verb":"DELETE",
     "requireId":true,
@@ -64,7 +64,7 @@
       "user_access"
     ]
   },
-  "getDocumentById": {
+  "getDocumentsById": {
     "endpoint":"/documents/{id}",
     "requireId":true,
     "subFunctions": {
@@ -82,12 +82,12 @@
       }
     }
   },
-  "deleteDocumentById": {
+  "deleteDocumentsById": {
     "endpoint":"/documents/{id}",
     "verb":"DELETE",
     "requireId":true
   },
-  "getDocumentByIdentifier": {
+  "getDocumentsByIdentifier": {
     "endpoint":"/documents/identifier/{identifier}",
     "requireIdentifier":true,
     "subFunctions": {
@@ -123,11 +123,11 @@
       "is_admin"
     ]
   },
-  "getUserById": {
+  "getUsersById": {
     "endpoint":"/users/{id}",
     "requireId":true
   },
-  "deleteUserById": {
+  "deleteUsersById": {
     "endpoint":"/users/{id}",
     "verb":"DELETE",
     "requireId":true,

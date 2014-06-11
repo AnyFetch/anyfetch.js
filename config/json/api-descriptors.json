@@ -88,7 +88,7 @@
     "requireId":true
   },
   "getDocumentByIdentifier":{
-    "endpoint":"/documents/identifier/{id}",
+    "endpoint":"/documents/identifier/{identifier}",
     "requireIdentifier":true,
     "subFunctions": {
       "getSimilar": {
@@ -106,7 +106,7 @@
     }
   },
   "deleteDocumentByIdentifier":{
-    "endpoint":"/documents/identifier/{id}",
+    "endpoint":"/documents/identifier/{identifier}",
     "verb":"DELETE",
     "requireIdentifier":true
   },

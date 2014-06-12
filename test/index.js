@@ -6,6 +6,8 @@ var Anyfetch = require('../lib/index.js');
 var configuration = require('../config/configuration.js');
 var isFunction = require('../lib/helpers/is-function.js');
 
+var anyfetch = new Anyfetch(configuration.accessToken);
+
 // Tests to write:
 // getSubcompanyById()
 
@@ -18,7 +20,7 @@ var testEndpoint = function(name) {
 
       before(function(done) {
         // TODO: support id, identifier
-        Anyfetch[name](function(err, res) {
+        anyfetch[name](function(err, res) {
           r = res;
           done(err);
         });
@@ -48,7 +50,7 @@ testEndpoint('getUsers');
 describe('getDocumentById & getDocumentByIdentifier subfunctions', function() {
   var documentId = null;
   var documentIdentifier = 'some_identifier';
-  var subFunctions = Anyfetch.getDocumentById(documentId);
+  var subFunctions = anyfetch.getDocumentById(documentId);
 
   it('...create phony document', function(done) {
     var body = {
@@ -62,7 +64,7 @@ describe('getDocumentById & getDocumentByIdentifier subfunctions', function() {
       }
     };
 
-    Anyfetch.postDocument(body, function(err, res) {
+    anyfetch.postDocument(body, function(err, res) {
       documentId = res.body.id;
       done(err);
     });
@@ -75,7 +77,7 @@ describe('getDocumentById & getDocumentByIdentifier subfunctions', function() {
   });
 
   it('should only accept mongo-style ids', function(done) {
-    Anyfetch.getDocumentById('aze').getRaw(function(err) {
+    anyfetch.getDocumentById('aze').getRaw(function(err) {
       should(err).not.equal(null);
       err.message.toLowerCase().should.include('argument error');
       done();
@@ -83,7 +85,7 @@ describe('getDocumentById & getDocumentByIdentifier subfunctions', function() {
   });
 
   describe('getDocumentByIdentifier', function() {
-    var subFunctionsByIdentifier = Anyfetch.getDocumentByIdentifier(documentIdentifier);
+    var subFunctionsByIdentifier = anyfetch.getDocumentByIdentifier(documentIdentifier);
 
     it('should offer the same functions as byId', function() {
       subFunctionsByIdentifier.should.have.keys(Object.keys(subFunctions));
@@ -103,7 +105,7 @@ describe('getDocumentById & getDocumentByIdentifier subfunctions', function() {
     
     // Delete phony document
     it('...delete phony document', function(done) {
-      Anyfetch.deleteDocumentById(documentId, done);
+      anyfetch.deleteDocumentById(documentId, done);
     });
   });
 });
@@ -120,7 +122,7 @@ describe('postUser', function() {
       is_admin: false,
     };
 
-    Anyfetch.postUser(body, function(err, res) {
+    anyfetch.postUser(body, function(err, res) {
       userId = res.body.id;
       done(err);
     });
@@ -128,7 +130,7 @@ describe('postUser', function() {
 
   // Delete the phony user
   it('should delete a phony user', function(done) {
-    Anyfetch.deleteUserById(userId, done);
+    anyfetch.deleteUserById(userId, done);
   });
 
 });

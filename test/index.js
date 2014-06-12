@@ -35,23 +35,23 @@ describe('Anyfetch library API mapping functions', function(){
     var testEndpoint = function(name) {
       describe(name, function() {
         var expected = configuration.apiDescriptors[name];
-        var r = null;
+        var res = null;
 
         it('should carry out the request', function(done) {
-          anyfetch[name](function(err, res) {
-            r = res;
-            done(err);
+          anyfetch[name](function(e, r) {
+            res = r;
+            done(e);
           });
         });
 
         it('should use the correct verb', function() {
-          r.req.method.should.equal(expected.verb);
+          res.req.method.should.equal(expected.verb);
         });
         it('should target the correct endpoint', function() {
-          r.req.path.should.equal(expected.endpoint);
+          res.req.path.should.equal(expected.endpoint);
         });
         it('should have the expected return code', function() {
-          r.res.statusCode.should.equal(expected.expectedStatus);
+          res.res.statusCode.should.equal(expected.expectedStatus);
         });
       });
     };

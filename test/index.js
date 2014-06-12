@@ -9,7 +9,6 @@ var isFunction = require('../lib/helpers/is-function.js');
 // TODO: Tests to write
 // getSubcompanyById()
 
-
 describe('Anyfetch library API mapping functions', function() {
   var accessToken;
   var anyfetchBasic = new Anyfetch(configuration.test.login, configuration.test.password);
@@ -17,6 +16,7 @@ describe('Anyfetch library API mapping functions', function() {
   describe('Basic authentication', function() {
     it('should retrieve token from credentials', function(done) {
       anyfetchBasic.getToken(function(err, res) {
+        should(res).be.ok;
         should(res.body).be.ok;
         res.body.should.have.keys(['token']);
         accessToken = res.body.token;

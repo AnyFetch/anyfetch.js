@@ -10,6 +10,7 @@ module.exports = {
 
   // Warning: the USERNAME env variable can be used by the OS
   test: {
+    port: process.env.PORT || '50000',
     login: process.env.LOGIN,
     password: process.env.PASSWORD
   }

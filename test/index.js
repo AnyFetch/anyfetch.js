@@ -16,27 +16,25 @@ describe('Anyfetch library API mapping functions', function(){
   
   var testEndpoint = function(name) {
     describe(name, function() {
-      describe('the request', function() {
-        var expected = configuration.apiDescriptors[name];
-        var r = null;
+      var expected = configuration.apiDescriptors[name];
+      var r = null;
 
-        before(function(done) {
-          // TODO: support id, identifier
-          anyfetch[name](function(err, res) {
-            r = res;
-            done(err);
-          });
+      it('should carry out the request', function(done) {
+        // TODO: support id, identifier
+        anyfetch[name](function(err, res) {
+          r = res;
+          done(err);
         });
+      });
 
-        it('should use the correct verb', function() {
-          r.req.method.should.equal(expected.verb);
-        });
-        it('should target the correct endpoint', function() {
-          r.req.path.should.equal(expected.endpoint);
-        });
-        it('should have the expected return code', function() {
-          r.res.statusCode.should.equal(expected.expectedStatus);
-        });
+      it('should use the correct verb', function() {
+        r.req.method.should.equal(expected.verb);
+      });
+      it('should target the correct endpoint', function() {
+        r.req.path.should.equal(expected.endpoint);
+      });
+      it('should have the expected return code', function() {
+        r.res.statusCode.should.equal(expected.expectedStatus);
       });
     });
   };
@@ -55,7 +53,7 @@ describe('Anyfetch library API mapping functions', function(){
 
     it('...create phony document', function(done) {
       var body = {
-        identifier: 'the_identifier',
+        identifier: documentIdentifier,
         document_type: 'file',
         data: {
           foo: 'some_string'

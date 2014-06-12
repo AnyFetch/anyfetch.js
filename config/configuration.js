@@ -7,5 +7,10 @@ module.exports = {
   aliases: require('../config/json/aliases.json'),
 
   apiHost: process.env.API_HOST || 'https://api.anyfetch.com',
-  accessToken: process.env.ACCESS_TOKEN
+
+  // Warning: the USERNAME env variable can be used by the OS
+  test: {
+    login: process.env.LOGIN,
+    password: process.env.PASSWORD
+  }
 };

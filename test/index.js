@@ -6,13 +6,14 @@ var Anyfetch = require('../lib/index.js');
 var configuration = require('../config/configuration.js');
 var isFunction = require('../lib/helpers/is-function.js');
 
+// TODO: Tests to write
+// getSubcompanyById()
+
 describe('Anyfetch library API mapping functions', function(){
 
+  // TODO: relaunch all tests using Basic authentication
   var anyfetch = new Anyfetch(configuration.accessToken);
-
-  // Tests to write:
-  // getSubcompanyById()
-
+  
   var testEndpoint = function(name) {
     describe(name, function() {
       describe('the request', function() {
@@ -54,7 +55,7 @@ describe('Anyfetch library API mapping functions', function(){
 
     it('...create phony document', function(done) {
       var body = {
-        identifier: documentIdentifier,
+        identifier: 'the_identifier',
         document_type: 'file',
         data: {
           foo: 'some_string'

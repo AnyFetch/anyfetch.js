@@ -76,6 +76,7 @@ describe('getDocumentById & getDocumentByIdentifier subfunctions', function() {
 
   it('should only accept mongo-style ids', function(done) {
     Anyfetch.getDocumentById('aze').getRaw(function(err) {
+      should(err).not.equal(null);
       err.message.toLowerCase().should.include('argument error');
       done();
     });
@@ -109,11 +110,9 @@ describe('getDocumentById & getDocumentByIdentifier subfunctions', function() {
 
 describe('postUser', function() {
   var config = configuration.apiDescriptors['postUsers'];
-  var res = null;
-  var err = null;
   var userId = null;
 
-  it('...create phony user', function(done) {
+  it('should create a phony user', function(done) {
     var body = {
       email: 'chuck@norris.com',
       name: 'Chuck Norris',
@@ -121,20 +120,14 @@ describe('postUser', function() {
       is_admin: false,
     };
 
-    Anyfetch.postUser(body, function(e, r) {
-      res = r;
-      err = e;
+    Anyfetch.postUser(body, function(err, res) {
       userId = res.body.id;
-      done(e);
+      done(err);
     });
   });
 
-  it('should allow the specified body parameters', function() {
-    should(err).be.exactly(null);
-  });
-
   // Delete the phony user
-  it('delete phony user...', function(done) {
+  it('should delete a phony user', function(done) {
     Anyfetch.deleteUserById(userId, done);
   });
 

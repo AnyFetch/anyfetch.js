@@ -68,7 +68,6 @@ describe('Anyfetch library API mapping functions', function(){
       var documentIdentifier = 'some_identifier';
       var subFunctions;
 
-
       before(function(){
         subFunctions = anyfetch.getDocumentById(documentId);
       });

@@ -3,7 +3,8 @@ node_js:
   - '0.10'
 env:
   global:
-    secure: "kmFwBHxN6bDhOTZTduPHckmubXxWb5Tl7eig97XvKWXbHRVTcWwFPSbfDgDZraLgOLjzfLdihzR0iEpUYahI5+I7jpr5YivIcYFI3WlLQjcpW0I033TvDtDCRa4+pAXyoFrCsKWqjUPzhy7ETxMPk+d7tesjvIo3JBUMxiSEDRw="
+    secure: "XTNI1D6bxcGseQY7yZSqk+cWD0kJt2w+zSgXfMbJ6XEtQdBe+msRXlj0uL7MCnaEnVIyiFv6vn0ydb6BRHWk7PHhjqbcGzgrBEKS+/ro26JhwpSqlWdtHoVZbXa/N854jOuVbcVn4iTHicjGxergKlHBJUlj1+nVVim24D6khrg="
+    secure: "MoxnsViaBa/tZyVE5sDAmzv8rhFXmsatYdTf5UdjWauGyyAlE2H4rpme3KyH3QJsRfeA2S30Mfe0Du7eY47Q/FcOwCSdT6qNmnOWM4AivkfiFsRSmoJyIaV+WYyZNsNJOpXUlIyL/9z2Djwytfw1fCkz5ViFEWTCFEjcCPiAjBM="
 before_script:
   - npm install -g istanbul
   - npm install coveralls

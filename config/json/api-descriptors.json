@@ -5,6 +5,13 @@
   "getIndex": {
     "endpoint":"/"
   },
+  "getToken": {
+    "endpoint":"/token"
+  },
+  "deleteToken": {
+    "endpoint":"/token",
+    "expectedStatus":204
+  },
   "getCompany": {
     "endpoint":"/company"
   },

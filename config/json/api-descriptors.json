@@ -1,45 +1,52 @@
 {
   "getStatus": {
-    "endpoint":"/status"
+    "endpoint": "/status"
   },
   "getIndex": {
-    "endpoint":"/"
+    "endpoint": "/"
+  },
+  "getToken": {
+    "endpoint": "/token"
+  },
+  "deleteToken": {
+    "endpoint": "/token",
+    "expectedStatus": 204
   },
   "getCompany": {
-    "endpoint":"/company"
+    "endpoint": "/company"
   },
   "postCompanyUpdate": {
-    "endpoint":"/company/update",
-    "verb":"POST",
-    "expectedStatus":202
+    "endpoint": "/company/update",
+    "verb": "POST",
+    "expectedStatus": 202
   },
   "getSubcompanies": {
-    "endpoint":"/subcompanies"
+    "endpoint": "/subcompanies"
   },
   "postSubcompanies": {
-    "endpoint":"/subcompanies",
-    "verb":"POST",
-    "body":[
+    "endpoint": "/subcompanies",
+    "verb": "POST",
+    "body": [
       "name",
       "hydraters"
     ]
   },
   "getSubcompaniesById": {
-    "endpoint":"/subcompanies/{id}",
-    "requireId":true
+    "endpoint": "/subcompanies/{id}",
+    "requireId": true
   },
   "deleteSubcompaniesById": {
-    "endpoint":"/subcompanies/{id}",
-    "verb":"DELETE",
-    "requireId":true,
-    "params":[
+    "endpoint": "/subcompanies/{id}",
+    "verb": "DELETE",
+    "requireId": true,
+    "params": [
       "force"
     ],
-    "expectedStatus":204
+    "expectedStatus": 204
   },
   "getDocuments": {
-    "endpoint":"/documents",
-    "params":[
+    "endpoint": "/documents",
+    "params": [
       "search",
       "before",
       "after",
@@ -53,9 +60,9 @@
     ]
   },
   "postDocuments": {
-    "endpoint":"/documents",
-    "verb":"POST",
-    "body":[
+    "endpoint": "/documents",
+    "verb": "POST",
+    "body": [
       "identifier",
       "document_type",
       "actions",
@@ -66,8 +73,8 @@
     ]
   },
   "getDocumentsById": {
-    "endpoint":"/documents/{id}",
-    "requireId":true,
+    "endpoint": "/documents/{id}",
+    "requireId": true,
     "subFunctions": {
       "getSimilar": {
         "endpoint": "/similar"
@@ -84,14 +91,14 @@
     }
   },
   "deleteDocumentsById": {
-    "endpoint":"/documents/{id}",
-    "verb":"DELETE",
-    "requireId":true,
-    "expectedStatus":204
+    "endpoint": "/documents/{id}",
+    "verb": "DELETE",
+    "requireId": true,
+    "expectedStatus": 204
   },
   "getDocumentsByIdentifier": {
-    "endpoint":"/documents/identifier/{identifier}",
-    "requireIdentifier":true,
+    "endpoint": "/documents/identifier/{identifier}",
+    "requireIdentifier": true,
     "subFunctions": {
       "getSimilar": {
         "endpoint": "/similar"
@@ -108,18 +115,18 @@
     }
   },
   "deleteDocumentByIdentifier": {
-    "endpoint":"/documents/identifier/{identifier}",
-    "verb":"DELETE",
-    "requireIdentifier":true,
-    "expectedStatus":204
+    "endpoint": "/documents/identifier/{identifier}",
+    "verb": "DELETE",
+    "requireIdentifier": true,
+    "expectedStatus": 204
   },
   "getUsers": {
-    "endpoint":"/users"
+    "endpoint": "/users"
   },
   "postUsers": {
-    "endpoint":"/users",
-    "verb":"POST",
-    "body":[
+    "endpoint": "/users",
+    "verb": "POST",
+    "body": [
       "email",
       "name",
       "password",
@@ -127,19 +134,19 @@
     ]
   },
   "getUsersById": {
-    "endpoint":"/users/{id}",
-    "requireId":true
+    "endpoint": "/users/{id}",
+    "requireId": true
   },
   "deleteUsersById": {
-    "endpoint":"/users/{id}",
-    "verb":"DELETE",
-    "requireId":true,
-    "expectedStatus":204
+    "endpoint": "/users/{id}",
+    "verb": "DELETE",
+    "requireId": true,
+    "expectedStatus": 204
   },
   "getDocumentTypes": {
-    "endpoint":"/document_types"
+    "endpoint": "/document_types"
   },
   "getProviders": {
-    "endpoint":"/providers"
+    "endpoint": "/providers"
   }
 }

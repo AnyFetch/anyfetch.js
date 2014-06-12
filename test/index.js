@@ -8,9 +8,6 @@ var isFunction = require('../lib/helpers/is-function.js');
 
 // Tests to write:
 // getSubcompanyById()
-// postUser()
-// getDocumentById(123).getRaw()
-// getDocumentById(123, cb)
 
 var testEndpoint = function(name) {
 
@@ -48,12 +45,12 @@ testEndpoint('postCompanyUpdate');
 testEndpoint('getDocuments');
 testEndpoint('getUsers');
 
-describe('getDocumentById', function() {
+describe('getDocumentById & getDocumentByIdentifier subfunctions', function() {
   var documentId = null;
   var documentIdentifier = 'some_identifier';
+  var subFunctions = Anyfetch.getDocumentById(documentId);
 
-  // Create phony document
-  before(function(done) {
+  it('...create phony document', function(done) {
     var body = {
       identifier: documentIdentifier,
       document_type: 'file',
@@ -67,53 +64,45 @@ describe('getDocumentById', function() {
 
     Anyfetch.postDocument(body, function(err, res) {
       documentId = res.body.id;
+      done(err);
+    });
+  });
+
+  it('should return synchronously an object containing only functions', function() {
+    for(var i in subFunctions) {
+      isFunction(subFunctions[i]).should.be.ok;
+    }
+  });
+
+  it('should only accept mongo-style ids', function(done) {
+    Anyfetch.getDocumentById('aze').getRaw(function(err) {
+      err.message.toLowerCase().should.include('argument error');
       done();
     });
   });
 
-  describe('subfunctions', function() {
-    var subFunctions = Anyfetch.getDocumentById(documentId);
+  describe('getDocumentByIdentifier', function() {
+    var subFunctionsByIdentifier = Anyfetch.getDocumentByIdentifier(documentIdentifier);
 
-    it('should return synchronously an object containing only functions', function() {
-      for(var i in subFunctions) {
-        isFunction(subFunctions[i]).should.be.ok;
+    it('should offer the same functions as byId', function() {
+      subFunctionsByIdentifier.should.have.keys(Object.keys(subFunctions));
+
+      for(var i in subFunctionsByIdentifier) {
+        isFunction(subFunctionsByIdentifier[i]).should.be.ok;
+        subFunctions[i].should.be.ok;
       }
     });
 
-    it('should only accept mongo-style ids', function(done) {
-      Anyfetch.getDocumentById('aze').getRelated(function(err) {
-        err.message.toLowerCase().should.include('argument error');
+    it('should accept any kind of identifier', function(done) {
+      subFunctionsByIdentifier.getRaw(function(err, res) {
+        should(err).be.exactly(null);
         done();
       });
     });
-
-    describe('getDocumentByIdentifier', function() {
-      var subFunctionsByIdentifier = Anyfetch.getDocumentByIdentifier(documentIdentifier);
-
-      it('should offer the same functions as byId', function() {
-        Object.keys(subFunctionsByIdentifier).length.should.equal(Object.keys(subFunctions).length);
-
-        for(var i in subFunctionsByIdentifier) {
-          isFunction(subFunctionsByIdentifier[i]).should.be.ok;
-          subFunctions[i].should.be.ok;
-        }
-      });
-
-      it('should accept any kind of identifier', function(done) {
-        subFunctionsByIdentifier.getRelated(function(err) {
-          should(err).be.exactly(null);
-          done();
-        });
-      });
-    });
-
-  });
-
-  // Delete phony document
-  after(function(done) {
-    Anyfetch.deleteDocumentById(documentId, function(err, res) {
-      documentId = res.body.id;
-      done();
+    
+    // Delete phony document
+    it('...delete phony document', function(done) {
+      Anyfetch.deleteDocumentById(documentId, done);
     });
   });
 });
@@ -124,8 +113,7 @@ describe('postUser', function() {
   var err = null;
   var userId = null;
 
-  // Create phony user
-  before(function(done) {
+  it('...create phony user', function(done) {
     var body = {
       email: 'chuck@norris.com',
       name: 'Chuck Norris',
@@ -137,7 +125,7 @@ describe('postUser', function() {
       res = r;
       err = e;
       userId = res.body.id;
-      done();
+      done(e);
     });
   });
 
@@ -146,13 +134,8 @@ describe('postUser', function() {
   });
 
   // Delete the phony user
-  after(function(done) {
-    Anyfetch.deleteUserById(userId, function(err) {
-      if(err) {
-        throw err;
-      }
-      done();
-    });
+  it('delete phony user...', function(done) {
+    Anyfetch.deleteUserById(userId, done);
   });
 
 });

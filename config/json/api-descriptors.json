@@ -34,7 +34,8 @@
     "requireId":true,
     "params":[
       "force"
-    ]
+    ],
+    "expectedStatus":204
   },
   "getDocuments": {
     "endpoint":"/documents",
@@ -85,7 +86,8 @@
   "deleteDocumentsById": {
     "endpoint":"/documents/{id}",
     "verb":"DELETE",
-    "requireId":true
+    "requireId":true,
+    "expectedStatus":204
   },
   "getDocumentsByIdentifier": {
     "endpoint":"/documents/identifier/{identifier}",
@@ -108,7 +110,8 @@
   "deleteDocumentByIdentifier": {
     "endpoint":"/documents/identifier/{identifier}",
     "verb":"DELETE",
-    "requireIdentifier":true
+    "requireIdentifier":true,
+    "expectedStatus":204
   },
   "getUsers": {
     "endpoint":"/users"

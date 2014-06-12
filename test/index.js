@@ -10,13 +10,13 @@ var isFunction = require('../lib/helpers/is-function.js');
 // getSubcompanyById()
 
 
-describe('Anyfetch library API mapping functions', function(){
+describe('Anyfetch library API mapping functions', function() {
   var accessToken;
-  var anyfetchBasic = new Anyfetch(configuration.login, configuration.password);
+  var anyfetchBasic = new Anyfetch(configuration.test.login, configuration.test.password);
 
-  describe('Basic authentication', function(){
-    it('should retrieve token from credentials', function(done){
-      anyfetchBasic.getToken(function(err, res){
+  describe('Basic authentication', function() {
+    it('should retrieve token from credentials', function(done) {
+      anyfetchBasic.getToken(function(err, res) {
         should(res.body).be.ok;
         res.body.should.have.keys(['token']);
         accessToken = res.body.token;
@@ -25,10 +25,10 @@ describe('Anyfetch library API mapping functions', function(){
     });
   });
 
-  describe('Token authentication', function(){
+  describe('Token authentication', function() {
     var anyfetch;
 
-    before(function(){
+    before(function() {
       anyfetch = new Anyfetch(accessToken);
     });
     
@@ -68,7 +68,7 @@ describe('Anyfetch library API mapping functions', function(){
       var documentIdentifier = 'some_identifier';
       var subFunctions;
 
-      before(function(){
+      before(function() {
         subFunctions = anyfetch.getDocumentById(documentId);
       });
 
@@ -107,7 +107,7 @@ describe('Anyfetch library API mapping functions', function(){
       describe('getDocumentByIdentifier', function() {
         var subFunctionsByIdentifier;
 
-        before(function(){
+        before(function() {
           subFunctionsByIdentifier = anyfetch.getDocumentByIdentifier(documentIdentifier);
         });
 

@@ -9,6 +9,8 @@ module.exports = {
   apiHost: process.env.API_HOST || 'https://api.anyfetch.com',
 
   // Warning: the USERNAME env variable can be used by the OS
-  login: process.env.LOGIN,
-  password: process.env.PASSWORD
+  test: {
+    login: process.env.LOGIN,
+    password: process.env.PASSWORD
+  }
 };

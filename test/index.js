@@ -120,6 +120,17 @@ describe('Anyfetch library API mapping functions', function() {
           }
         });
 
+        it('should retrieve the document with this identifier', function(done) {
+          anyfetch.getDocumentByIdentifier(documentIdentifier, function(err, res) {
+            should(err).be.exactly(null);
+            should(res).be.ok;
+            should(res.body).be.ok;
+            should(res.body.identifier).be.ok;
+            res.body.identifier.should.equal(documentIdentifier);
+            done();
+          });
+        });
+
         it('should accept any kind of identifier', function(done) {
           subFunctionsByIdentifier.getRaw(function(err, res) {
             should(err).be.exactly(null);

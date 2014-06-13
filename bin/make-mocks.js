@@ -9,20 +9,16 @@
 var fs = require('fs');
 var async = require('async');
 
-var extendDefaults = require('../lib/helpers/extend-defaults.js');
 var filename = require('../lib/helpers/endpoint-filename.js');
 
 var configuration = require('../config/configuration.js');
 var Anyfetch = require('../lib/index.js');
 
-var defaultDescriptor = require('../config/json/default-descriptor.json');
-var apiDescriptors = require('../config/json/api-descriptors.json');
-var mocksDirectory = __dirname + '/../lib/test-server/mocks/';
-
 if(!configuration.test.login || !configuration.test.password) {
   throw new Error('This script requires valid LOGIN and PASSWORD to be set in your env');
 }
 var anyfetch = new Anyfetch(configuration.test.login, configuration.test.password);
+var mocksDirectory = __dirname + '/../lib/test-server/mocks/';
 
 var saveMock = function(endpointConfig, body) {
   // We'll write pretty JSON
@@ -38,7 +34,7 @@ var saveMock = function(endpointConfig, body) {
 
 var mockEndpoint = function(name, args) {
   args = args || [];
-  if (!apiDescriptors[name]) {
+  if (!configuration.apiDescriptors[name]) {
     throw new Error('The endpoint ' + name + ' is not specified.');
   }
 
@@ -46,8 +42,7 @@ var mockEndpoint = function(name, args) {
   args.push(function(err, res){
     res = res || {body: {}};
 
-    var config = apiDescriptors[name];
-    extendDefaults(config, defaultDescriptor);
+    var config = configuration.apiDescriptors[name];
     saveMock(config, res.body);
   });
 
@@ -72,9 +67,7 @@ async.parallel({
     }, function(err, res) {
       if(res.body && res.body.id) {
         subcompanyId = res.body.id;
-        var config = apiDescriptors['postSubcompanies'];
-        extendDefaults(config, defaultDescriptor);
-        saveMock(config, res.body);
+        saveMock(configuration.apiDescriptors.postSubcompanies, res.body);
       }
       cb(err);
     });
@@ -93,9 +86,7 @@ async.parallel({
     }, function(err, res) {
       if(res.body && res.body.id) {
         documentId = res.body.id;
-        var config = apiDescriptors['postDocuments'];
-        extendDefaults(config, defaultDescriptor);
-        saveMock(config, res.body);
+        saveMock(configuration.apiDescriptors.postDocuments, res.body);
       }
       cb(err);
     });
@@ -110,9 +101,7 @@ async.parallel({
     }, function(err, res) {
       if(res.body && res.body.id) {
         userId = res.body.id;
-        var config = apiDescriptors['postUsers'];
-        extendDefaults(config, defaultDescriptor);
-        saveMock(config, res.body);
+        saveMock(configuration.apiDescriptors.postUsers, res.body);
       }
       cb(err);
     });
@@ -168,6 +157,7 @@ async.parallel({
 
     subFunctions: function(cb) {
       // TODO: getRaw, getRelated, etc
+      cb(null);
     },
 
     cleanUp: function(cb) {

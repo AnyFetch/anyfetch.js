@@ -30,15 +30,33 @@ var saveMock = function(endpointConfig, body) {
   });
 };
 
+var mockSimpleEndpoint = function(name) {
+  anyfetch[name](function(err, res){
+    var config = apiDescriptors[name];
+    extendDefaults(config, defaultDescriptor);
+
+    saveMock(config, res.body);
+  });
+};
+
 if(!configuration.test.login || !configuration.test.password) {
   throw new Error('This script requires valid LOGIN and PASSWORD to be set in your env');
 }
 var anyfetch = new Anyfetch(configuration.test.login, configuration.test.password);
 
-var name = 'getStatus';
-anyfetch[name](function(err, res){
-  var config = apiDescriptors[name];
-  extendDefaults(config, defaultDescriptor);
+var simpleEndpoints = [
+  'getStatus',
+  'getIndex',
+  'getToken',
+  'getCompany',
+  'getSubcompanies',
+  'postCompanyUpdate',
+  'getDocuments',
+  'getUsers',
+  'getDocumentTypes',
+  'getProviders'
+];
 
-  saveMock(config, res.body);
-});
+for(var i in simpleEndpoints) {
+  mockSimpleEndpoint(simpleEndpoints[i]);
+}

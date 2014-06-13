@@ -163,7 +163,7 @@ describe('Anyfetch library API mapping functions', function() {
 
       it('should create a phony user', function(done) {
         var body = {
-          email: 'chuck@norris.com',
+          email: 'chuck' + Math.round(Math.random() * 42) + '@norris.com',
           name: 'Chuck Norris',
           password: 'no_need',
           is_admin: false

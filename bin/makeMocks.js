@@ -19,6 +19,11 @@ var defaultDescriptor = require('../config/json/default-descriptor.json');
 var apiDescriptors = require('../config/json/api-descriptors.json');
 var mocksDirectory = __dirname + '/../lib/test-server/mocks/';
 
+if(!configuration.test.login || !configuration.test.password) {
+  throw new Error('This script requires valid LOGIN and PASSWORD to be set in your env');
+}
+var anyfetch = new Anyfetch(configuration.test.login, configuration.test.password);
+
 var saveMock = function(endpointConfig, body) {
   // We'll write pretty JSON
   var json = JSON.stringify(body, null, 2);
@@ -31,19 +36,23 @@ var saveMock = function(endpointConfig, body) {
   });
 };
 
-var mockSimpleEndpoint = function(name) {
-  anyfetch[name](function(err, res){
+var mockEndpoint = function(name, args) {
+  args = args || [];
+  if (!apiDescriptors[name]) {
+    throw new Error('The endpoint ' + name + ' is not specified.');
+  }
+
+  // Add callback
+  args.push(function(err, res){
+    res = res || {body: {}};
+
     var config = apiDescriptors[name];
     extendDefaults(config, defaultDescriptor);
-
     saveMock(config, res.body);
   });
-};
 
-if(!configuration.test.login || !configuration.test.password) {
-  throw new Error('This script requires valid LOGIN and PASSWORD to be set in your env');
-}
-var anyfetch = new Anyfetch(configuration.test.login, configuration.test.password);
+  anyfetch[name].apply(anyfetch, args);
+};
 
 // ----- Fill with fake content
 var subcompanyId;
@@ -135,13 +144,30 @@ async.parallel({
         'getDocumentTypes',
         'getProviders'
       ];
+      var ids = {
+        'getSubcompaniesById': subcompanyId,
+        'getDocumentsById': documentId,
+        'getDocumentsByIdentifier': documentIdentifier,
+        'getUsersById': userId
+      };
+
       var mockers = [];
       for(var i in simpleEndpoints) {
-        mockers.push(function() {
-          mockEndpoint(simpleEndpoints[i]);
-        });
+        mockers.push(function(name) {
+          mockEndpoint(name);
+        }.bind(null, simpleEndpoints[i]));
       }
+      for(var name in ids) {
+        mockers.push(function(k) {
+          mockEndpoint(k, [ids[k]]);
+        }.bind(null, name));
+      }
+
       async.parallel(mockers, cb);
+    },
+
+    subFunctions: function(cb) {
+      // TODO: getRaw, getRelated, etc
     },
 
     cleanUp: function(cb) {
@@ -151,7 +177,7 @@ async.parallel({
 
   }, function(err) {
     if(err) {
-      throw err;
+      console.log(err);
     }
   });
 });

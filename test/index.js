@@ -146,7 +146,7 @@ describe('Anyfetch library API mapping functions', function() {
           email: 'chuck@norris.com',
           name: 'Chuck Norris',
           password: 'no_need',
-          is_admin: false,
+          is_admin: false
         };
 
         anyfetch.postUser(body, function(err, res) {

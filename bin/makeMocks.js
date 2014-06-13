@@ -7,6 +7,7 @@
  */
 
 var fs = require('fs');
+var async = require('async');
 
 var extendDefaults = require('../lib/helpers/extend-defaults.js');
 var filename = require('../lib/helpers/endpoint-filename.js');
@@ -44,19 +45,113 @@ if(!configuration.test.login || !configuration.test.password) {
 }
 var anyfetch = new Anyfetch(configuration.test.login, configuration.test.password);
 
-var simpleEndpoints = [
-  'getStatus',
-  'getIndex',
-  'getToken',
-  'getCompany',
-  'getSubcompanies',
-  'postCompanyUpdate',
-  'getDocuments',
-  'getUsers',
-  'getDocumentTypes',
-  'getProviders'
-];
+// ----- Fill with fake content
+var subcompanyId;
+var documentId;
+var documentIdentifier = 'the "unique" document identifier (éüà)';
+var userId;
 
-for(var i in simpleEndpoints) {
-  mockSimpleEndpoint(simpleEndpoints[i]);
-}
+async.parallel({
+
+  postSubcompanies: function(cb) {
+    anyfetch.postSubcompanies({
+      name: 'the_fake_subcompany',
+      hydraters: [
+        "http://localhost:5000/plaintext/hydrate",
+        "http://localhost:5000/pdf/hydrate"
+      ]
+    }, function(err, res) {
+      if(res.body && res.body.id) {
+        subcompanyId = res.body.id;
+        var config = apiDescriptors['postSubcompanies'];
+        extendDefaults(config, defaultDescriptor);
+        saveMock(config, res.body);
+      }
+      cb(err);
+    });
+  },
+
+  postDocuments: function(cb) {
+    anyfetch.postDocuments({
+      identifier: documentIdentifier,
+      document_type: 'file',
+      data: {
+        foo: 'some_string'
+      },
+      metadata: {
+        some_key: 'some random sentence'
+      }
+    }, function(err, res) {
+      if(res.body && res.body.id) {
+        documentId = res.body.id;
+        var config = apiDescriptors['postDocuments'];
+        extendDefaults(config, defaultDescriptor);
+        saveMock(config, res.body);
+      }
+      cb(err);
+    });
+  },
+
+  postUsers: function(cb) {
+    anyfetch.postUsers({
+      email: 'chuck@norris.com',
+      name: 'Chuck Norris',
+      password: 'no_need',
+      is_admin: false
+    }, function(err, res) {
+      if(res.body && res.body.id) {
+        userId = res.body.id;
+        var config = apiDescriptors['postUsers'];
+        extendDefaults(config, defaultDescriptor);
+        saveMock(config, res.body);
+      }
+      cb(err);
+    });
+  }
+
+}, function(err) {
+  if(err) {
+    console.log(err);
+  }
+
+  async.series({
+    
+    postFile: function(cb) {
+      // TODO
+      cb(null);
+    },
+
+    // Now the fake content is setup, we can test all the gets in parallel
+    simpleEndpoints: function(cb) {
+      var simpleEndpoints = [
+        'getStatus',
+        'getIndex',
+        'getToken',
+        'getCompany',
+        'getSubcompanies',
+        'postCompanyUpdate',
+        'getDocuments',
+        'getUsers',
+        'getDocumentTypes',
+        'getProviders'
+      ];
+      var mockers = [];
+      for(var i in simpleEndpoints) {
+        mockers.push(function() {
+          mockEndpoint(simpleEndpoints[i]);
+        });
+      }
+      async.parallel(mockers, cb);
+    },
+
+    cleanUp: function(cb) {
+      // TODO
+      cb(null);
+    }
+
+  }, function(err) {
+    if(err) {
+      throw err;
+    }
+  });
+});

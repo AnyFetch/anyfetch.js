@@ -2,166 +2,183 @@
 
 var should = require('should');
 
-var AnyFetchClient = require('../lib/');
+var Anyfetch = require('../lib/index.js');
+var configuration = require('../config/configuration.js');
+var isFunction = require('../lib/helpers/is-function.js');
 
-var fakeAnyFetchId = 123;
-var fakeAnyFetchSecret = 123;
-var fakeAnyFetchToken = 123;
+// TODO: Tests to write
+// getSubcompanyById()
+// TODO: test all aliases
 
-describe('AnyFetchClient', function() {
-  process.env.ANYFETCH_SETTINGS_URL = 'http://localhost:1337';
-  process.env.ANYFETCH_API_URL = 'http://localhost:1338';
-  var frontServer = AnyFetchClient.debug.createTestFrontServer();
-  var apiServer = AnyFetchClient.debug.createTestApiServer();
-  frontServer.listen(1337);
-  apiServer.listen(1338);
-  after(function() {
-    frontServer.close();
-    apiServer.close();
-  });
+describe('Anyfetch library API mapping functions', function() {
+  var accessToken;
+  var anyfetchBasic = new Anyfetch(configuration.test.login, configuration.test.password);
 
-  var anyFetchClient = new AnyFetchClient(fakeAnyFetchId,fakeAnyFetchSecret);
-  anyFetchClient.setAccessToken(fakeAnyFetchToken);
-
-  describe('getAccessToken()', function() {
-    var rawAnyFetchClient = new AnyFetchClient(fakeAnyFetchId,fakeAnyFetchSecret);
-    it('should return access token', function(done) {
-
-      rawAnyFetchClient.getAccessToken("fake_code", "fake_uri",   function(err, token) {
-        should.equal(err, null);
-        token.should.equal('fake_access_token');
-
-        done();
+  describe('Basic authentication', function() {
+    it('should retrieve token from credentials', function(done) {
+      anyfetchBasic.getToken(function(err, res) {
+        should(res).be.ok;
+        should(res.body).be.ok;
+        res.body.should.have.keys(['token']);
+        accessToken = res.body.token;
+        done(err);
       });
     });
   });
 
+  describe('Token authentication', function() {
+    var anyfetch;
 
-  describe('sendDocument()', function() {
-    it('should require an accessToken', function(done) {
-      var rawAnyFetchClient = new AnyFetchClient(fakeAnyFetchId,fakeAnyFetchSecret);
-      rawAnyFetchClient.sendDocument({}, function(err) {
-        err.toString().should.include('accessToken');
-        done();
-      });
+    before(function() {
+      anyfetch = new Anyfetch(accessToken);
     });
+    
+    var testEndpoint = function(name) {
+      describe(name, function() {
+        var expected = configuration.apiDescriptors[name];
+        var res = null;
 
-    it('should require an identifier', function(done) {
-      anyFetchClient.sendDocument({}, function(err) {
-        err.toString().should.include('identifier');
-        done();
+        it('should carry out the request', function(done) {
+          anyfetch[name](function(e, r) {
+            res = r;
+            done(e);
+          });
+        });
+
+        it('should use the correct verb', function() {
+          res.req.method.should.equal(expected.verb);
+        });
+        it('should target the correct endpoint', function() {
+          res.req.path.should.equal(expected.endpoint);
+        });
+        it('should have the expected return code', function() {
+          res.res.statusCode.should.equal(expected.expectedStatus);
+        });
       });
-    });
+    };
 
-    it('should send document', function(done) {
-      var data = {
-        identifier: 'test-identifier',
-        binary_document_type: 'file',
-        metadata: {
-          'foo': 'bar'
-        },
-      };
+    testEndpoint('getStatus');
+    testEndpoint('getIndex');
+    testEndpoint('getCompany');
+    testEndpoint('postCompanyUpdate');
+    testEndpoint('getDocuments');
+    testEndpoint('getUsers');
 
-      anyFetchClient.sendDocument(data, function(err, document) {
-        if(err) {
-          throw err;
+    describe('getDocumentById & getDocumentByIdentifier subfunctions', function() {
+      var documentId = null;
+      var documentIdentifier = 'some_identifier';
+      var subFunctions;
+
+      before(function() {
+        subFunctions = anyfetch.getDocumentById(documentId);
+      });
+
+      it('...create phony document', function(done) {
+        var body = {
+          identifier: documentIdentifier,
+          document_type: 'file',
+          data: {
+            foo: 'some_string'
+          },
+          metadata: {
+            some_key: 'some random sentence'
+          }
+        };
+
+        anyfetch.postDocument(body, function(err, res) {
+          documentId = res.body.id;
+          done(err);
+        });
+      });
+
+      it('should return synchronously an object containing only functions', function() {
+        for(var i in subFunctions) {
+          isFunction(subFunctions[i]).should.be.ok;
         }
+      });
 
-        document.should.eql(data);
+      it('should only accept mongo-style ids', function(done) {
+        anyfetch.getDocumentById('aze').getRaw(function(err) {
+          should(err).not.equal(null);
+          err.message.toLowerCase().should.include('argument error');
+          done();
+        });
+      });
 
-        done();
+      describe('getDocumentByIdentifier', function() {
+        var subFunctionsByIdentifier;
+
+        before(function() {
+          subFunctionsByIdentifier = anyfetch.getDocumentByIdentifier(documentIdentifier);
+        });
+
+        it('should offer the same functions as byId', function() {
+          subFunctionsByIdentifier.should.have.keys(Object.keys(subFunctions));
+
+          for(var i in subFunctionsByIdentifier) {
+            isFunction(subFunctionsByIdentifier[i]).should.be.ok;
+            subFunctions[i].should.be.ok;
+          }
+        });
+
+        it('should retrieve the document with this identifier', function(done) {
+          anyfetch.getDocumentsByIdentifier(documentIdentifier, function(err, res) {
+            should(err).be.exactly(null);
+            should(res).be.ok;
+            should(res.body).be.ok;
+            should(res.body.identifier).be.ok;
+            res.body.identifier.should.equal(documentIdentifier);
+            done();
+          });
+        });
+
+        it('should retrieve the document with this identifier (via the alias function as well)', function(done) {
+          anyfetch.getDocumentByIdentifier(documentIdentifier, function(err, res) {
+            should(err).be.exactly(null);
+            should(res).be.ok;
+            should(res.body).be.ok;
+            should(res.body.identifier).be.ok;
+            res.body.identifier.should.equal(documentIdentifier);
+            done();
+          });
+        });
+
+        it('should accept any kind of identifier', function(done) {
+          subFunctionsByIdentifier.getRaw(function(err, res) {
+            should(err).be.exactly(null);
+            done();
+          });
+        });
+        
+        // Delete phony document
+        it('...delete phony document', function(done) {
+          anyfetch.deleteDocumentById(documentId, done);
+        });
       });
     });
-  });
 
-  describe('sendFile()', function() {
-    it('should require an accessToken', function(done) {
-      var rawAnyFetchClient = new AnyFetchClient(fakeAnyFetchId,fakeAnyFetchSecret);
-      rawAnyFetchClient.sendFile('identifier', {}, function(err) {
-        err.toString().should.include('accessToken');
-        done();
-      });
-    });
+    describe('postUser', function() {
+      var config = configuration.apiDescriptors['postUsers'];
+      var userId = null;
 
-    it('should require config.file', function(done) {
-      var fileConfig = {
-      };
-
-      anyFetchClient.sendFile('identifier', fileConfig, function(err) {
-        err.toString().should.include('file');
-        done();
-      });
-    });
-
-    it('should send file', function(done) {
-      var fileConfig = function() {
-        return {
-          file: new Buffer("Hello world"),
-          filename: 'index.js',
+      it('should create a phony user', function(done) {
+        var body = {
+          email: 'chuck' + Math.round(Math.random() * 42) + '@norris.com',
+          name: 'Chuck Norris',
+          password: 'no_need',
+          is_admin: false
         };
-      };
 
-      anyFetchClient.sendFile('identifier', fileConfig, done);
-    });
-    it('should allow for deffered stream creation', function(done) {
-      var fileConfig = function() {
-        return {
-          file: require('fs').createReadStream(__filename),
-          filename: 'index.js',
-        };
-      };
-
-      anyFetchClient.sendFile('identifier', fileConfig, done);
-    });
-  });
-
-  describe('sendDocumentAndFile()', function() {
-    it('should return document', function(done) {
-      var data = {
-        identifier: 'test-identifier',
-        document_type: 'file',
-        metadata: {
-          'foo': 'bar'
-        },
-      };
-
-      var fileConfig = function() {
-        return {
-          file: require('fs').createReadStream(__filename),
-          filename: 'index.js',
-        };
-      };
-
-      anyFetchClient.sendDocumentAndFile(data, fileConfig, function(err, document) {
-        if(err) {
-          throw err;
-        }
-
-        document.should.eql(data);
-        done();
+        anyfetch.postUser(body, function(err, res) {
+          userId = res.body.id;
+          done(err);
+        });
       });
-    });
-  });
 
-  describe('deleteDocument()', function() {
-    it('should require an accessToken', function(done) {
-      var rawAnyFetchClient = new AnyFetchClient(fakeAnyFetchId,fakeAnyFetchSecret);
-      rawAnyFetchClient.deleteDocument('identifier', function(err) {
-        err.toString().should.include('accessToken');
-        done();
+      // Delete the phony user
+      it('should delete a phony user', function(done) {
+        anyfetch.deleteUserById(userId, done);
       });
-    });
-
-    it('should delete document', function(done) {
-      anyFetchClient.deleteDocument('identifier', done);
-    });
-  });
-
-  describe('encodeParentheses', function() {
-    it('should encode parentheses', function(done) {
-      var url = "abc(d)c((e))fg(h(i)";
-      AnyFetchClient.debug.encodeURIComponentAndParentheses(url).should.eql("abc%28d%29c%28%28e%29%29fg%28h%28i%29");
-      done();
     });
   });
 });

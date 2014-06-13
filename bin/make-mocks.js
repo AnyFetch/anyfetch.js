@@ -41,9 +41,7 @@ var mockEndpoint = function(name, args) {
   // Add callback
   args.push(function(err, res){
     res = res || {body: {}};
-
-    var config = configuration.apiDescriptors[name];
-    saveMock(config, res.body);
+    saveMock(configuration.apiDescriptors[name], res.body);
   });
 
   anyfetch[name].apply(anyfetch, args);
@@ -55,65 +53,65 @@ var documentId;
 var documentIdentifier = 'the "unique" document identifier (éüà)';
 var userId;
 
-async.parallel({
-
-  postSubcompanies: function(cb) {
-    anyfetch.postSubcompanies({
-      name: 'the_fake_subcompany',
-      hydraters: [
-        "http://localhost:5000/plaintext/hydrate",
-        "http://localhost:5000/pdf/hydrate"
-      ]
-    }, function(err, res) {
-      if(res.body && res.body.id) {
-        subcompanyId = res.body.id;
-        saveMock(configuration.apiDescriptors.postSubcompanies, res.body);
-      }
-      cb(err);
-    });
-  },
-
-  postDocuments: function(cb) {
-    anyfetch.postDocuments({
-      identifier: documentIdentifier,
-      document_type: 'file',
-      data: {
-        foo: 'some_string'
-      },
-      metadata: {
-        some_key: 'some random sentence'
-      }
-    }, function(err, res) {
-      if(res.body && res.body.id) {
-        documentId = res.body.id;
-        saveMock(configuration.apiDescriptors.postDocuments, res.body);
-      }
-      cb(err);
-    });
-  },
-
-  postUsers: function(cb) {
-    anyfetch.postUsers({
-      email: 'chuck@norris.com',
-      name: 'Chuck Norris',
-      password: 'no_need',
-      is_admin: false
-    }, function(err, res) {
-      if(res.body && res.body.id) {
-        userId = res.body.id;
-        saveMock(configuration.apiDescriptors.postUsers, res.body);
-      }
-      cb(err);
-    });
-  }
-
-}, function(err) {
+anyfetch.getToken(function(err, res) {
   if(err) {
-    console.log(err);
+    throw err;
   }
+  saveMock(configuration.apiDescriptors.getToken, res.body);
 
+  anyfetch = new Anyfetch(res.body.token);
   async.series({
-    
+
+    postUsers: function(cb) {
+      anyfetch.postUsers({
+        email: 'chuck@norris.com',
+        name: 'Chuck Norris',
+        password: 'no_need',
+        is_admin: false
+      }, function(err, res) {
+        if(res.body && res.body.id) {
+          userId = res.body.id;
+          saveMock(configuration.apiDescriptors.postUsers, res.body);
+        }
+        cb(err);
+      });
+    },
+
+    // postSubcompanies: function(cb) {
+    //   anyfetch.postSubcompanies({
+    //     name: 'the_fake_subcompany',
+    //     hydraters: [
+    //       "http://localhost:5000/plaintext/hydrate",
+    //       "http://localhost:5000/pdf/hydrate"
+    //     ]
+    //   }, function(err, res) {
+    //     if(res.body && res.body.id) {
+    //       subcompanyId = res.body.id;
+    //       saveMock(configuration.apiDescriptors.postSubcompanies, res.body);
+    //     }
+    //     cb(err);
+    //   });
+    // },
+
+    postDocuments: function(cb) {
+      anyfetch.postDocuments({
+        identifier: documentIdentifier,
+        document_type: 'file',
+        data: {
+          foo: 'some_string'
+        },
+        metadata: {
+          some_key: 'some random sentence'
+        }
+      }, function(err, res) {
+        if(res.body && res.body.id) {
+          documentId = res.body.id;
+          saveMock(configuration.apiDescriptors.postDocuments, res.body);
+        }
+        cb(err);
+      });
+    },
+
     postFile: function(cb) {
       // TODO
       cb(null);
@@ -124,7 +122,6 @@ async.parallel({
       var simpleEndpoints = [
         'getStatus',
         'getIndex',
-        'getToken',
         'getCompany',
         'getSubcompanies',
         'postCompanyUpdate',
@@ -152,6 +149,7 @@ async.parallel({
         }.bind(null, name));
       }
 
+      // Only proceed when all of them are done
       async.parallel(mockers, cb);
     },
 
@@ -170,4 +168,5 @@ async.parallel({
       console.log(err);
     }
   });
+
 });

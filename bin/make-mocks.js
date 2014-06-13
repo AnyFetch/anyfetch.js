@@ -8,6 +8,7 @@
 
 var fs = require('fs');
 var async = require('async');
+var util = require('util');
 
 var filename = require('../lib/helpers/endpoint-filename.js');
 
@@ -33,11 +34,6 @@ var saveMock = function(endpointConfig, body) {
 };
 
 var mockEndpoint = function(name, args, cb) {
-  if (!cb) {
-    cb = args;
-    args = null;
-  }
-  args = args || [];
   if (!configuration.apiDescriptors[name]) {
     throw new Error('The endpoint ' + name + ' is not specified.');
   }
@@ -55,7 +51,7 @@ var mockEndpoint = function(name, args, cb) {
 // ----- Fill with fake content
 var subcompanyId;
 var documentId;
-var documentIdentifier = 'the "unique" document identifier (éüà)';
+var documentIdentifier = 'the "unique" document identifier (éüà)L';
 var userId;
 
 anyfetch.getToken(function(err, res) {
@@ -65,6 +61,7 @@ anyfetch.getToken(function(err, res) {
   saveMock(configuration.apiDescriptors.getToken, res.body);
 
   anyfetch = new Anyfetch(res.body.token);
+
   async.series({
 
     postUsers: function(cb) {
@@ -123,40 +120,33 @@ anyfetch.getToken(function(err, res) {
     },
 
     // Now the fake content is setup, we can test all the gets in parallel
-    simpleEndpoints: function(cb) {
-      var simpleEndpoints = [
+    endpoints: function(cb) {
+      var endpoints = [
         'getStatus',
-        // 'getIndex',
-        // 'getCompany',
-        // 'getSubcompanies',
-        // 'postCompanyUpdate',
+        'getIndex',
+        'getCompany',
+        'getSubcompanies',
+        'postCompanyUpdate',
         'getDocuments',
         'getUsers',
-        // 'getDocumentTypes',
-        // 'getProviders'
+        'getDocumentTypes',
+        'getProviders',
+        //['getSubcompaniesById', subcompanyId],
+        ['getDocumentsById', documentId],
+        ['getDocumentsByIdentifier', documentIdentifier],
+        ['getUsersById', userId]
       ];
-      var ids = {
-        // 'getSubcompaniesById': subcompanyId,
-        // 'getDocumentsById': documentId,
-        // 'getDocumentsByIdentifier': documentIdentifier,
-        // 'getUsersById': userId
-      };
-
-      // TODO: use Async.map
-      var mockers = [];
-      for(var i in simpleEndpoints) {
-        mockers.push(function(name) {
-          mockEndpoint(name);
-        }.bind(null, simpleEndpoints[i]));
-      }
-      for(var name in ids) {
-        mockers.push(function(k) {
-          mockEndpoint(k, [ids[k]]);
-        }.bind(null, name));
-      }
 
       // Only proceed when all of them are done
-      async.parallel(mockers, cb);
+      async.map(endpoints, function(args, cb) {
+        if(util.isArray(args)) {
+          var endpoint = args.shift();
+          mockEndpoint(endpoint, args, cb);
+        }
+        else {
+          mockEndpoint(args, [], cb);
+        }
+      }, cb);
     },
 
     subFunctions: function(cb) {
@@ -169,8 +159,8 @@ anyfetch.getToken(function(err, res) {
       async.parallel({
 
         deleteUserById: function(cb) {
-          anyfetch.deleteUserById(userId, function(err, res) {
-            saveMock(configuration.apiDescriptors.deleteUserById, res.body);
+          anyfetch.deleteUsersById(userId, function(err, res) {
+            saveMock(configuration.apiDescriptors.deleteUsersById, res.body);
             cb(err);
           });
         },
@@ -183,8 +173,8 @@ anyfetch.getToken(function(err, res) {
         // },
 
         deleteDocumentByIdentifier: function(cb) {
-          anyfetch.deleteDocumentByIdentifier(documentIdentifier, function(err, res) {
-            saveMock(configuration.apiDescriptors.deleteSubcompanyById, res.body);
+          anyfetch.deleteDocumentsByIdentifier(documentIdentifier, function(err, res) {
+            saveMock(configuration.apiDescriptors.deleteDocumentsByIdentifier, res.body);
             cb(err);
           });
         }
@@ -194,7 +184,7 @@ anyfetch.getToken(function(err, res) {
 
   }, function(err) {
     if(err) {
-      console.log(err);
+      console.log("FAILURE", err);
     }
   });
 

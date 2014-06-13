@@ -32,7 +32,11 @@ var saveMock = function(endpointConfig, body) {
   });
 };
 
-var mockEndpoint = function(name, args) {
+var mockEndpoint = function(name, args, cb) {
+  if (!cb) {
+    cb = args;
+    args = null;
+  }
   args = args || [];
   if (!configuration.apiDescriptors[name]) {
     throw new Error('The endpoint ' + name + ' is not specified.');
@@ -42,6 +46,7 @@ var mockEndpoint = function(name, args) {
   args.push(function(err, res){
     res = res || {body: {}};
     saveMock(configuration.apiDescriptors[name], res.body);
+    cb(err);
   });
 
   anyfetch[name].apply(anyfetch, args);
@@ -64,7 +69,7 @@ anyfetch.getToken(function(err, res) {
 
     postUsers: function(cb) {
       anyfetch.postUsers({
-        email: 'chuck@norris.com',
+        email: 'thechuck' + Math.round(Math.random() * 1337) + '@norris.com',
         name: 'Chuck Norris',
         password: 'no_need',
         is_admin: false
@@ -121,22 +126,23 @@ anyfetch.getToken(function(err, res) {
     simpleEndpoints: function(cb) {
       var simpleEndpoints = [
         'getStatus',
-        'getIndex',
-        'getCompany',
-        'getSubcompanies',
-        'postCompanyUpdate',
+        // 'getIndex',
+        // 'getCompany',
+        // 'getSubcompanies',
+        // 'postCompanyUpdate',
         'getDocuments',
         'getUsers',
-        'getDocumentTypes',
-        'getProviders'
+        // 'getDocumentTypes',
+        // 'getProviders'
       ];
       var ids = {
-        'getSubcompaniesById': subcompanyId,
-        'getDocumentsById': documentId,
-        'getDocumentsByIdentifier': documentIdentifier,
-        'getUsersById': userId
+        // 'getSubcompaniesById': subcompanyId,
+        // 'getDocumentsById': documentId,
+        // 'getDocumentsByIdentifier': documentIdentifier,
+        // 'getUsersById': userId
       };
 
+      // TODO: use Async.map
       var mockers = [];
       for(var i in simpleEndpoints) {
         mockers.push(function(name) {
@@ -158,10 +164,33 @@ anyfetch.getToken(function(err, res) {
       cb(null);
     },
 
+    // ----- Clean up in parallel
     cleanUp: function(cb) {
-      // TODO
-      cb(null);
-    }
+      async.parallel({
+
+        deleteUserById: function(cb) {
+          anyfetch.deleteUserById(userId, function(err, res) {
+            saveMock(configuration.apiDescriptors.deleteUserById, res.body);
+            cb(err);
+          });
+        },
+
+        // deleteSubcompanyById: function(cb) {
+        //   anyfetch.deleteSubcompanyById(subcompanyId, function(err, res) {
+        //     saveMock(configuration.apiDescriptors.deleteSubcompanyById, res.body);
+        //     cb(err);
+        //   });
+        // },
+
+        deleteDocumentByIdentifier: function(cb) {
+          anyfetch.deleteDocumentByIdentifier(documentIdentifier, function(err, res) {
+            saveMock(configuration.apiDescriptors.deleteSubcompanyById, res.body);
+            cb(err);
+          });
+        }
+
+      }, cb);
+    },
 
   }, function(err) {
     if(err) {

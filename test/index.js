@@ -59,9 +59,12 @@ describe('Anyfetch library API mapping functions', function() {
     testEndpoint('getStatus');
     testEndpoint('getIndex');
     testEndpoint('getCompany');
+    testEndpoint('getSubcompanies');
     testEndpoint('postCompanyUpdate');
     testEndpoint('getDocuments');
     testEndpoint('getUsers');
+    testEndpoint('getDocumentTypes');
+    testEndpoint('getProviders');
 
     describe('getDocumentById & getDocumentByIdentifier subfunctions', function() {
       var documentId = null;

@@ -185,7 +185,7 @@ mkdirp(mocksDirectory, function(err) {
         }, cb);
       }]
 
-    }, function(err) {
+    }, function(err) {
       // ----- Clean up in parallel
       async.parallel({
 
@@ -198,15 +198,16 @@ mkdirp(mocksDirectory, function(err) {
           anyfetch.deleteDocumentsByIdentifier(documentIdentifier, cb);
         }
 
-      }, function(err) {
+      }, function(cleanupErr) {
+        // A bit weird, but we'd like to try and clean-up even if there's
+        // been an error
         if(err) {
           throw err;
         }
+        if(cleanupErr) {
+          throw cleanupErr;
+        }
       });
-
-      if(err) {
-        throw err;
-      }
     });
 
   });

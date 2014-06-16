@@ -75,7 +75,7 @@ mkdirp(mocksDirectory, function(err) {
 
     anyfetch = new Anyfetch(res.body.token);
 
-    async.series({
+    async.auto({
 
       getMyUserId: function(cb) {
         anyfetch.getIndex(function(err, res) {
@@ -101,7 +101,7 @@ mkdirp(mocksDirectory, function(err) {
        * We need to create the subcompany from an admin user,
        * who will be moved into the subcompany.
        */
-      postSubcompanies: function(cb) {
+      postSubcompanies: ['postUsers', function(cb) {
         anyChuck = new Anyfetch(configuration.test.fakeUser.email, configuration.test.fakeUser.password);
 
         anyChuck.postSubcompanies(configuration.test.fakeCompany, function(err, res) {
@@ -112,7 +112,7 @@ mkdirp(mocksDirectory, function(err) {
           }
           cb(err);
         });
-      },
+      }],
 
       postDocuments: function(cb) {
         anyfetch.postDocuments(configuration.test.fakeDocument, function(err, res) {
@@ -124,7 +124,7 @@ mkdirp(mocksDirectory, function(err) {
         });
       },
 
-      postDocumentsFile: function(cb) {
+      postDocumentsFile: ['postDocuments', function(cb) {
         var hash = configuration.test.fakeFile;
         hash.file = fs.createReadStream(hash.path);
         anyfetch.getDocumentById(documentId).postFile(hash, function(err, res) {
@@ -133,10 +133,10 @@ mkdirp(mocksDirectory, function(err) {
           }
           cb(err);
         });
-      },
+      }],
 
       // Now the fake content is setup, we can test all the gets in parallel
-      endpoints: function(cb) {
+      endpoints: ['getMyUserId', 'postSubcompanies', 'postDocumentsFile', function(cb) {
         var endpoints = [
           'getDocuments',
           'getStatus',
@@ -163,10 +163,10 @@ mkdirp(mocksDirectory, function(err) {
             mockEndpoint(args, [], cb);
           }
         }, cb);
-      },
+      }],
 
       // Subfunctions of getDocumentById
-      subFunctions: function(cb) {
+      subFunctions: ['postDocumentsFile', function(cb) {
         var subs = [
           'getSimilar',
           'getRelated',
@@ -183,34 +183,35 @@ mkdirp(mocksDirectory, function(err) {
             cb(err);
           });
         }, cb);
-      },
-
-      // ----- Clean up in parallel
-      cleanUp: function(cb) {
-
-        async.parallel({
-
-          deleteSubcompanyById: function(cb) {
-            // The fake user, who's inside this subcompany, will get deleted as well
-            anyfetch.deleteSubcompanyById(subcompanyId, {}, function(err) {
-              saveMock(configuration.apiDescriptors.deleteSubcompaniesById);
-              cb(err);
-            });
-          },
-
-          deleteDocumentByIdentifier: function(cb) {
-            anyfetch.deleteDocumentsByIdentifier(documentIdentifier, function(err, res) {
-              saveMock(configuration.apiDescriptors.deleteDocumentsByIdentifier, res.body);
-              cb(err);
-            });
-          }
-
-        }, cb);
-      },
+      }]
 
     }, function(err) {
+      // ----- Clean up in parallel
+      async.parallel({
+
+        deleteSubcompanyById: function(cb) {
+          // The fake user, who's inside this subcompany, will get deleted as well
+          anyfetch.deleteSubcompanyById(subcompanyId, {}, function(err, res) {
+            saveMock(configuration.apiDescriptors.deleteSubcompaniesById);
+            cb(err);
+          });
+        },
+
+        deleteDocumentByIdentifier: function(cb) {
+          anyfetch.deleteDocumentsByIdentifier(documentIdentifier, function(err, res) {
+            saveMock(configuration.apiDescriptors.deleteDocumentsByIdentifier, res.body);
+            cb(err);
+          });
+        }
+
+      }, function(err) {
+        if(err) {
+          throw err;
+        }
+      });
+
       if(err) {
-        console.log("FAILURE", err);
+        throw err;
       }
     });
 

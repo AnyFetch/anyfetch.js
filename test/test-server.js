@@ -8,10 +8,10 @@ var AnyFetchClient = require('../lib/');
 describe('debug.createTestFrontServer()', function() {
   var server = AnyFetchClient.debug.createTestFrontServer();
 
-  describe("POST /oauth/token", function() {
+  describe("POST /oauth/access_token", function() {
     it('should require code parameter', function(done) {
       request(server)
-        .post('/oauth/token')
+        .post('/oauth/access_token')
         .expect(409)
         .expect(/code/)
         .end(done);
@@ -19,7 +19,7 @@ describe('debug.createTestFrontServer()', function() {
 
     it('should require client_id parameter', function(done) {
       request(server)
-        .post('/oauth/token')
+        .post('/oauth/access_token')
         .send({code: 123})
         .expect(409)
         .expect(/client_id/)
@@ -28,7 +28,7 @@ describe('debug.createTestFrontServer()', function() {
 
     it('should require client_secret parameter', function(done) {
       request(server)
-        .post('/oauth/token')
+        .post('/oauth/access_token')
         .send({code: 123, client_id: 123})
         .expect(409)
         .expect(/client_secret/)
@@ -37,7 +37,7 @@ describe('debug.createTestFrontServer()', function() {
 
     it('should return fake access token', function(done) {
       request(server)
-        .post('/oauth/token')
+        .post('/oauth/access_token')
         .send({code: 123, client_id: 123, client_secret: 123})
         .expect(200)
         .expect(/"fake_access_token"/)

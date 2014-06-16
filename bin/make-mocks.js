@@ -191,17 +191,11 @@ mkdirp(mocksDirectory, function(err) {
 
         deleteSubcompanyById: function(cb) {
           // The fake user, who's inside this subcompany, will get deleted as well
-          anyfetch.deleteSubcompanyById(subcompanyId, {}, function(err, res) {
-            saveMock(configuration.apiDescriptors.deleteSubcompaniesById);
-            cb(err);
-          });
+          anyfetch.deleteSubcompanyById(subcompanyId, {}, cb);
         },
 
         deleteDocumentByIdentifier: function(cb) {
-          anyfetch.deleteDocumentsByIdentifier(documentIdentifier, function(err, res) {
-            saveMock(configuration.apiDescriptors.deleteDocumentsByIdentifier, res.body);
-            cb(err);
-          });
+          anyfetch.deleteDocumentsByIdentifier(documentIdentifier, cb);
         }
 
       }, function(err) {

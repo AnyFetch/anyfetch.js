@@ -9,7 +9,7 @@ var fakeAnyFetchSecret = 123;
 var fakeAnyFetchToken = 123;
 
 describe('AnyFetchClient', function() {
-  process.env.ANYFETCH_SETTINGS_URL = 'http://localhost:1337';
+  process.env.ANYFETCH_MANAGER_URL = 'http://localhost:1337';
   process.env.ANYFETCH_API_URL = 'http://localhost:1338';
   var frontServer = AnyFetchClient.debug.createTestFrontServer();
   var apiServer = AnyFetchClient.debug.createTestApiServer();

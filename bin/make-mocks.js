@@ -165,9 +165,24 @@ mkdirp(mocksDirectory, function(err) {
         }, cb);
       },
 
+      // Subfunctions of getDocumentById
       subFunctions: function(cb) {
-        // TODO: getRaw, getRelated, etc
-        cb(null);
+        var subs = [
+          'getSimilar',
+          'getRelated',
+          'getRaw',
+          // TODO: re-enable when API is fixed
+          //'getFile'
+        ];
+        var pre = anyfetch.getDocumentsById(documentId);
+        var c = configuration.apiDescriptors.getDocumentsById.subFunctions;
+
+        async.map(subs, function(name, cb){
+          pre[name](function(err, res) {
+            saveMock(c[name], res.body);
+            cb(err);
+          });
+        }, cb);
       },
 
       // ----- Clean up in parallel

@@ -120,9 +120,19 @@ mkdirp(mocksDirectory, function(err) {
         });
       },
 
-      postFile: function(cb) {
-        // TODO
-        cb(null);
+      postDocumentsFile: function(cb) {
+        var hash = configuration.test.fakeFile;
+        hash.file = fs.createReadStream(hash.path);
+        anyfetch.getDocumentById(documentId).postFile(hash, function(err, res) {
+          if(res.body) {
+            var descriptor = {
+              verb: 'post',
+              endpoint: '/documents/{id}/file'
+            };
+            saveMock(descriptor, res.body);
+          }
+          cb(err);
+        });
       },
 
       // Now the fake content is setup, we can test all the gets in parallel

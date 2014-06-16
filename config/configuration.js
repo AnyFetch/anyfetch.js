@@ -63,6 +63,11 @@ module.exports = {
       metadata: {
         some_key: 'some random sentence'
       }
+    },
+    fakeFile: {
+      path: __dirname + '/../test/samples/hello.txt',
+      filename: 'hello',
+      contentType: 'text/plain'
     }
   }
 };

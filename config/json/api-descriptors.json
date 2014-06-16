@@ -10,6 +10,7 @@
   },
   "deleteToken": {
     "endpoint": "/token",
+    "verb": "DELETE",
     "expectedStatus": 204
   },
   "getCompany": {

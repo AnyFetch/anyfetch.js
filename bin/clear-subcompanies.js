@@ -1,6 +1,6 @@
 'use strict';
 /**
- * @file Delete all the users (except the one that's logged in)
+ * @file Delete all the subcompanies of this account
  * @see http://developers.anyfetch.com/endpoints/
  */
 
@@ -16,18 +16,14 @@ var anyfetch = new Anyfetch(configuration.test.login, configuration.test.passwor
 
 async.waterfall([
     function(cb) {
-      anyfetch.getUsers(function(err, res) {
+      anyfetch.getSubcompanies(function(err, res) {
         cb(err, res.body);
       });
     },
-    function(users, cb) {
-      async.map(users, function(user, cb) {
-        if(user.email === configuration.test.login) {
-          return cb(null);
-        }
-        
-        console.log('Deleting user ' + user.email + ' (' + user.id + ')');
-        anyfetch.deleteUserById(user.id, cb);
+    function(subcompanies, cb) {
+      async.map(subcompanies, function(subcompany, cb) {
+        console.log('Deleting subcompany ' + subcompany.id);
+        anyfetch.deleteSubcompanyById(subcompany.id, {}, cb);
       }, cb);
     }
 
@@ -36,6 +32,6 @@ async.waterfall([
     if(err) {
       throw err;
     }
-    console.log('All users deleted.');
+    console.log('All subcompanies deleted.');
   }
 );

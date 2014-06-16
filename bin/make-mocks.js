@@ -22,17 +22,21 @@ if(!configuration.test.login || !configuration.test.password) {
 var anyfetch = new Anyfetch(configuration.test.login, configuration.test.password);
 var mocksDirectory = __dirname + '/../lib/test-server/mocks/';
 
+/**
+ * Save the response's body, at least if it's not empty
+ */
 var saveMock = function(endpointConfig, body) {
-  // We'll write pretty JSON
-  body = body || {};
-  var json = JSON.stringify(body, null, 2);
-  var target = filename(endpointConfig) + '.json';
-  fs.writeFile(mocksDirectory + target, json, function(err) {
-    if(err) {
-      throw err;
-    }
-    console.log(target + ' saved.');
-  });
+  if (endpointConfig.expectedStatus !== 204 && Object.keys(body).length > 0) {
+    // We'll write pretty JSON
+    var json = JSON.stringify(body, null, 2);
+    var target = filename(endpointConfig) + '.json';
+    fs.writeFile(mocksDirectory + target, json, function(err) {
+      if(err) {
+        throw err;
+      }
+      console.log(target + ' saved.');
+    });
+  }
 };
 
 var mockEndpoint = function(name, args, cb) {
@@ -42,8 +46,8 @@ var mockEndpoint = function(name, args, cb) {
 
   // Add callback
   args.push(function(err, res){
-    res = res || {body: {}};
-    saveMock(configuration.apiDescriptors[name], res.body);
+    var body = res.body || null;
+    saveMock(configuration.apiDescriptors[name], body);
     cb(err);
   });
 
@@ -125,11 +129,7 @@ mkdirp(mocksDirectory, function(err) {
         hash.file = fs.createReadStream(hash.path);
         anyfetch.getDocumentById(documentId).postFile(hash, function(err, res) {
           if(res.body) {
-            var descriptor = {
-              verb: 'post',
-              endpoint: '/documents/{id}/file'
-            };
-            saveMock(descriptor, res.body);
+            saveMock({ expectedStatus: 204 }, res.body);
           }
           cb(err);
         });

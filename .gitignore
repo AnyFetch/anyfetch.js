@@ -26,6 +26,3 @@ docs/*
 _site/*
 
 keys.sh
-
-# Generated mocks
-lib/test-server/mocks/*

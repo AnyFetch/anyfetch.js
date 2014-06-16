@@ -24,7 +24,7 @@ Create a client, then call `getAccessToken()` with the code and a callback. Call
 var AnyFetch = require('anyfetch');
 
 // Get your id and secret key on
-// http://manager.anyfetch.com/clients/new
+// https://manager.anyfetch.com/clients/new
 var ANYFETCH_ID = "your_anyfetch_id";
 var ANYFETCH_SECRET = "your_anyfetch_secret";
 
@@ -49,7 +49,7 @@ Create a client, then call `setAccessToken()` with some access_token. Then, call
 var AnyFetch = require('anyfetch');
 
 // Get your id and secret key on
-// http://manager.anyfetch.com/clients/new
+// https://manager.anyfetch.com/clients/new
 var ANYFETCH_ID = "your_anyfetch_id";
 var ANYFETCH_SECRET = "your_anyfetch_secret";
 
@@ -87,7 +87,7 @@ var fs = require('fs');
 var AnyFetch = require('anyfetch');
 
 // Get your id and secret key on
-// http://manager.anyfetch.com/clients/new
+// https://manager.anyfetch.com/clients/new
 var ANYFETCH_ID = "your_anyfetch_id";
 var ANYFETCH_SECRET = "your_anyfetch_secret";
 
@@ -127,7 +127,7 @@ afclient.sendDocument(document, function(err, document) {
 var AnyFetch = require('anyfetch');
 
 // Get your id and secret key on
-// http://manager.anyfetch.com/clients/new
+// https://manager.anyfetch.com/clients/new
 var ANYFETCH_ID = "your_anyfetch_id";
 var ANYFETCH_SECRET = "your_anyfetch_secret";
 

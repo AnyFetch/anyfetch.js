@@ -24,7 +24,7 @@ Create a client, then call `getAccessToken()` with the code and a callback. Call
 var AnyFetch = require('anyfetch');
 
 // Get your id and secret key on
-// http://settings.anyfetch.com/oauth/applications
+// http://manager.anyfetch.com/oauth/applications
 var ANYFETCH_ID = "your_anyfetch_id";
 var ANYFETCH_SECRET = "your_anyfetch_secret";
 
@@ -49,7 +49,7 @@ Create a client, then call `setAccessToken()` with some access_token. Then, call
 var AnyFetch = require('anyfetch');
 
 // Get your id and secret key on
-// http://settings.anyfetch.com/oauth/applications
+// http://manager.anyfetch.com/oauth/applications
 var ANYFETCH_ID = "your_anyfetch_id";
 var ANYFETCH_SECRET = "your_anyfetch_secret";
 
@@ -87,7 +87,7 @@ var fs = require('fs');
 var AnyFetch = require('anyfetch');
 
 // Get your id and secret key on
-// http://settings.anyfetch.com/oauth/applications
+// http://manager.anyfetch.com/oauth/applications
 var ANYFETCH_ID = "your_anyfetch_id";
 var ANYFETCH_SECRET = "your_anyfetch_secret";
 
@@ -127,7 +127,7 @@ afclient.sendDocument(document, function(err, document) {
 var AnyFetch = require('anyfetch');
 
 // Get your id and secret key on
-// http://settings.anyfetch.com/oauth/applications
+// http://manager.anyfetch.com/oauth/applications
 var ANYFETCH_ID = "your_anyfetch_id";
 var ANYFETCH_SECRET = "your_anyfetch_secret";
 
@@ -160,11 +160,11 @@ Call `sendDocumentAndFile()` with an object hash defining the document, an objec
 ### `debug.createTestFrontServer(debugFunction)`
 Create a mock server for your test, to trade authorization grants.
 Will always return an `access_token` with value `fake_access_token`.
-Use with `process.env.ANYFETCH_SETTINGS_URL`, for instance:
+Use with `process.env.ANYFETCH_MANAGER_URL`, for instance:
 
 ```javascript
 var AnyFetch = require('anyfetch');
-process.env.ANYFETCH_SETTINGS_URL = 'http://localhost:1337';
+process.env.ANYFETCH_MANAGER_URL = 'http://localhost:1337';
 
 // Create a fake HTTP server
 var frontServer = AnyFetch.debug.createTestFrontServer();

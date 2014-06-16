@@ -56,10 +56,10 @@ mkdirp(mocksDirectory, function(err) {
   }
 
   // ----- Fill with fake content
+  var userId;
   var subcompanyId;
   var documentId;
-  var documentIdentifier = 'the "unique" document identifier (éüà)L';
-  var userId;
+  var documentIdentifier = configuration.test.fakeDocument.identifier;
 
   anyfetch.getToken(function(err, res) {
     if(err) {
@@ -72,12 +72,7 @@ mkdirp(mocksDirectory, function(err) {
     async.series({
 
       postUsers: function(cb) {
-        anyfetch.postUsers({
-          email: 'thechuck' + Math.round(Math.random() * 1337) + '@norris.com',
-          name: 'Chuck Norris',
-          password: 'no_need',
-          is_admin: false
-        }, function(err, res) {
+        anyfetch.postUsers(configuration.test.fakeUser, function(err, res) {
           if(res.body && res.body.id) {
             userId = res.body.id;
             saveMock(configuration.apiDescriptors.postUsers, res.body);
@@ -87,13 +82,7 @@ mkdirp(mocksDirectory, function(err) {
       },
 
       // postSubcompanies: function(cb) {
-      //   anyfetch.postSubcompanies({
-      //     name: 'the_fake_subcompany',
-      //     hydraters: [
-      //       "http://localhost:5000/plaintext/hydrate",
-      //       "http://localhost:5000/pdf/hydrate"
-      //     ]
-      //   }, function(err, res) {
+      //   anyfetch.postSubcompanies(configuration.test.fakeCompany, function(err, res) {
       //     if(res.body && res.body.id) {
       //       subcompanyId = res.body.id;
       //       saveMock(configuration.apiDescriptors.postSubcompanies, res.body);
@@ -103,16 +92,8 @@ mkdirp(mocksDirectory, function(err) {
       // },
 
       postDocuments: function(cb) {
-        anyfetch.postDocuments({
-          identifier: documentIdentifier,
-          document_type: 'file',
-          data: {
-            foo: 'some_string'
-          },
-          metadata: {
-            some_key: 'some random sentence'
-          }
-        }, function(err, res) {
+        anyfetch.postDocuments(configuration.test.fakeDocument, function(err, res) {
+          console.log('Wanted to save ' + configuration.fakeDocument);
           if(res.body && res.body.id) {
             documentId = res.body.id;
             saveMock(configuration.apiDescriptors.postDocuments, res.body);

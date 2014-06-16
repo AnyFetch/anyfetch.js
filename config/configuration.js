@@ -39,6 +39,30 @@ module.exports = {
   test: {
     port: process.env.PORT || '50000',
     login: process.env.LOGIN,
-    password: process.env.PASSWORD
+    password: process.env.PASSWORD,
+
+    fakeUser: {
+      email: 'thechuck' + Math.round(Math.random() * 1337) + '@norris.com',
+      name: 'Chuck Norris',
+      password: 'no_need',
+      is_admin: false
+    },
+    fakeCompany: {
+      name: 'the_fake_subcompany',
+      hydraters: [
+        "http://localhost:5000/plaintext/hydrate",
+        "http://localhost:5000/pdf/hydrate"
+      ]
+    },
+    fakeDocument: {
+      identifier: 'the "unique" document identifier (éüà)L',
+      document_type: 'file',
+      data: {
+        foo: 'some_string'
+      },
+      metadata: {
+        some_key: 'some random sentence'
+      }
+    }
   }
 };

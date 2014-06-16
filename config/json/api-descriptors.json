@@ -115,7 +115,7 @@
       }
     }
   },
-  "deleteDocumentByIdentifier": {
+  "deleteDocumentsByIdentifier": {
     "endpoint": "/documents/identifier/{identifier}",
     "verb": "DELETE",
     "requireIdentifier": true,

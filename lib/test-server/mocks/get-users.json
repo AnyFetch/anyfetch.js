@@ -1,0 +1,10 @@
+[
+  {
+    "_type": "User",
+    "id": "5391b692c8318c0ec7000027",
+    "email": "merlin@anyfetch.com",
+    "name": "",
+    "is_admin": true,
+    "user_url": "/users/5391b692c8318c0ec7000027"
+  }
+]

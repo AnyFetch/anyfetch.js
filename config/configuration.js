@@ -55,7 +55,7 @@ module.exports = {
       ]
     },
     fakeDocument: {
-      identifier: 'the "unique" document identifier (éüà)L',
+      identifier: 'the "unique" document identifier (éüà)',
       document_type: 'file',
       data: {
         foo: 'some_string'

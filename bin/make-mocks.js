@@ -24,6 +24,7 @@ var mocksDirectory = __dirname + '/../lib/test-server/mocks/';
 
 var saveMock = function(endpointConfig, body) {
   // We'll write pretty JSON
+  body = body || {};
   var json = JSON.stringify(body, null, 2);
   var target = filename(endpointConfig) + '.json';
   fs.writeFile(mocksDirectory + target, json, function(err) {
@@ -57,6 +58,7 @@ mkdirp(mocksDirectory, function(err) {
 
   // ----- Fill with fake content
   var userId;
+  var anyChuck;
   var subcompanyId;
   var documentId;
   var documentIdentifier = configuration.test.fakeDocument.identifier;
@@ -71,29 +73,45 @@ mkdirp(mocksDirectory, function(err) {
 
     async.series({
 
+      getMyUserId: function(cb) {
+        anyfetch.getIndex(function(err, res) {
+          if(res.body && res.body.current_user_url) {
+            // TODO: user the helper `getUserInfo` instead
+            var userUrl = res.body.current_user_url;
+            userId = userUrl.substring(userUrl.lastIndexOf('/') + 1);
+          }
+          cb(err);
+        });
+      },
+
       postUsers: function(cb) {
         anyfetch.postUsers(configuration.test.fakeUser, function(err, res) {
           if(res.body && res.body.id) {
-            userId = res.body.id;
             saveMock(configuration.apiDescriptors.postUsers, res.body);
           }
           cb(err);
         });
       },
 
-      // postSubcompanies: function(cb) {
-      //   anyfetch.postSubcompanies(configuration.test.fakeCompany, function(err, res) {
-      //     if(res.body && res.body.id) {
-      //       subcompanyId = res.body.id;
-      //       saveMock(configuration.apiDescriptors.postSubcompanies, res.body);
-      //     }
-      //     cb(err);
-      //   });
-      // },
+      /**
+       * We need to create the subcompany from an admin user,
+       * who will be moved into the subcompany.
+       */
+      postSubcompanies: function(cb) {
+        anyChuck = new Anyfetch(configuration.test.fakeUser.email, configuration.test.fakeUser.password);
+
+        anyChuck.postSubcompanies(configuration.test.fakeCompany, function(err, res) {
+          // The fake user is now the first admin of the new company
+          if(res.body && res.body.id) {
+            subcompanyId = res.body.id;
+            saveMock(configuration.apiDescriptors.postSubcompanies, res.body);
+          }
+          cb(err);
+        });
+      },
 
       postDocuments: function(cb) {
         anyfetch.postDocuments(configuration.test.fakeDocument, function(err, res) {
-          console.log('Wanted to save ' + configuration.fakeDocument);
           if(res.body && res.body.id) {
             documentId = res.body.id;
             saveMock(configuration.apiDescriptors.postDocuments, res.body);
@@ -110,16 +128,16 @@ mkdirp(mocksDirectory, function(err) {
       // Now the fake content is setup, we can test all the gets in parallel
       endpoints: function(cb) {
         var endpoints = [
+          'getDocuments',
           'getStatus',
           'getIndex',
           'getCompany',
           'getSubcompanies',
           'postCompanyUpdate',
-          'getDocuments',
           'getUsers',
           'getDocumentTypes',
           'getProviders',
-          //['getSubcompaniesById', subcompanyId],
+          ['getSubcompaniesById', subcompanyId],
           ['getDocumentsById', documentId],
           ['getDocumentsByIdentifier', documentIdentifier],
           ['getUsersById', userId]
@@ -144,21 +162,16 @@ mkdirp(mocksDirectory, function(err) {
 
       // ----- Clean up in parallel
       cleanUp: function(cb) {
+
         async.parallel({
 
-          deleteUserById: function(cb) {
-            anyfetch.deleteUsersById(userId, function(err, res) {
-              saveMock(configuration.apiDescriptors.deleteUsersById, res.body);
+          deleteSubcompanyById: function(cb) {
+            // The fake user, who's inside this subcompany, will get deleted as well
+            anyfetch.deleteSubcompanyById(subcompanyId, {}, function(err) {
+              saveMock(configuration.apiDescriptors.deleteSubcompaniesById);
               cb(err);
             });
           },
-
-          // deleteSubcompanyById: function(cb) {
-          //   anyfetch.deleteSubcompanyById(subcompanyId, function(err, res) {
-          //     saveMock(configuration.apiDescriptors.deleteSubcompanyById, res.body);
-          //     cb(err);
-          //   });
-          // },
 
           deleteDocumentByIdentifier: function(cb) {
             anyfetch.deleteDocumentsByIdentifier(documentIdentifier, function(err, res) {

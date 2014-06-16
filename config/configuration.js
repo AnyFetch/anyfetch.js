@@ -50,8 +50,8 @@ module.exports = {
     fakeCompany: {
       name: 'the_fake_subcompany',
       hydraters: [
-        "http://localhost:5000/plaintext/hydrate",
-        "http://localhost:5000/pdf/hydrate"
+        'http://plaintext.hydrater.anyfetch.com/hydrate',
+        'http://pdf.hydrater.anyfetch.com/hydrate',
       ]
     },
     fakeDocument: {

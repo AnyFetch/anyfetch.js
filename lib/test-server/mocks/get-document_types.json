@@ -1,0 +1,14 @@
+{
+  "5252ce4ce4cfcd16f55cfa3b": {
+    "_type": "DocumentType",
+    "id": "5252ce4ce4cfcd16f55cfa3b",
+    "name": "file",
+    "templates": {
+      "snippet": "<article>\n  <h1>{{{ title }}}</h1>\n  <code>{{{ path }}}</code>\n</article>\n",
+      "full": "<article>\n  <h1>{{{ title }}}</h1>\n  <code>{{{ path }}}</code>\n</article>\n",
+      "title": "{{ title }}"
+    },
+    "updated": "2014-06-16T14:11:13.144Z",
+    "documents": 1
+  }
+}

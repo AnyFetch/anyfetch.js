@@ -39,6 +39,35 @@ module.exports = {
   test: {
     port: process.env.PORT || '50000',
     login: process.env.LOGIN,
-    password: process.env.PASSWORD
+    password: process.env.PASSWORD,
+
+    fakeUser: {
+      email: 'thechuck' + Math.round(Math.random() * 1337) + '@norris.com',
+      name: 'Chuck Norris',
+      password: 'no_need',
+      is_admin: true
+    },
+    fakeCompany: {
+      name: 'the_fake_subcompany',
+      hydraters: [
+        'http://plaintext.hydrater.anyfetch.com/hydrate',
+        'http://pdf.hydrater.anyfetch.com/hydrate',
+      ]
+    },
+    fakeDocument: {
+      identifier: 'the "unique" document identifier (éüà)',
+      document_type: 'file',
+      data: {
+        foo: 'some_string'
+      },
+      metadata: {
+        some_key: 'some random sentence'
+      }
+    },
+    fakeFile: {
+      path: __dirname + '/../test/samples/hello.txt',
+      filename: 'hello',
+      contentType: 'text/plain'
+    }
   }
 };

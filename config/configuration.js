@@ -45,7 +45,7 @@ module.exports = {
       email: 'thechuck' + Math.round(Math.random() * 1337) + '@norris.com',
       name: 'Chuck Norris',
       password: 'no_need',
-      is_admin: false
+      is_admin: true
     },
     fakeCompany: {
       name: 'the_fake_subcompany',

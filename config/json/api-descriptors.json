@@ -21,6 +21,11 @@
     "verb": "POST",
     "expectedStatus": 202
   },
+  "deleteCompanyReset": {
+    "endpoint": "/company/reset",
+    "verb": "DELETE",
+    "expectedStatus": 204
+  },
   "getSubcompanies": {
     "endpoint": "/subcompanies"
   },

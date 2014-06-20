@@ -67,6 +67,39 @@ describe('Anyfetch library API mapping functions', function() {
     testEndpoint('getDocumentTypes');
     testEndpoint('getProviders');
 
+    describe('getBatch', function() {
+      var expected = configuration.apiDescriptors.getBatch;
+      var res;
+      var pages = [
+        '/document_types',
+        '/providers'
+      ];
+
+      it('should carry out the request', function(done) {
+        anyfetch.getBatch({ pages: pages }, function(e, r) {
+          res = r;
+          done(e);
+        });
+      });
+
+      it('should use the correct verb', function() {
+        res.req.method.should.equal(expected.verb);
+      });
+      
+      it('should target the correct endpoint', function() {
+        res.req.path.should.startWith(expected.endpoint);
+      });
+      
+      it('should have the expected return code', function() {
+        res.res.statusCode.should.equal(expected.expectedStatus);
+      });
+
+      it('should respond with an object with one key per page', function() {
+        res.body.should.have.keys(pages);
+      });
+
+    });
+
     describe('getDocumentById & getDocumentByIdentifier subfunctions', function() {
       var documentId = null;
       var documentIdentifier = 'some_identifier';
@@ -147,7 +180,7 @@ describe('Anyfetch library API mapping functions', function() {
         });
 
         it('should accept any kind of identifier', function(done) {
-          subFunctionsByIdentifier.getRaw(function(err, res) {
+          subFunctionsByIdentifier.getRaw(function(err) {
             should(err).be.exactly(null);
             done();
           });
@@ -161,7 +194,6 @@ describe('Anyfetch library API mapping functions', function() {
     });
 
     describe('postUser', function() {
-      var config = configuration.apiDescriptors['postUsers'];
       var userId = null;
 
       it('should create a phony user', function(done) {

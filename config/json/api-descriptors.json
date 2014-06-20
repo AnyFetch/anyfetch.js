@@ -5,6 +5,12 @@
   "getIndex": {
     "endpoint": "/"
   },
+  "getBatch": {
+    "endpoint": "/batch",
+    "params": [
+      "pages"
+    ]
+  },
   "getToken": {
     "endpoint": "/token"
   },

@@ -6,8 +6,6 @@ var Anyfetch = require('../lib/index.js');
 var configuration = require('../config/configuration.js');
 var isFunction = require('../lib/helpers/is-function.js');
 
-// TODO: Tests to write
-// getSubcompanyById()
 // TODO: test all aliases
 
 describe('Anyfetch library API mapping functions', function() {
@@ -193,26 +191,67 @@ describe('Anyfetch library API mapping functions', function() {
       });
     });
 
+    var userInfos = {
+      email: 'chuck' + Math.round(Math.random() * 42) + '@norris.com',
+      name: 'Chuck Norris',
+      password: 'no_need',
+      is_admin: true
+    };
     describe('postUser', function() {
       var userId = null;
 
       it('should create a phony user', function(done) {
-        var body = {
-          email: 'chuck' + Math.round(Math.random() * 42) + '@norris.com',
-          name: 'Chuck Norris',
-          password: 'no_need',
-          is_admin: false
-        };
-
-        anyfetch.postUser(body, function(err, res) {
+        anyfetch.postUser(userInfos, function(err, res) {
           userId = res.body.id;
           done(err);
         });
       });
 
-      // Delete the phony user
-      it('should delete a phony user', function(done) {
-        anyfetch.deleteUserById(userId, done);
+      it('should delete the phony user', function(done) {
+        anyfetch.deleteUsersById(userId, done);
+      });
+    });
+
+    describe('subcompanies', function() {
+      var userInfos = {
+        email: 'chuck' + Math.round(Math.random() * 42) + '@norris.com',
+        name: 'Chuck Norris',
+        password: 'no_need',
+        is_admin: true
+      };
+      var companyInfos = {
+        name: 'the-fake-company'
+      };
+      var userId = null;
+      var subcompanyId = null;
+
+      before(function(done) {
+        // Setup: an admin user who will be named admin of the new subcompany
+        anyfetch.postUser(userInfos, function(err, res) {
+          userId = res.body.id;
+          done(err);
+        });
+      });
+
+      it('should create a subcompany as the new user', function(done) {
+        var chuckFetch = new Anyfetch(userInfos.email, userInfos.password);
+        chuckFetch.postSubcompanies(companyInfos, function(err, res) {
+          subcompanyId = res.body.id;
+          done(err);
+        });
+      });
+
+      it('should get the subcompany', function(done) {
+        anyfetch.getSubcompaniesById(subcompanyId, function(err, res) {
+          res.body.should.have.property({
+            name: companyInfos.name
+          });
+          done(err);
+        });
+      });
+
+      it('should delete the subcompany (omitting the `force` argument)', function(done) {
+        anyfetch.deleteSubcompaniesById(subcompanyId, done);
       });
     });
   });

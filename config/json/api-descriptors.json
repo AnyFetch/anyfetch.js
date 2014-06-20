@@ -5,6 +5,12 @@
   "getIndex": {
     "endpoint": "/"
   },
+  "getBatch": {
+    "endpoint": "/batch",
+    "params": [
+      "pages"
+    ]
+  },
   "getToken": {
     "endpoint": "/token"
   },
@@ -20,6 +26,11 @@
     "endpoint": "/company/update",
     "verb": "POST",
     "expectedStatus": 202
+  },
+  "deleteCompanyReset": {
+    "endpoint": "/company/reset",
+    "verb": "DELETE",
+    "expectedStatus": 204
   },
   "getSubcompanies": {
     "endpoint": "/subcompanies"

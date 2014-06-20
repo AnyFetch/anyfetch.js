@@ -48,6 +48,7 @@
   "getDocuments": {
     "endpoint": "/documents",
     "params": [
+      "id",
       "search",
       "before",
       "after",

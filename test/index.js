@@ -85,9 +85,11 @@ describe('Anyfetch library API mapping functions', function() {
       it('should use the correct verb', function() {
         res.req.method.should.equal(expected.verb);
       });
+      
       it('should target the correct endpoint', function() {
         res.req.path.should.startWith(expected.endpoint);
       });
+      
       it('should have the expected return code', function() {
         res.res.statusCode.should.equal(expected.expectedStatus);
       });

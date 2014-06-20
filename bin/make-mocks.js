@@ -150,7 +150,8 @@ mkdirp(mocksDirectory, function(err) {
           ['getSubcompaniesById', subcompanyId],
           ['getDocumentsById', documentId],
           ['getDocumentsByIdentifier', documentIdentifier],
-          ['getUsersById', userId]
+          ['getUsersById', userId],
+          ['getBatch', { pages: ['/document_types', '/providers'] }]
         ];
 
         // Only proceed when all of them are done

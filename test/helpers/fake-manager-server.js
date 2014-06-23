@@ -19,15 +19,18 @@ module.exports = function createServer() {
       'code',
       'grant_type'
     ];
-
-    if(req.params.client_id !== configuration.test.fakeAppId) {
-      return res.send(new restify.ResourceNotFoundError('Application ' + req.params.client_id + ' not found.'));
-    }
     expected.forEach(function(param) {
       if(!req.params[param]) {
         return res.send(new restify.MissingParameterError('Missing parameter ' + param));
       }
     });
+
+    if(req.params.client_id !== configuration.test.fakeAppId) {
+      return res.send(new restify.ResourceNotFoundError('Application ' + req.params.client_id + ' not found.'));
+    }
+    if(req.params.client_secret !== configuration.test.fakeAppSecret) {
+      return res.send(new restify.InvalidCredentialsError('Invalid client_secret'));
+    }
 
     var body = {
       token_type: 'bearer',

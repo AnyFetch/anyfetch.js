@@ -32,6 +32,14 @@ describe('<Auth>', function() {
       });
     });
 
+    it('should err on invalid appSecret', function(done) {
+      Anyfetch.getAccessToken(appId, 'wrong_app_secret', code, function(err) {
+        should(err).be.ok;
+        err.message.should.match(/401/);
+        done();
+      });
+    });
+
     it('should err on missing code', function(done) {
       Anyfetch.getAccessToken(appId, appSecret, '', function(err) {
         should(err).be.ok;

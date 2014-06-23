@@ -65,6 +65,16 @@ describe('Anyfetch library API mapping functions', function() {
     testEndpoint('getDocumentTypes');
     testEndpoint('getProviders');
 
+    describe('getDocuments parameters', function() {
+      it('should allow arbitrary parameters (noCheckParams)', function(done){
+        anyfetch.getDocuments({
+          "search": 'some_search_query',
+          "_arbitrary_key": 'arbitrary value',
+          "has_key": true
+        }, done);
+      });
+    });
+
     describe('getBatch', function() {
       var expected = configuration.apiDescriptors.getBatch;
       var res;
@@ -95,7 +105,6 @@ describe('Anyfetch library API mapping functions', function() {
       it('should respond with an object with one key per page', function() {
         res.body.should.have.keys(pages);
       });
-
     });
 
     describe('getDocumentById & getDocumentByIdentifier subfunctions', function() {

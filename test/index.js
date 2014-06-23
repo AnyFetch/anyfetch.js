@@ -1,6 +1,9 @@
 'use strict';
 
 var should = require('should');
+var fs = require('fs');
+var async = require('async');
+var rarity = require('rarity');
 
 var Anyfetch = require('../lib/index.js');
 var configuration = require('../config/configuration.js');
@@ -8,7 +11,7 @@ var isFunction = require('../lib/helpers/is-function.js');
 
 // TODO: test all aliases
 
-describe('Anyfetch library API mapping functions', function() {
+describe('<Anyfetch library API mapping functions>', function() {
   var accessToken;
   var anyfetchBasic = new Anyfetch(configuration.test.login, configuration.test.password);
 
@@ -112,10 +115,6 @@ describe('Anyfetch library API mapping functions', function() {
       var documentIdentifier = 'some_identifier';
       var subFunctions;
 
-      before(function() {
-        subFunctions = anyfetch.getDocumentById(documentId);
-      });
-
       it('...create phony document', function(done) {
         var body = {
           identifier: documentIdentifier,
@@ -130,6 +129,7 @@ describe('Anyfetch library API mapping functions', function() {
 
         anyfetch.postDocument(body, function(err, res) {
           documentId = res.body.id;
+          subFunctions = anyfetch.getDocumentById(documentId);
           done(err);
         });
       });
@@ -145,6 +145,25 @@ describe('Anyfetch library API mapping functions', function() {
           should(err).not.equal(null);
           err.message.toLowerCase().should.include('argument error');
           done();
+        });
+      });
+
+      describe('postFile', function() {
+        var hash = configuration.test.fakeImageFile;
+
+        it('should post file created with `fs.createReadStream`', function(done) {
+          hash.file = fs.createReadStream(hash.path);
+          subFunctions.postFile(hash, done);          
+        });
+
+        it('should post file without knowing mime-type', function(done) {
+          var file = fs.createReadStream(hash.path);
+          subFunctions.postFile({ file: file }, done);          
+        });
+
+        it('should post file from a path', function(done) {
+          var filename = __dirname + '/samples/hello.md';
+          subFunctions.postFile({ file: filename }, done);          
         });
       });
 

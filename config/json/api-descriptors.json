@@ -58,6 +58,7 @@
   },
   "getDocuments": {
     "endpoint": "/documents",
+    "noCheckParams": true,
     "params": [
       "id",
       "search",

@@ -68,6 +68,16 @@ describe('<Anyfetch library API mapping functions>', function() {
     testEndpoint('getDocumentTypes');
     testEndpoint('getProviders');
 
+    describe('getDocuments parameters', function() {
+      it('should allow arbitrary parameters (noCheckParams)', function(done){
+        anyfetch.getDocuments({
+          "search": 'some_search_query',
+          "_arbitrary_key": 'arbitrary value',
+          "has_key": true
+        }, done);
+      });
+    });
+
     describe('getBatch', function() {
       var expected = configuration.apiDescriptors.getBatch;
       var res;

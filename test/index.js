@@ -1,6 +1,9 @@
 'use strict';
 
 var should = require('should');
+var fs = require('fs');
+var async = require('async');
+var rarity = require('rarity');
 
 var Anyfetch = require('../lib/index.js');
 var configuration = require('../config/configuration.js');
@@ -8,7 +11,7 @@ var isFunction = require('../lib/helpers/is-function.js');
 
 // TODO: test all aliases
 
-describe('Anyfetch library API mapping functions', function() {
+describe('<Anyfetch library API mapping functions>', function() {
   var accessToken;
   var anyfetchBasic = new Anyfetch(configuration.test.login, configuration.test.password);
 
@@ -95,17 +98,12 @@ describe('Anyfetch library API mapping functions', function() {
       it('should respond with an object with one key per page', function() {
         res.body.should.have.keys(pages);
       });
-
     });
 
     describe('getDocumentById & getDocumentByIdentifier subfunctions', function() {
       var documentId = null;
       var documentIdentifier = 'some_identifier';
       var subFunctions;
-
-      before(function() {
-        subFunctions = anyfetch.getDocumentById(documentId);
-      });
 
       it('...create phony document', function(done) {
         var body = {
@@ -121,6 +119,7 @@ describe('Anyfetch library API mapping functions', function() {
 
         anyfetch.postDocument(body, function(err, res) {
           documentId = res.body.id;
+          subFunctions = anyfetch.getDocumentById(documentId);
           done(err);
         });
       });
@@ -137,6 +136,12 @@ describe('Anyfetch library API mapping functions', function() {
           err.message.toLowerCase().should.include('argument error');
           done();
         });
+      });
+
+      it('should post file created with `fs.createReadStream`', function(done) {
+        var hash = configuration.test.fakeImageFile;
+        hash.file = fs.createReadStream(hash.path);
+        subFunctions.postFile(hash, done);          
       });
 
       describe('getDocumentByIdentifier', function() {

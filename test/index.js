@@ -138,10 +138,18 @@ describe('<Anyfetch library API mapping functions>', function() {
         });
       });
 
-      it('should post file created with `fs.createReadStream`', function(done) {
+      describe('postFile', function() {
         var hash = configuration.test.fakeImageFile;
-        hash.file = fs.createReadStream(hash.path);
-        subFunctions.postFile(hash, done);          
+
+        it('should post file created with `fs.createReadStream`', function(done) {
+          hash.file = fs.createReadStream(hash.path);
+          subFunctions.postFile(hash, done);          
+        });
+
+        it('should post file without knowing mime-type', function(done) {
+          var file = fs.createReadStream(hash.path);
+          subFunctions.postFile({ file: file }, done);          
+        });
       });
 
       describe('getDocumentByIdentifier', function() {

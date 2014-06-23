@@ -21,11 +21,11 @@ module.exports = function createServer() {
     ];
 
     if(req.params.client_id !== configuration.test.fakeAppId) {
-      return res.send(404, 'Application ' + req.params.client_id + ' not found.');
+      return res.send(new restify.ResourceNotFoundError('Application ' + req.params.client_id + ' not found.'));
     }
     expected.forEach(function(param) {
       if(!req.params[param]) {
-        return res.send(409, 'Missing parameter ' + param);
+        return res.send(new restify.MissingParameterError('Missing parameter ' + param));
       }
     });
 

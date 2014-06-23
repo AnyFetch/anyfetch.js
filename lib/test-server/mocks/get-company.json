@@ -1,0 +1,14 @@
+{
+  "_type": "Company",
+  "id": "5391b692c8318c0ec7000026",
+  "name": "merlin@anyfetch.com",
+  "hydraters": [
+    "http://plaintext.hydrater.anyfetch.com/hydrate",
+    "http://pdf.hydrater.anyfetch.com/hydrate",
+    "http://office.hydrater.anyfetch.com/hydrate",
+    "http://image.hydrater.anyfetch.com/hydrate",
+    "http://ocr.hydrater.anyfetch.com/hydrate",
+    "http://eml.hydrater.anyfetch.com/hydrate",
+    "http://filecleaner.hydrater.anyfetch.com/hydrate"
+  ]
+}

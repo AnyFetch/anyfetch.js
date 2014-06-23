@@ -1,0 +1,36 @@
+{
+  "facets": {
+    "document_types": {
+      "5252ce4ce4cfcd16f55cfa3b": 1
+    },
+    "tokens": {
+      "539afa9270e5c5e1387fc2c3": 1
+    },
+    "creation_dates": {
+      "1401580800000": 1
+    }
+  },
+  "data": [
+    {
+      "_type": "Document",
+      "id": "539efb0019cf08ec1bc40c31",
+      "identifier": "the \"unique\" document identifier (éüà)",
+      "creation_date": "2014-06-16T14:11:12.671Z",
+      "token": "539afa9270e5c5e1387fc2c3",
+      "company": "5391b692c8318c0ec7000026",
+      "document_type": "5252ce4ce4cfcd16f55cfa3b",
+      "actions": {},
+      "document_url": "/documents/539efb0019cf08ec1bc40c31",
+      "projection_type": "snippet",
+      "data": {
+        "title": "Hello",
+        "path": "/hello",
+        "extension": "_blank"
+      },
+      "related_count": 0,
+      "score": 1
+    }
+  ],
+  "count": 1,
+  "max_score": 1
+}

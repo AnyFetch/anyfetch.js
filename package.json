@@ -1,7 +1,7 @@
 {
   "name": "anyfetch",
   "description": "anyFetch api wrapper for Node.js",
-  "version": "0.2.24",
+  "version": "0.3.0",
   "author": "Matthieu Bacconnier <matthieu.bacconnier@papiel.fr>",
   "contributors": [
     {
@@ -14,7 +14,7 @@
     }
   ],
   "scripts": {
-    "test": "NODE_ENV=test mocha -R spec test/ -t 5000",
+    "test": "NODE_ENV=test mocha -R spec test/ -t 5000 --bail",
     "lint": "jshint lib/ test/"
   },
   "main": "./lib/",
@@ -28,13 +28,13 @@
   ],
   "dependencies": {
     "restify": "2.8.x",
-    "request": "2.x.x"
+    "supertest": "0.13.x",
+    "mkdirp": "^0.5.0"
   },
   "devDependencies": {
     "async": "0.8.x",
     "mocha": "1.18.2",
-    "should": "3.3.x",
-    "supertest": "0.11.x"
+    "should": "3.3.x"
   },
   "licence": "MIT",
   "engines": {

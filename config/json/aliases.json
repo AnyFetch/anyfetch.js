@@ -1,0 +1,13 @@
+{
+  "postSubcompany": "postSubcompanies",
+  "postDocument": "postDocuments",
+  "getSubcompanyById": "getSubcompaniesById",
+  "deleteSubcompanyById": "deleteSubcompaniesById",
+  "getDocumentById": "getDocumentsById",
+  "deleteDocumentById": "deleteDocumentsById",
+  "getDocumentByIdentifier": "getDocumentsByIdentifier",
+  "deleteDocumentByIdentifier": "deleteDocumentsByIdentifier",
+  "getUserById": "getUsersById",
+  "deleteUserById": "deleteUsersById",
+  "postUser": "postUsers"
+}

@@ -40,9 +40,14 @@ module.exports = {
   // Warning: the USERNAME env variable can be used by the OS
   test: {
     port: process.env.PORT || '50000',
+    managerPort: process.env.MANAGER_TEST_PORT || '50001',
     login: process.env.LOGIN,
     password: process.env.PASSWORD,
 
+    fakeAppId: '53a7ef7b3b28ab0c7c46863c',
+    fakeAppSecret: '88dc117fd640df09fe94f409476132484267e361567744879b20c2ba2a6c0944',
+    fakeOAuthCode: '6e9ea0bfea7581b51c56195e5bd32634eb911cae',
+    fakeAccessToken: '0d7d5dd28e615b2d31cf648df4a5a279e509945b',
     fakeUser: {
       email: 'thechuck' + Math.round(Math.random() * 1337) + '@norris.com',
       name: 'Chuck Norris',

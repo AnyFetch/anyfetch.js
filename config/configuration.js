@@ -65,9 +65,14 @@ module.exports = {
       }
     },
     fakeFile: {
-      path: __dirname + '/../test/samples/hello.txt',
+      path: __dirname + '/../test/samples/hello.md',
       filename: 'hello',
       contentType: 'text/plain'
+    },
+    fakeImageFile: {
+      path: __dirname + '/../test/samples/hello.jpg',
+      filename: 'hello_image',
+      contentType: 'image/jpeg'
     }
   }
 };

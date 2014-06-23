@@ -150,6 +150,11 @@ describe('<Anyfetch library API mapping functions>', function() {
           var file = fs.createReadStream(hash.path);
           subFunctions.postFile({ file: file }, done);          
         });
+
+        it('should post file from a path', function(done) {
+          var filename = __dirname + '/samples/hello.md';
+          subFunctions.postFile({ file: filename }, done);          
+        });
       });
 
       describe('getDocumentByIdentifier', function() {

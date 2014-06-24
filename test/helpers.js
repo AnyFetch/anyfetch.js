@@ -2,7 +2,7 @@
 
 var should = require('should');
 
-var Anyfetch = require('../lib/helpers.js');
+var Anyfetch = require('../lib/index.js');
 var configuration = require('../config/configuration.js');
 
 // TODO: use mock server (improve it to handle batch requests)
@@ -129,4 +129,3 @@ describe('<High-level helper functions>', function() {
   });
 
 });
-

@@ -11,7 +11,7 @@ var isFunction = require('../lib/helpers/is-function.js');
 
 // TODO: test all aliases
 
-describe('<Anyfetch library API mapping functions>', function() {
+describe('<Low-level mapping functions>', function() {
   var accessToken;
   var anyfetchBasic = new Anyfetch(configuration.test.login, configuration.test.password);
 

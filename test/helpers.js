@@ -46,5 +46,47 @@ describe('<High-level helper functions>', function() {
     });
   });
 
+  describe('createSubcompanyWithAdmin', function() {
+    var admin = configuration.test.fakeUser;
+    var subcompany = configuration.test.fakeCompany;
+    var subcompanyId;
+
+    it('should run smoothly', function(done) {
+      anyfetch.createSubcompanyWithAdmin(subcompany, admin, function(err, company) {
+        subcompanyId = company.id;
+        done(err);
+      });
+    });
+
+    it('should have created the subcompany', function(done) {
+      should(subcompanyId).be.ok;
+
+      anyfetch.getSubcompanyById(subcompanyId, function(err, res) {
+        var subcompany = res.body;
+        should(err).not.be.ok;
+        should(subcompany).be.ok;
+        subcompany.should.have.property('id').and.equal(subcompanyId);
+
+        done(err);
+      });
+    });
+
+    it('should have created the new user and moved it to the subcompany', function(done) {
+      var newAdminFetch = new Anyfetch(admin.email, admin.password);
+      newAdminFetch.getCompany(function(err, res) {
+        var company = res.body;
+        should(err).not.be.ok;
+        should(company).be.ok;
+        company.should.have.property('id').and.equal(subcompanyId);
+
+        done(err);
+      });
+    });
+
+    after(function(done) {
+      anyfetch.deleteSubcompanyById(subcompanyId, done);
+    });
+  });
+
 });
 

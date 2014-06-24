@@ -24,10 +24,23 @@ describe('<High-level helper functions>', function() {
       anyfetch.getDocumentWithInfo('53a14e0ad9d493b510e4191b', function(err, doc) {
         should(err).not.be.ok;
         should(doc).be.ok;
-
         doc.should.have.properties('id', 'identifier', 'provider', 'document_type');
         doc.provider.should.have.properties('client', 'name', 'document_count');
         doc.document_type.should.have.properties('id', 'name', 'templates');
+
+        done(err);
+      });
+    });
+  });
+
+  describe('getCurrentUser', function() {
+    it('should get the correct user', function(done) {
+      anyfetch.getCurrentUser(function(err, user) {
+        should(err).not.be.ok;
+        should(user).be.ok;
+        should(user).have.properties('id', 'email', 'name', 'is_admin');
+        user.email.should.eql(configuration.test.login);
+
         done(err);
       });
     });

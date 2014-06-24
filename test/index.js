@@ -2,8 +2,6 @@
 
 var should = require('should');
 var fs = require('fs');
-var async = require('async');
-var rarity = require('rarity');
 
 var Anyfetch = require('../lib/index.js');
 var configuration = require('../config/configuration.js');

@@ -33,6 +33,46 @@ describe('<High-level helper functions>', function() {
     });
   });
 
+  describe('sendDocumentAndFile', function() {
+    var doc = configuration.test.fakeDocument;
+    var documentId;
+
+    var hash = configuration.test.fakeImageFile;
+    // Simply upload from filename
+    hash.file = hash.path;
+
+    it('should create the document', function(done) {
+      anyfetch.sendDocumentAndFile(doc, hash, function(err, doc) {
+        should(err).not.be.ok;
+        should(doc).be.ok;
+        doc.should.have.properties('id', 'identifier', 'provider', 'document_type');
+        documentId = doc.id;
+
+        done(err);
+      });
+    });
+
+    it('should have updated the document with info from the file', function(done) {
+      should(documentId).be.ok;
+
+      // TODO: introduce delay to let the file be hydrated?
+      anyfetch.getDocumentById(documentId, function(err, res) {
+        var doc = res.body;
+        should(err).not.be.ok;
+        should(doc).be.ok;
+        doc.should.have.properties('data');
+        doc.data.should.have.properties({ 'extension': 'jpg' });
+
+        done(err);
+      });
+
+    });
+
+    after(function(done) {
+      anyfetch.deleteDocumentById(documentId, done);
+    });
+  });
+
   describe('getCurrentUser', function() {
     it('should get the correct user', function(done) {
       anyfetch.getCurrentUser(function(err, user) {

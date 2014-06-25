@@ -6,7 +6,7 @@ var async = require('async');
 var Anyfetch = require('../lib/index.js');
 var configuration = require('../config/configuration.js');
 
-// TODO: use mock server (improve it to handle batch requests)
+// TODO: use mock server
 
 describe('<High-level helper functions>', function() {
   var anyfetch;

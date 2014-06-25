@@ -60,8 +60,7 @@ describe('<Low-level mapping functions>', function() {
     testEndpoint('getIndex');
     testEndpoint('getCompany');
     testEndpoint('getSubcompanies');
-    // TODO: reactivate when timeout is fixed
-    //testEndpoint('postCompanyUpdate');
+    testEndpoint('postCompanyUpdate');
     testEndpoint('getDocuments');
     testEndpoint('getUsers');
     testEndpoint('getDocumentTypes');

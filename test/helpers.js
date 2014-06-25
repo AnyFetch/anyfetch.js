@@ -20,16 +20,31 @@ describe('<High-level helper functions>', function() {
   });
 
   describe('getDocumentWithInfo', function() {
+    var documentId;
+
+    before(function(done) {
+      anyfetch.postDocument(configuration.test.fakeDocument, function(err, res) {
+        if(res.body && res.body.id) {
+          documentId = res.body.id;
+        }
+        done(err);
+      });
+    });
+
     it('should get document and populate `document_type` and `provider`', function(done) {
-      anyfetch.getDocumentWithInfo('53a14e0ad9d493b510e4191b', function(err, doc) {
+      anyfetch.getDocumentWithInfo(documentId, function(err, doc) {
         should(err).not.be.ok;
         should(doc).be.ok;
         doc.should.have.properties('id', 'identifier', 'provider', 'document_type');
         doc.provider.should.have.properties('client', 'name', 'document_count');
         doc.document_type.should.have.properties('id', 'name', 'templates');
 
-        done(err);
+        done();
       });
+    });
+
+    after(function(done) {
+      anyfetch.deleteDocumentById(documentId, done);
     });
   });
 
@@ -48,7 +63,7 @@ describe('<High-level helper functions>', function() {
         doc.should.have.properties('id', 'identifier', 'provider', 'document_type');
         documentId = doc.id;
 
-        done(err);
+        done();
       });
     });
 
@@ -63,7 +78,7 @@ describe('<High-level helper functions>', function() {
         doc.should.have.properties('data');
         doc.data.should.have.properties({ 'extension': 'jpg' });
 
-        done(err);
+        done();
       });
 
     });
@@ -81,7 +96,7 @@ describe('<High-level helper functions>', function() {
         should(user).have.properties('id', 'email', 'name', 'is_admin');
         user.email.should.eql(configuration.test.login);
 
-        done(err);
+        done();
       });
     });
   });
@@ -107,7 +122,7 @@ describe('<High-level helper functions>', function() {
         should(subcompany).be.ok;
         subcompany.should.have.property('id').and.equal(subcompanyId);
 
-        done(err);
+        done();
       });
     });
 
@@ -119,7 +134,7 @@ describe('<High-level helper functions>', function() {
         should(company).be.ok;
         company.should.have.property('id').and.equal(subcompanyId);
 
-        done(err);
+        done();
       });
     });
 

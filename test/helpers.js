@@ -1,6 +1,7 @@
 'use strict';
 
 var should = require('should');
+var async = require('async');
 
 var Anyfetch = require('../lib/index.js');
 var configuration = require('../config/configuration.js');
@@ -45,6 +46,48 @@ describe('<High-level helper functions>', function() {
 
     after(function(done) {
       anyfetch.deleteDocumentById(documentId, done);
+    });
+  });
+
+  describe('getDocumentsWithInfo', function() {
+
+    // Prepare two documents
+    before(function(done) {
+      async.parallel([
+        function(cb) {
+          anyfetch.postDocument(configuration.test.fakeDocument, cb);
+        },
+        function(cb) {
+          anyfetch.postDocument(configuration.test.fakeDocument2, cb);
+        }
+      ], done);
+    });
+
+    it('should get all documents and populate their `document_type` and `provider`', function(done) {
+      anyfetch.getDocumentsWithInfo(function(err, docs) {
+        docs.data.forEach(function(doc) {
+          should(err).not.be.ok;
+          should(doc).be.ok;
+          doc.should.have.properties('id', 'identifier', 'provider', 'document_type');
+          doc.provider.should.have.properties('client', 'name', 'document_count');
+          doc.document_type.should.have.properties('id', 'name', 'templates');
+        });
+
+        done();
+      });
+    });
+
+    after(function(done) {
+      async.parallel([
+        function(cb) {
+          var identifier = configuration.test.fakeDocument.identifier;
+          anyfetch.deleteDocumentByIdentifier(identifier, cb);
+        },
+        function(cb) {
+          var identifier = configuration.test.fakeDocument2.identifier;
+          anyfetch.deleteDocumentByIdentifier(identifier, cb);
+        }
+      ], done);
     });
   });
 

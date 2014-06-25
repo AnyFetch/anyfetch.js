@@ -44,6 +44,19 @@ describe('<High-level helper functions>', function() {
       });
     });
 
+    it('same thing by identifier', function(done) {
+      var identifier = configuration.test.fakeDocument.identifier;
+      anyfetch.getDocumentByIdentifierWithInfo(identifier, function(err, doc) {
+        should(err).not.be.ok;
+        should(doc).be.ok;
+        doc.should.have.properties('id', 'identifier', 'provider', 'document_type');
+        doc.provider.should.have.properties('client', 'name', 'document_count');
+        doc.document_type.should.have.properties('id', 'name', 'templates');
+
+        done();
+      });
+    });
+
     after(function(done) {
       anyfetch.deleteDocumentById(documentId, done);
     });

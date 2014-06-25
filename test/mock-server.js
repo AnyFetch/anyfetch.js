@@ -8,10 +8,11 @@ var configuration = require('../config/configuration.js');
 
 describe('<Mock server>', function() {
   var anyfetch = new Anyfetch(configuration.test.login, configuration.test.password);
+  var server;
 
   before(function(done) {
-    var server = createMockServer();
-    var port = configuration.test.port;
+    server = createMockServer();
+    var port = configuration.test.mockPort;
     server.listen(port, function() {
       var apiHost = 'http://localhost:' + port;
       console.log('Mock server running on ' + apiHost);
@@ -29,5 +30,9 @@ describe('<Mock server>', function() {
       res.body.should.have.keys(pages);
       done();
     });
+  });
+
+  after(function() {
+    server.close();
   });
 });

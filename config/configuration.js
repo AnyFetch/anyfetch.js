@@ -41,6 +41,7 @@ module.exports = {
   test: {
     port: process.env.PORT || '50000',
     managerPort: process.env.MANAGER_TEST_PORT || '50001',
+    mockPort: process.env.MOCK_TEST_PORT || '50002',
     login: process.env.LOGIN,
     password: process.env.PASSWORD,
 

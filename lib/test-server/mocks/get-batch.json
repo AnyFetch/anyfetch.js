@@ -3,14 +3,14 @@
     "5396f9a148f9f76e6b197957": {
       "client": null,
       "name": null,
-      "updated": "2014-06-20T15:17:40.156Z",
+      "updated": "2014-06-25T14:06:24.833Z",
       "document_count": 1
     },
     "53a14dadaa19645626f38b4a": {
       "client": "52bff1eec8318cb228000001",
       "name": "Google Contacts",
-      "updated": "2014-06-18T08:32:25.418Z",
-      "document_count": 378
+      "updated": "2014-06-25T07:59:21.566Z",
+      "document_count": 381
     }
   },
   "/document_types": {
@@ -23,7 +23,7 @@
         "full": "<article>\n  <h1>{{{ title }}}</h1>\n  <code>{{{ path }}}</code>\n</article>\n",
         "title": "{{ title }}"
       },
-      "updated": "2014-06-20T15:17:40.156Z",
+      "updated": "2014-06-25T14:06:24.833Z",
       "documents": 1
     },
     "5252ce4ce4cfcd16f55cfa3a": {
@@ -35,8 +35,8 @@
         "full": "<article>\n\n  <section class=\"two-columns\">\n    <aside>\n      <img src=\"{{ image }}\"/>    \n    </aside>\n    <section>\n      <h1><a href=\"anyfetch://search/{{name}}\">{{{ name }}}</a></h1>\n      <span>{{{ job }}}</span>   \n    </section>\n  </section>\n\n  <section>\n    {{#phone.length}}\n    <h2>Phones:</h2>\n    <ul>\n      {{ #phone }}\n      <li>{{ phone }} ( {{ type }} )</li>\n      {{ /phone }}\n    </ul>\n    {{/phone.length}}\n\n    {{#email.length}}\n    <h2>Emails:</h2>\n    <ul>\n      {{ #email }}\n      <li>{{ email }} ( {{ type }} )</li>\n      {{ /email }}\n    </ul>\n    {{/email.length}}\n\n    {{#address.length}}\n    <h2>Address:</h2>\n    <ul>\n      {{ #address }}\n      <li>{{ address }} ( {{ type }} )</li>\n      {{ /address }}\n    </ul>\n    {{/address.length}}\n\n    {{#website.length}}\n    <h2>Website:</h2>\n    <ul>\n      {{ #website }}\n      <li>{{{ website }}}</li>\n      {{ /website }}\n    </ul>\n    {{/website.length}}\n\n\n    {{#birthday}}\n    <h2>Birthday:</h2>\n    <span>{{birthday}}</span>\n    {{/birthday}}\n\n  </section>\n\n</article>\n",
         "title": "{{ name }}"
       },
-      "updated": "2014-06-18T08:32:25.418Z",
-      "documents": 378
+      "updated": "2014-06-25T07:59:21.566Z",
+      "documents": 381
     }
   }
 }

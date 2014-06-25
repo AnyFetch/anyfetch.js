@@ -1,13 +1,13 @@
 {
   "_type": "Document",
-  "id": "539efb0019cf08ec1bc40c31",
+  "id": "53aad75f45419da341fc5c02",
   "identifier": "the \"unique\" document identifier (éüà)",
-  "creation_date": "2014-06-16T14:11:12.671Z",
-  "token": "539afa9270e5c5e1387fc2c3",
+  "creation_date": "2014-06-25T14:06:23.948Z",
+  "provider": "5396f9a148f9f76e6b197957",
   "company": "5391b692c8318c0ec7000026",
   "document_type": "5252ce4ce4cfcd16f55cfa3b",
   "actions": {},
-  "document_url": "/documents/539efb0019cf08ec1bc40c31",
+  "document_url": "/documents/53aad75f45419da341fc5c02",
   "projection_type": "full",
   "data": {
     "title": "Hello",

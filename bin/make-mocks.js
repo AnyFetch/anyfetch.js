@@ -76,14 +76,9 @@ mkdirp(mocksDirectory, function(err) {
     anyfetch = new Anyfetch(res.body.token);
 
     async.auto({
-
-      getMyUserId: function(cb) {
-        anyfetch.getIndex(function(err, res) {
-          if(res.body && res.body.current_user_url) {
-            // TODO: user the helper `getUserInfo` instead
-            var userUrl = res.body.current_user_url;
-            userId = userUrl.substring(userUrl.lastIndexOf('/') + 1);
-          }
+      getUserId: function(cb) {
+        anyfetch.getCurrentUser(function(err, user) {
+          userId = user.id;
           cb(err);
         });
       },

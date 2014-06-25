@@ -14,7 +14,7 @@
     }
   ],
   "scripts": {
-    "test": "NODE_ENV=test mocha -R spec test/ -t 5000 --bail",
+    "test": "NODE_ENV=test mocha -R spec test/ -t 5000",
     "lint": "jshint lib/ test/"
   },
   "main": "./lib/",
@@ -30,7 +30,8 @@
     "restify": "2.8.x",
     "supertest": "0.13.x",
     "mkdirp": "^0.5.0",
-    "rarity": "^2.1.1"
+    "rarity": "^2.1.1",
+    "auto-load": "^1.1.0"
   },
   "devDependencies": {
     "async": "0.8.x",

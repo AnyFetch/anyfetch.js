@@ -119,17 +119,8 @@ mkdirp(mocksDirectory, function(err) {
         });
       },
 
-      postDocumentsFile: ['postDocuments', function(cb) {
-        var hash = configuration.test.fakeFile;
-        hash.file = fs.createReadStream(hash.path);
-        anyfetch.getDocumentById(documentId).postFile(hash, function(err) {
-          // No mock to save, response is expected to be empty
-          cb(err);
-        });
-      }],
-
       // Now the fake content is setup, we can test all the gets in parallel
-      endpoints: ['getCurrentUser', 'postSubcompanies', 'postDocumentsFile', function(cb) {
+      endpoints: ['getCurrentUser', 'postSubcompanies', 'postDocuments', function(cb) {
         var endpoints = [
           'getDocuments',
           'getStatus',
@@ -159,13 +150,11 @@ mkdirp(mocksDirectory, function(err) {
       }],
 
       // Subfunctions of getDocumentById
-      subFunctions: ['postDocumentsFile', function(cb) {
+      subFunctions: ['endpoints', function(cb) {
         var subs = [
           'getSimilar',
           'getRelated',
           'getRaw',
-          // Empty response because file is deleted right after hydration
-          'getFile'
         ];
         var pre = anyfetch.getDocumentsById(documentId);
         var c = configuration.apiDescriptors.getDocumentsById.subFunctions;

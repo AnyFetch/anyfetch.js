@@ -9,8 +9,6 @@ var Anyfetch = require('../lib/index.js');
 var configuration = require('../config/configuration.js');
 var isFunction = require('../lib/helpers/is-function.js');
 
-// TODO: test all aliases
-
 describe('<Anyfetch library API mapping functions>', function() {
   var accessToken;
   var anyfetchBasic = new Anyfetch(configuration.test.login, configuration.test.password);

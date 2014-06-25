@@ -71,6 +71,16 @@ module.exports = {
         some_key: 'some random sentence'
       }
     },
+    fakeDocument2: {
+      identifier: 'some other document',
+      document_type: 'file',
+      data: {
+        foo: 'some_other_string'
+      },
+      metadata: {
+        some_key: 'some different random sentence'
+      }
+    },
     fakeFile: {
       path: __dirname + '/../test/samples/hello.md',
       filename: 'hello',

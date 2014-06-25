@@ -2,14 +2,12 @@
 
 var should = require('should');
 var fs = require('fs');
-var async = require('async');
-var rarity = require('rarity');
 
 var Anyfetch = require('../lib/index.js');
 var configuration = require('../config/configuration.js');
 var isFunction = require('../lib/helpers/is-function.js');
 
-describe('<Anyfetch library API mapping functions>', function() {
+describe('<Low-level mapping functions>', function() {
   var accessToken;
   var anyfetchBasic = new Anyfetch(configuration.test.login, configuration.test.password);
 

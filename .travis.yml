@@ -3,9 +3,11 @@ node_js:
   - '0.10'
 env:
   global:
-    - API_HOST: "http://staging.api.anyfetch.com"
     - secure: "EkH4NE1P1Zhc5XjKNXig8a5C9us1snfy6mtczOPoqqgoI7sZd5imhEQnbBOK94yAWhUNYkzQT8IBcBwEeEu+sN034ydyuLA2wxwJyLYtA4Lwlrd01NssrrWsZcrulC/b/W4M8mou36pERvy/mIx/kSTve3j4qg5hRFAbaGbJ7rg="
     - secure: "eOubpRAU6AUjaFewcCBq9p4Sp9b7plBBvT2EBVBDJBQvlD74sidssclU8V9hrhQe3vj4814VkrjPt09s7P2p1fR8V4OOypnfQ5MQrQFp/VwDvpQCDS6br539GP5aAID/B8gH99xhyxlMtbetKU+N00ontnbcWuH60I21hA+G0Vw="
+  matrix:
+    - API_HOST: "http://staging.api.anyfetch.com"
+    - API_HOST: "https://api.anyfetch.com"
 before_script:
   - npm install -g istanbul
   - npm install coveralls

@@ -8,7 +8,19 @@
       "full": "<article>\n  <h1>{{{ title }}}</h1>\n  <code>{{{ path }}}</code>\n</article>\n",
       "title": "{{ title }}"
     },
-    "updated": "2014-06-16T14:11:13.144Z",
+    "updated": "2014-06-25T14:06:24.833Z",
     "documents": 1
+  },
+  "5252ce4ce4cfcd16f55cfa3a": {
+    "_type": "DocumentType",
+    "id": "5252ce4ce4cfcd16f55cfa3a",
+    "name": "contact",
+    "templates": {
+      "snippet": "<article class=\"two-columns\">\n  <aside>\n    <img src=\"{{ image }}\" />\n  </aside>\n  <section>\n    <h1>{{{ name }}}</h1>\n    <span>{{{ job }}}</span>\n  </section>\n</article>\n",
+      "full": "<article>\n\n  <section class=\"two-columns\">\n    <aside>\n      <img src=\"{{ image }}\"/>    \n    </aside>\n    <section>\n      <h1><a href=\"anyfetch://search/{{name}}\">{{{ name }}}</a></h1>\n      <span>{{{ job }}}</span>   \n    </section>\n  </section>\n\n  <section>\n    {{#phone.length}}\n    <h2>Phones:</h2>\n    <ul>\n      {{ #phone }}\n      <li>{{ phone }} ( {{ type }} )</li>\n      {{ /phone }}\n    </ul>\n    {{/phone.length}}\n\n    {{#email.length}}\n    <h2>Emails:</h2>\n    <ul>\n      {{ #email }}\n      <li>{{ email }} ( {{ type }} )</li>\n      {{ /email }}\n    </ul>\n    {{/email.length}}\n\n    {{#address.length}}\n    <h2>Address:</h2>\n    <ul>\n      {{ #address }}\n      <li>{{ address }} ( {{ type }} )</li>\n      {{ /address }}\n    </ul>\n    {{/address.length}}\n\n    {{#website.length}}\n    <h2>Website:</h2>\n    <ul>\n      {{ #website }}\n      <li>{{{ website }}}</li>\n      {{ /website }}\n    </ul>\n    {{/website.length}}\n\n\n    {{#birthday}}\n    <h2>Birthday:</h2>\n    <span>{{birthday}}</span>\n    {{/birthday}}\n\n  </section>\n\n</article>\n",
+      "title": "{{ name }}"
+    },
+    "updated": "2014-06-25T07:59:21.566Z",
+    "documents": 381
   }
 }

@@ -76,7 +76,7 @@ mkdirp(mocksDirectory, function(err) {
     anyfetch = new Anyfetch(res.body.token);
 
     async.auto({
-      getUserId: function(cb) {
+      getCurrentUser: function(cb) {
         anyfetch.getCurrentUser(function(err, user) {
           userId = user.id;
           cb(err);
@@ -119,19 +119,8 @@ mkdirp(mocksDirectory, function(err) {
         });
       },
 
-      postDocumentsFile: ['postDocuments', function(cb) {
-        var hash = configuration.test.fakeFile;
-        hash.file = fs.createReadStream(hash.path);
-        anyfetch.getDocumentById(documentId).postFile(hash, function(err, res) {
-          if(res.body) {
-            saveMock({ expectedStatus: 204 }, res.body);
-          }
-          cb(err);
-        });
-      }],
-
       // Now the fake content is setup, we can test all the gets in parallel
-      endpoints: ['getMyUserId', 'postSubcompanies', 'postDocumentsFile', function(cb) {
+      endpoints: ['getCurrentUser', 'postSubcompanies', 'postDocuments', function(cb) {
         var endpoints = [
           'getDocuments',
           'getStatus',
@@ -146,7 +135,6 @@ mkdirp(mocksDirectory, function(err) {
           ['getDocumentsById', documentId],
           ['getDocumentsByIdentifier', documentIdentifier],
           ['getUsersById', userId],
-          ['getBatch', { pages: ['/document_types', '/providers'] }]
         ];
 
         // Only proceed when all of them are done
@@ -162,13 +150,11 @@ mkdirp(mocksDirectory, function(err) {
       }],
 
       // Subfunctions of getDocumentById
-      subFunctions: ['postDocumentsFile', function(cb) {
+      subFunctions: ['endpoints', function(cb) {
         var subs = [
           'getSimilar',
           'getRelated',
           'getRaw',
-          // TODO: re-enable when API is fixed
-          //'getFile'
         ];
         var pre = anyfetch.getDocumentsById(documentId);
         var c = configuration.apiDescriptors.getDocumentsById.subFunctions;

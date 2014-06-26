@@ -12,9 +12,10 @@ describe('<Auth>', function() {
     var appId = configuration.test.fakeAppId;
     var appSecret = configuration.test.fakeAppSecret;
     var code = configuration.test.fakeOAuthCode;
+    var fakeManagerServer;
 
     before(function(done) {
-      var fakeManagerServer = createFakeManagerServer();
+      fakeManagerServer = createFakeManagerServer();
       var port = configuration.test.managerPort;
 
       fakeManagerServer.listen(port, function() {
@@ -53,6 +54,8 @@ describe('<Auth>', function() {
       });
     });
 
+    after(function() {
+      fakeManagerServer.close();
+    });
   });
-
 });

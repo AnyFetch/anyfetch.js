@@ -9,11 +9,39 @@
     "random"
   ],
   "facets": {
-    "document_types": {},
-    "tokens": {},
-    "creation_dates": {}
+    "document_types": {
+      "5252ce4ce4cfcd16f55cfa3a": 1
+    },
+    "providers": {
+      "53a14dadaa19645626f38b4a": 1
+    },
+    "creation_dates": {
+      "1401580800000": 1
+    }
   },
-  "data": [],
-  "count": 0,
-  "max_score": null
+  "data": [
+    {
+      "_type": "Document",
+      "id": "53a14e37d9d493b510e41996",
+      "identifier": "https://mail.google.com/mail/b/merlin.nimier@gmail.com/#contact/5865599e0d5e0f2a",
+      "creation_date": "2014-06-18T08:30:47.638Z",
+      "provider": "53a14dadaa19645626f38b4a",
+      "company": "5391b692c8318c0ec7000026",
+      "document_type": "5252ce4ce4cfcd16f55cfa3a",
+      "actions": {
+        "show": "https://mail.google.com/mail/b/merlin.nimier@gmail.com/#contact/5865599e0d5e0f2a"
+      },
+      "document_url": "/documents/53a14e37d9d493b510e41996",
+      "projection_type": "snippet",
+      "data": {
+        "name": "Anonymous",
+        "image": "https://www.gravatar.com/avatar/5348ec1f92ed3a6be5accc2d04566d64?d=mm&s=96",
+        "job": " "
+      },
+      "related_count": 0,
+      "score": 0.1973946
+    }
+  ],
+  "count": 1,
+  "max_score": 0.1973946
 }

@@ -50,4 +50,30 @@ Note that the first function **does not take any callback**. It is simply respon
 
 ## Test framework
 
-`anyfetch.js` provides a framework to easily run a mock server in order to test your app.
+`anyfetch.js` provides a ready-to-run mock server based on Restify. It may be useful to test apps that use the Fetch API.
+
+The mock server is created with `Anyfetch.createMockServer()` and started with `server.listen(port, cb)`. It is a simple [Restify server](http://mcavage.me/node-restify/).
+Once the server is running, override the Fetch API host to make it point to your `localhost` with `anyfetch.setApiHost(apiHost)`.
+
+### Example
+
+```js
+var Anyfetch = require('anyfetch.js');
+server = Anyfetch.createMockServer();
+
+var port = 1337;
+var apiHost = 'http://localhost:' + port;
+server.listen(port, function() {
+  console.log('Anyfetch mock server running on ' + apiHost);
+  anyfetch.setApiHost(apiHost);
+
+  done();
+});
+```
+
+### Mocks
+
+The mock server will serve static JSON files from the folder `node_modules/anyfetch/lib/test-server/mocks`. You can tailor them to your need. You can generate those JSON files at any time by:
+
+1. Setting the `LOGIN` and `PASSWORD` environment variables to your Fetch API credentials
+2. Running `node node_modules/anyfetch/bin/make-mocks.js`

@@ -112,7 +112,7 @@ describe('<High-level helper functions>', function() {
     // Simply upload from filename
     hash.file = hash.path;
 
-    it('should create the document', function(done) {
+    it('should create the document and post the file without error', function(done) {
       anyfetch.sendDocumentAndFile(doc, hash, function(err, doc) {
         should(err).not.be.ok;
         should(doc).be.ok;
@@ -121,22 +121,6 @@ describe('<High-level helper functions>', function() {
 
         done();
       });
-    });
-
-    it('should have updated the document with info from the file', function(done) {
-      should(documentId).be.ok;
-
-      // TODO: introduce delay to let the file be hydrated?
-      anyfetch.getDocumentById(documentId, function(err, res) {
-        var doc = res.body;
-        should(err).not.be.ok;
-        should(doc).be.ok;
-        doc.should.have.properties('data');
-        doc.data.should.have.properties({ 'extension': 'jpg' });
-
-        done();
-      });
-
     });
 
     after(function(done) {

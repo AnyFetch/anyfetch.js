@@ -69,19 +69,21 @@ describe('<High-level helper functions>', function() {
     });
 
     it('should get all documents and populate their `document_type` and `provider`', function(done) {
-      anyfetch.getDocumentsWithInfo(function(err, docs) {
-        should(err).not.be.ok;
-        
-        docs.data.forEach(function(doc) {
+      setTimeout(function() {
+        anyfetch.getDocumentsWithInfo(function(err, docs) {
           should(err).not.be.ok;
-          should(doc).be.ok;
-          doc.should.have.properties('id', 'identifier', 'provider', 'document_type');
-          doc.provider.should.have.properties('client', 'name', 'document_count');
-          doc.document_type.should.have.properties('id', 'name', 'templates');
-        });
 
-        done();
-      });
+          docs.data.forEach(function(doc) {
+            should(err).not.be.ok;
+            should(doc).be.ok;
+            doc.should.have.properties('id', 'identifier', 'provider', 'document_type');
+            doc.provider.should.have.properties('client', 'name', 'document_count');
+            doc.document_type.should.have.properties('id', 'name', 'templates');
+          });
+
+          done();
+        });
+      }, 1500);
     });
   });
 

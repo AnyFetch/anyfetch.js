@@ -86,11 +86,11 @@ describe('<Low-level mapping functions>', function() {
     it('should use the correct verb', function() {
       res.req.method.should.equal(expected.verb);
     });
-    
+
     it('should target the correct endpoint', function() {
       res.req.path.should.startWith(expected.endpoint);
     });
-    
+
     it('should have the expected return code', function() {
       res.res.statusCode.should.equal(expected.expectedStatus);
     });
@@ -155,12 +155,12 @@ describe('<Low-level mapping functions>', function() {
 
       it('should post file without knowing mime-type', function(done) {
         var file = fs.createReadStream(configuration.test.fakeImageFile.path);
-        subFunctions.postFile({ file: file }, done);          
+        subFunctions.postFile({ file: file }, done);
       });
 
       it('should post file from a path', function(done) {
         var filename = __dirname + '/samples/hello.md';
-        subFunctions.postFile({ file: filename }, done);          
+        subFunctions.postFile({ file: filename }, done);
       });
     });
 
@@ -208,7 +208,7 @@ describe('<Low-level mapping functions>', function() {
           done();
         });
       });
-      
+
       // Delete phony document
       it('...delete phony document', function(done) {
         anyfetchBearer.deleteDocumentById(documentId, done);

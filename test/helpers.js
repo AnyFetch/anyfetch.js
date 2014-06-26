@@ -5,6 +5,7 @@ var async = require('async');
 
 var Anyfetch = require('../lib/index.js');
 var configuration = require('../config/configuration.js');
+var extendDefaults = require('../lib/helpers/extend-defaults.js');
 var makeResetFunction = require('./helpers/reset.js');
 
 describe('<High-level helper functions>', function() {
@@ -88,7 +89,7 @@ describe('<High-level helper functions>', function() {
     before(cleaner);
 
     var doc = configuration.test.fakeDocument;
-    var hash = configuration.test.fakeImageFile;
+    var hash = extendDefaults({}, configuration.test.fakeImageFile);
     // Simply upload from filename
     hash.file = hash.path;
 

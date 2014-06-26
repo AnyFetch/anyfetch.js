@@ -1,8 +1,14 @@
 {
-  "539afa9270e5c5e1387fc2c3": {
+  "5396f9a148f9f76e6b197957": {
     "client": null,
     "name": null,
-    "updated": "2014-06-16T14:11:13.144Z",
+    "updated": "2014-06-25T14:06:24.833Z",
     "document_count": 1
+  },
+  "53a14dadaa19645626f38b4a": {
+    "client": "52bff1eec8318cb228000001",
+    "name": "Google Contacts",
+    "updated": "2014-06-25T07:59:21.566Z",
+    "document_count": 381
   }
 }

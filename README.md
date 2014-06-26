@@ -14,6 +14,17 @@ This npm package makes communicating with anyFetch servers easy for clients, pro
 
 Please note: anyFetch delivers long lived `access_token`, so you don't need to use a `refresh_token`.
 
+## Example
+
+```js
+var Anyfetch = require('../lib/index.js');
+
+var anyfetchBasic = new Anyfetch('LOGIN', 'PASSWORD');
+anyfetch.getCurrentUser(function(err, user) {
+  console.log('Hello, my name is ' + user.name);
+};
+```
+
 ## Basic function / endpoint mappings
 
 The lib provides a function per endpoint, following this naming convention:

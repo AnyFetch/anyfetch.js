@@ -4,8 +4,8 @@ node_js:
 env:
   global:
     - API_HOST: "http://staging.api.anyfetch.com"
-    - secure: "JZD117XvW5EFVFcjIlJFpFfUYujXy0r4tiBeWbolKznrfLFSvg9A+IVPd9PC/LR/wFksnd6wCyZ9lzBsavR+lrHzASfM5UBAYdlnC+ehOglba18Y3HdkU7t+vYYeFKREF0rfi0JQ21TwFyXpKv+xFTGp+h8Jc8aHn7BpLxqcirU="
-    - secure: "me5BMPhjVfJHPSxDkzaH2SO0c5tWdVYC4k1C9cim7rmJJ5RpOFmQiNvXPaHf3fYhxMaJ8iYZKum4tPmhdVRRIta6YDP/syW+2UV8xGE0zKiGAPkM3F0icUpTIxXlrs2DAMVNHPxHPDKkom3MJ9jmPo7ZpGPSzHY4nsIJ88maSpg="
+    - secure: "EkH4NE1P1Zhc5XjKNXig8a5C9us1snfy6mtczOPoqqgoI7sZd5imhEQnbBOK94yAWhUNYkzQT8IBcBwEeEu+sN034ydyuLA2wxwJyLYtA4Lwlrd01NssrrWsZcrulC/b/W4M8mou36pERvy/mIx/kSTve3j4qg5hRFAbaGbJ7rg="
+    - secure: "eOubpRAU6AUjaFewcCBq9p4Sp9b7plBBvT2EBVBDJBQvlD74sidssclU8V9hrhQe3vj4814VkrjPt09s7P2p1fR8V4OOypnfQ5MQrQFp/VwDvpQCDS6br539GP5aAID/B8gH99xhyxlMtbetKU+N00ontnbcWuH60I21hA+G0Vw="
 before_script:
   - npm install -g istanbul
   - npm install coveralls

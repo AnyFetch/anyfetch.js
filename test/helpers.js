@@ -5,25 +5,19 @@ var async = require('async');
 
 var Anyfetch = require('../lib/index.js');
 var configuration = require('../config/configuration.js');
-
-// TODO: use mock server
+var makeResetFunction = require('./helpers/reset.js');
 
 describe('<High-level helper functions>', function() {
-  var anyfetch;
-  var anyfetchBasic = new Anyfetch(configuration.test.login, configuration.test.password);
-
-  // Retrieve token from credentials
-  before(function(done) {
-    anyfetchBasic.getToken(function(err, res) {
-      anyfetch = new Anyfetch(res.body.token);
-      done(err);
-    });
-  });
+  var anyfetch = new Anyfetch(configuration.test.login, configuration.test.password);
+  var cleaner = makeResetFunction(anyfetch);
 
   describe('getDocumentWithInfo', function() {
     var documentId;
 
+    before(cleaner);
+    // Prepare a fake document
     before(function(done) {
+      var anyfetch = new Anyfetch(this.token);
       anyfetch.postDocument(configuration.test.fakeDocument, function(err, res) {
         if(res.body && res.body.id) {
           documentId = res.body.id;
@@ -56,16 +50,13 @@ describe('<High-level helper functions>', function() {
         done();
       });
     });
-
-    after(function(done) {
-      anyfetch.deleteDocumentById(documentId, done);
-    });
   });
 
   describe('getDocumentsWithInfo', function() {
-
-    // Prepare two documents
+    before(cleaner);
+    // Prepare two fake documents
     before(function(done) {
+      var anyfetch = new Anyfetch(this.token);
       async.parallel([
         function(cb) {
           anyfetch.postDocument(configuration.test.fakeDocument, cb);
@@ -78,6 +69,8 @@ describe('<High-level helper functions>', function() {
 
     it('should get all documents and populate their `document_type` and `provider`', function(done) {
       anyfetch.getDocumentsWithInfo(function(err, docs) {
+        should(err).not.be.ok;
+        
         docs.data.forEach(function(doc) {
           should(err).not.be.ok;
           should(doc).be.ok;
@@ -89,42 +82,25 @@ describe('<High-level helper functions>', function() {
         done();
       });
     });
-
-    after(function(done) {
-      async.parallel([
-        function(cb) {
-          var identifier = configuration.test.fakeDocument.identifier;
-          anyfetch.deleteDocumentByIdentifier(identifier, cb);
-        },
-        function(cb) {
-          var identifier = configuration.test.fakeDocument2.identifier;
-          anyfetch.deleteDocumentByIdentifier(identifier, cb);
-        }
-      ], done);
-    });
   });
 
   describe('sendDocumentAndFile', function() {
-    var doc = configuration.test.fakeDocument;
-    var documentId;
+    before(cleaner);
 
+    var doc = configuration.test.fakeDocument;
     var hash = configuration.test.fakeImageFile;
     // Simply upload from filename
     hash.file = hash.path;
 
     it('should create the document and post the file without error', function(done) {
+      var anyfetch = new Anyfetch(this.token);
       anyfetch.sendDocumentAndFile(doc, hash, function(err, doc) {
         should(err).not.be.ok;
         should(doc).be.ok;
         doc.should.have.properties('id', 'identifier', 'provider', 'document_type');
-        documentId = doc.id;
 
         done();
       });
-    });
-
-    after(function(done) {
-      anyfetch.deleteDocumentById(documentId, done);
     });
   });
 
@@ -142,12 +118,19 @@ describe('<High-level helper functions>', function() {
   });
 
   describe('createSubcompanyWithAdmin', function() {
+    before(cleaner);
+    var anyfetch;
+    before(function() {
+      anyfetch = new Anyfetch(this.token);
+    });
+
     var admin = configuration.test.fakeUser;
     var subcompany = configuration.test.fakeCompany;
     var subcompanyId;
 
     it('should run smoothly', function(done) {
       anyfetch.createSubcompanyWithAdmin(subcompany, admin, function(err, company) {
+        should(err).not.be.ok;
         subcompanyId = company.id;
         done(err);
       });
@@ -178,6 +161,7 @@ describe('<High-level helper functions>', function() {
       });
     });
 
+    // Subcompanies are not cleared by a simple reset, we must still delete it by hand
     after(function(done) {
       anyfetch.deleteSubcompanyById(subcompanyId, done);
     });

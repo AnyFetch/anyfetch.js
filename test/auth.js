@@ -14,7 +14,7 @@ describe('<Auth>', function() {
     var code = configuration.test.fakeOAuthCode;
     var fakeManagerServer;
 
-    before(function(done) {
+    before(function launchServer(done) {
       fakeManagerServer = createFakeManagerServer();
       var port = configuration.test.managerPort;
 
@@ -54,7 +54,7 @@ describe('<Auth>', function() {
       });
     });
 
-    after(function() {
+    after(function closeServer() {
       fakeManagerServer.close();
     });
   });

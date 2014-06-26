@@ -13,7 +13,7 @@ describe('<High-level helper functions>', function() {
   var anyfetchBasic = new Anyfetch(configuration.test.login, configuration.test.password);
 
   // Retrieve token from credentials
-  before(function(done) {
+  before(function retrieveToken(done) {
     anyfetchBasic.getToken(function(err, res) {
       anyfetch = new Anyfetch(res.body.token);
       done(err);
@@ -23,7 +23,7 @@ describe('<High-level helper functions>', function() {
   describe('getDocumentWithInfo', function() {
     var documentId;
 
-    before(function(done) {
+    before(function postFakeDocument(done) {
       anyfetch.postDocument(configuration.test.fakeDocument, function(err, res) {
         if(res.body && res.body.id) {
           documentId = res.body.id;
@@ -57,7 +57,7 @@ describe('<High-level helper functions>', function() {
       });
     });
 
-    after(function(done) {
+    after(function deleteFakeDocument(done) {
       anyfetch.deleteDocumentById(documentId, done);
     });
   });
@@ -65,7 +65,7 @@ describe('<High-level helper functions>', function() {
   describe('getDocumentsWithInfo', function() {
 
     // Prepare two documents
-    before(function(done) {
+    before(function postTwoFakeDocuments(done) {
       async.parallel([
         function(cb) {
           anyfetch.postDocument(configuration.test.fakeDocument, cb);
@@ -90,7 +90,7 @@ describe('<High-level helper functions>', function() {
       });
     });
 
-    after(function(done) {
+    after(function deleteTwoFakeDocuments(done) {
       async.parallel([
         function(cb) {
           var identifier = configuration.test.fakeDocument.identifier;
@@ -139,7 +139,7 @@ describe('<High-level helper functions>', function() {
 
     });
 
-    after(function(done) {
+    after(function deleteFakeDocument(done) {
       anyfetch.deleteDocumentById(documentId, done);
     });
   });
@@ -194,7 +194,7 @@ describe('<High-level helper functions>', function() {
       });
     });
 
-    after(function(done) {
+    after(function deleteFakeSubcompany(done) {
       anyfetch.deleteSubcompanyById(subcompanyId, done);
     });
   });

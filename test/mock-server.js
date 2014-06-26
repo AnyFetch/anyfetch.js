@@ -10,7 +10,7 @@ describe('<Mock server>', function() {
   var anyfetch = new Anyfetch(configuration.test.login, configuration.test.password);
   var server;
 
-  before(function(done) {
+  before(function launchMockServer(done) {
     server = createMockServer();
     var port = configuration.test.mockPort;
     server.listen(port, function() {
@@ -32,7 +32,7 @@ describe('<Mock server>', function() {
     });
   });
 
-  after(function() {
+  after(function closeMockServer() {
     server.close();
   });
 });

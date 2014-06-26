@@ -26,7 +26,7 @@ describe('<Low-level mapping functions>', function() {
   describe('Token authentication', function() {
     var anyfetch;
 
-    before(function() {
+    before(function createAnyfetchObject() {
       anyfetch = new Anyfetch(accessToken);
     });
     
@@ -166,7 +166,7 @@ describe('<Low-level mapping functions>', function() {
       describe('getDocumentByIdentifier', function() {
         var subFunctionsByIdentifier;
 
-        before(function() {
+        before(function retrieveSubfunctions() {
           subFunctionsByIdentifier = anyfetch.getDocumentByIdentifier(documentIdentifier);
         });
 
@@ -249,7 +249,7 @@ describe('<Low-level mapping functions>', function() {
       var userId = null;
       var subcompanyId = null;
 
-      before(function(done) {
+      before(function createFakeUser(done) {
         // Setup: an admin user who will be named admin of the new subcompany
         anyfetch.postUser(userInfos, function(err, res) {
           userId = res.body.id;

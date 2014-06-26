@@ -6,13 +6,13 @@ anyFetch api wrapper for Node.js
 [![NPM version](https://badge.fury.io/js/anyfetch.png)](http://badge.fury.io/js/anyfetch)
 
 
-> You'll only be interested in this package if you want to create a client applications for [anyFetch](http://anyFetch.com).
+> You'll only be interested in this package if you want to create a client applications for [AnyFetch](http://anyFetch.com).
 
-> In most cases, you'll find [anyFetch Hydrater Library](https://github.com/AnyFetch/anyfetch-hydratation.js) and [anyFetch Provider Library](https://github.com/AnyFetch/anyfetch-provider.js) more high level, and more easy to work with.
+> If you're interested in creating a Hydrater or a Provider, you may find [AnyFetch Hydrater Library](https://github.com/AnyFetch/anyfetch-hydratation.js) and [AnyFetch Provider Library](https://github.com/AnyFetch/anyfetch-provider.js) more high level, and easier to work with.
 
-This npm package makes communicating with anyFetch servers easy for clients, providers and hydraters.
+This npm package makes communicating with the AnyFetch servers easy for clients. Check out the [**full API documentation**](http://developers.anyfetch.com/endpoints/).
 
-Please note: anyFetch delivers long lived `access_token`, so you don't need to use a `refresh_token`.
+Please note: AnyFetch delivers long lived `access_token`, so you don't need to use a `refresh_token`.
 
 ## Example
 
@@ -27,7 +27,7 @@ anyfetch.getCurrentUser(function(err, user) {
 
 ## Basic function / endpoint mappings
 
-The lib provides a function per endpoint, following this naming convention:
+This library provides a function per [API endpoint](http://developers.anyfetch.com/endpoints/). We adopt the following this naming convention:
 
 ```js
 verbEndpointName(function(error, result) {})
@@ -61,10 +61,10 @@ Note that the first function **does not take any callback**. It is simply respon
 
 ## Test framework
 
-`anyfetch.js` provides a ready-to-run mock server based on Restify. It may be useful to test apps that use the Fetch API.
+`anyfetch.js` provides a ready-to-run mock server based on Restify. It may be useful to test apps that use the AnyFetch API.
 
 The mock server is created with `Anyfetch.createMockServer()` and started with `server.listen(port, cb)`. It is a simple [Restify server](http://mcavage.me/node-restify/).
-Once the server is running, override the Fetch API host to make it point to your `localhost` with `anyfetch.setApiHost(apiHost)`.
+Once the server is running, override the AnyFetch API host to make it point to your `localhost` with `anyfetch.setApiHost(apiHost)`.
 
 ### Example
 

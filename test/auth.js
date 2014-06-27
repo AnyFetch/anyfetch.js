@@ -20,34 +20,34 @@ describe('<Auth>', function() {
 
       fakeManagerServer.listen(port, function() {
         console.log('Fake Manager server running on port ' + port);
-        Anyfetch.setManagerHost('http://localhost:' + port);
+        AnyFetch.setManagerHost('http://localhost:' + port);
         done();
       });
     });
 
     it('should err on invalid appId', function(done) {
-      Anyfetch.getAccessToken('wrong_app_id', appSecret, code, function(err) {
+      AnyFetch.getAccessToken('wrong_app_id', appSecret, code, function(err) {
         should(err).have.property('message').and.match(/404/);
         done();
       });
     });
 
     it('should err on invalid appSecret', function(done) {
-      Anyfetch.getAccessToken(appId, 'wrong_app_secret', code, function(err) {
+      AnyFetch.getAccessToken(appId, 'wrong_app_secret', code, function(err) {
         should(err).have.property('message').and.match(/401/);
         done();
       });
     });
 
     it('should err on missing code', function(done) {
-      Anyfetch.getAccessToken(appId, appSecret, '', function(err) {
+      AnyFetch.getAccessToken(appId, appSecret, '', function(err) {
         should(err).have.property('message').and.match(/409/);
         done();
       });
     });
 
     it('should obtain access token', function(done) {
-      Anyfetch.getAccessToken(appId, appSecret, code, function(err, accessToken) {
+      AnyFetch.getAccessToken(appId, appSecret, code, function(err, accessToken) {
         should(accessToken).be.ok;
         accessToken.should.equal(configuration.test.fakeAccessToken);
         done(err);

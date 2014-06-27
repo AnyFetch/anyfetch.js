@@ -39,6 +39,7 @@
     "endpoint": "/subcompanies",
     "verb": "POST",
     "body": [
+      "user",
       "name",
       "hydraters"
     ]

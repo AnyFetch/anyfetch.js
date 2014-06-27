@@ -156,8 +156,9 @@ describe('<High-level helper functions>', function() {
     it('should have created the new user and moved it to the subcompany', function(done) {
       var newAdminFetch = new Anyfetch(admin.email, admin.password);
       newAdminFetch.getCompany(function(err, res) {
-        var company = res.body;
         should(err).not.be.ok;
+
+        var company = res.body;
         should(company).be.ok;
         company.should.have.property('id').and.equal(subcompanyId);
 

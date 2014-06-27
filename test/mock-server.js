@@ -22,13 +22,15 @@ describe('<Mock server>', function() {
     });
   });
 
-  it('should respond with all the mocks we asked for', function(done) {
-    var pages = ['/document_types', '/providers', '/users', '/company'];
-    anyfetch.getBatch({ pages: pages }, function(err, res) {
-      should(err).not.be.ok;
-      should(res.body).be.ok;
-      res.body.should.have.keys(pages);
-      done();
+  describe('GET /batch', function() {
+    it('should respond with all the mocks we asked for', function(done) {
+      var pages = ['/document_types', '/providers', '/users', '/company'];
+      anyfetch.getBatch({ pages: pages }, function(err, res) {
+        should(err).not.be.ok;
+        should(res.body).be.ok;
+        res.body.should.have.keys(pages);
+        done();
+      });
     });
   });
 

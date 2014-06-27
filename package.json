@@ -10,7 +10,7 @@
     }
   ],
   "scripts": {
-    "test": "NODE_ENV=test mocha -R spec test/ -t 20000",
+    "test": "NODE_ENV=test mocha -R spec test/ -t 10000 -s 1000",
     "lint": "jshint lib/ test/"
   },
   "main": "./lib/",

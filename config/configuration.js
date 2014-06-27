@@ -19,9 +19,9 @@ var extendAllDescriptors = function(descriptors, defaultDescriptor) {
     // The sub-functions extend this descriptor
     for (var subName in descriptors[name].subFunctions) {
       var subConfig = descriptors[name].subFunctions[subName];
-       extendDefault(subConfig, descriptors[name]);
-       subConfig.endpoint = descriptors[name].endpoint + subConfig.endpoint;
-       delete subConfig.subFunctions;
+      extendDefault(subConfig, descriptors[name]);
+      subConfig.endpoint = descriptors[name].endpoint + subConfig.endpoint;
+      delete subConfig.subFunctions;
     }
   }
 
@@ -33,7 +33,7 @@ module.exports = {
   aliases: require('../config/json/aliases.json'),
   apiDescriptors: extendAllDescriptors(apiDescriptors, defaultDescriptor),
 
-  apiHost: process.env.API_HOST || 'https://api.anyfetch.com',
+  apiHost: process.env.API_URL || 'https://api.anyfetch.com',
   managerHost: process.env.MANAGER_HOST || 'https://manager.anyfetch.com',
   oAuthEndpoint: '/oauth/access_token',
 
@@ -42,7 +42,7 @@ module.exports = {
     port: process.env.PORT || '50000',
     managerPort: process.env.MANAGER_TEST_PORT || '50001',
     mockPort: process.env.MOCK_TEST_PORT || '50002',
-    
+
     login: process.env.LOGIN,
     password: process.env.PASSWORD,
 

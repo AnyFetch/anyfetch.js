@@ -14,7 +14,7 @@ This npm package makes communicating with the AnyFetch servers easy for clients.
 
 Please note: AnyFetch delivers long lived `access_token`, so you don't need to use a `refresh_token`.
 
-## Example
+## Basic usage example
 
 ```js
 var AnyFetch = require('../lib/index.js');
@@ -45,12 +45,13 @@ Examples:
 - `deleteCompanyReset(cb)` will call `DELETE /company/reset`
 - `deleteToken(cb)` will call `DELETE /token`
 
-We use specific names when passing parameters:
+Some functions expect an `id` or `identifier`:
 
 - `getDocumentById(id, cb)` will call `GET /documents/{id}`
 - `getDocumentByIdentifier(identifier, cb)` will call `GET /documents/identifier/{identifier}`
 
-Some endpoints are expressed relative to a document. For the sake of clarity, we provide the following call syntax:
+Some other endpoints are expressed relative to a document. For example, `GET /documents/{id}/raw` refers to the document with id `{id}`.
+For the sake of clarity, we provide the following two-steps call syntax:
 
 - `getDocumentById(id).getSimilar(cb)` will call `GET /documents/{id}/similar`
 - `getDocumentById(id).getRaw(cb)` will call `GET /documents/{id}/raw`

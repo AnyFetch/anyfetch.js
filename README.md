@@ -8,7 +8,7 @@ anyFetch api wrapper for Node.js
 
 > You'll only be interested in this package if you want to create client applications for [AnyFetch](http://anyfetch.com).
 
-> If you're interested in creating a Hydrater or a Provider, you may find [AnyFetch Hydrater Library](https://github.com/AnyFetch/hydrater-boilerplate) and [AnyFetch Provider Library](https://github.com/AnyFetch/anyfetch-provider.js) more high level, and easier to work with.
+> If you're interested in creating a Hydrater or a Provider, you may find [AnyFetch Hydrater Library](https://github.com/AnyFetch/anyfetch-file-hydrater.js) and [AnyFetch Provider Library](https://github.com/AnyFetch/anyfetch-provider.js) more high level, and easier to work with.
 
 This `npm` package makes communicating with the AnyFetch servers easy for clients. Check out the [**full API documentation**](http://developers.anyfetch.com/endpoints/).
 

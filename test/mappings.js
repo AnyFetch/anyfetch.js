@@ -7,7 +7,10 @@ var AnyFetch = require('../lib/index.js');
 var configuration = require('../config/configuration.js');
 var isFunction = require('../lib/helpers/is-function.js');
 var extendDefaults = require('../lib/helpers/extend-defaults.js');
+
 var makeResetFunction = require('./helpers/reset.js');
+var clearSubcompanies = require('../script/clear-subcompanies.js');
+var clearUsers = require('../script/clear-users.js');
 
 describe('<Low-level mapping functions>', function() {
   var anyfetch = new AnyFetch(configuration.test.login, configuration.test.password);
@@ -220,6 +223,7 @@ describe('<Low-level mapping functions>', function() {
   };
   describe('postUser', function() {
     before(cleaner);
+    before(clearUsers);
 
     var userId = null;
 
@@ -236,6 +240,10 @@ describe('<Low-level mapping functions>', function() {
   });
 
   describe('subcompanies', function() {
+    before(cleaner);
+    before(clearSubcompanies);
+    before(clearUsers);
+
     var companyInfos = {
       name: 'the-fake-company'
     };

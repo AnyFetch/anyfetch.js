@@ -6,7 +6,10 @@ var async = require('async');
 var AnyFetch = require('../lib/index.js');
 var configuration = require('../config/configuration.js');
 var extendDefaults = require('../lib/helpers/extend-defaults.js');
+
 var makeResetFunction = require('./helpers/reset.js');
+var clearSubcompanies = require('../script/clear-subcompanies.js');
+var clearUsers = require('../script/clear-users.js');
 
 describe('<High-level helper functions>', function() {
   var anyfetch = new AnyFetch(configuration.test.login, configuration.test.password);
@@ -54,8 +57,8 @@ describe('<High-level helper functions>', function() {
   });
 
   describe('getDocumentsWithInfo', function() {
-
     before(cleaner);
+
     // Prepare two fake documents
     before(function(done) {
       var anyfetch = new AnyFetch(this.token);
@@ -124,6 +127,9 @@ describe('<High-level helper functions>', function() {
 
   describe('createSubcompanyWithAdmin', function() {
     before(cleaner);
+    before(clearSubcompanies);
+    before(clearUsers);
+
     var anyfetch;
     before(function() {
       anyfetch = new AnyFetch(this.token);
@@ -165,11 +171,6 @@ describe('<High-level helper functions>', function() {
 
         done();
       });
-    });
-
-    // Subcompanies are not cleared by a simple reset, we must still delete it by hand
-    after(function deleteFakeSubcompany(done) {
-      anyfetch.deleteSubcompanyById(subcompanyId, done);
     });
   });
 

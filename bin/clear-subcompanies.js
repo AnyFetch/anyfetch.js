@@ -7,12 +7,12 @@
 var async = require('async');
 
 var configuration = require('../config/configuration.js');
-var Anyfetch = require('../lib/index.js');
+var AnyFetch = require('../lib/index.js');
 
 if(!configuration.test.login || !configuration.test.password) {
   throw new Error('This script requires valid LOGIN and PASSWORD to be set in your env');
 }
-var anyfetch = new Anyfetch(configuration.test.login, configuration.test.password);
+var anyfetch = new AnyFetch(configuration.test.login, configuration.test.password);
 
 async.waterfall([
     function(cb) {

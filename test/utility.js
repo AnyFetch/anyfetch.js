@@ -3,19 +3,19 @@
 var should = require('should');
 var async = require('async');
 
-var Anyfetch = require('../lib/index.js');
+var AnyFetch = require('../lib/index.js');
 var configuration = require('../config/configuration.js');
 
 // TODO: use mock server
 
 describe('<High-level helper functions>', function() {
   var anyfetch;
-  var anyfetchBasic = new Anyfetch(configuration.test.login, configuration.test.password);
+  var anyfetchBasic = new AnyFetch(configuration.test.login, configuration.test.password);
 
   // Retrieve token from credentials
   before(function retrieveToken(done) {
     anyfetchBasic.getToken(function(err, res) {
-      anyfetch = new Anyfetch(res.body.token);
+      anyfetch = new AnyFetch(res.body.token);
       done(err);
     });
   });
@@ -183,7 +183,7 @@ describe('<High-level helper functions>', function() {
     });
 
     it('should have created the new user and moved it to the subcompany', function(done) {
-      var newAdminFetch = new Anyfetch(admin.email, admin.password);
+      var newAdminFetch = new AnyFetch(admin.email, admin.password);
       newAdminFetch.getCompany(function(err, res) {
         var company = res.body;
         should(err).not.be.ok;

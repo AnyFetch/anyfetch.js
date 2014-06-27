@@ -6,9 +6,9 @@ anyFetch api wrapper for Node.js
 [![NPM version](https://badge.fury.io/js/anyfetch.png)](http://badge.fury.io/js/anyfetch)
 
 
-> You'll only be interested in this package if you want to create a client applications for [AnyFetch](http://anyFetch.com).
+> You'll only be interested in this package if you want to create client applications for [AnyFetch](http://anyfetch.com).
 
-> If you're interested in creating a Hydrater or a Provider, you may find [AnyFetch Hydrater Library](https://github.com/AnyFetch/anyfetch-hydratation.js) and [AnyFetch Provider Library](https://github.com/AnyFetch/anyfetch-provider.js) more high level, and easier to work with.
+> If you're interested in creating a Hydrater or a Provider, you may find [AnyFetch Hydrater Library](https://github.com/AnyFetch/hydrater-boilerplate) and [AnyFetch Provider Library](https://github.com/AnyFetch/anyfetch-provider.js) more high level, and easier to work with.
 
 This npm package makes communicating with the AnyFetch servers easy for clients. Check out the [**full API documentation**](http://developers.anyfetch.com/endpoints/).
 
@@ -17,9 +17,12 @@ Please note: AnyFetch delivers long lived `access_token`, so you don't need to u
 ## Example
 
 ```js
-var Anyfetch = require('../lib/index.js');
+var AnyFetch = require('../lib/index.js');
 
-var anyfetchBasic = new Anyfetch('LOGIN', 'PASSWORD');
+var anyfetchBasic = new AnyFetch('LOGIN', 'PASSWORD');
+// OR
+var anyfetch = new AnyFetch('TOKEN');
+
 anyfetch.getCurrentUser(function(err, user) {
   console.log('Hello, my name is ' + user.name);
 };
@@ -27,7 +30,7 @@ anyfetch.getCurrentUser(function(err, user) {
 
 ## Basic function / endpoint mappings
 
-This library provides a function per [API endpoint](http://developers.anyfetch.com/endpoints/). We adopt the following this naming convention:
+This library provides a function per [API endpoint](http://developers.anyfetch.com/endpoints/). We adopt the following naming convention:
 
 ```js
 verbEndpointName(function(error, result) {})
@@ -69,7 +72,7 @@ Once the server is running, override the AnyFetch API host to make it point to y
 ### Example
 
 ```js
-var Anyfetch = require('anyfetch.js');
+var AnyFetch = require('anyfetch.js');
 server = Anyfetch.createMockServer();
 
 var port = 1337;

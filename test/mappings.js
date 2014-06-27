@@ -3,13 +3,13 @@
 var should = require('should');
 var fs = require('fs');
 
-var Anyfetch = require('../lib/index.js');
+var AnyFetch = require('../lib/index.js');
 var configuration = require('../config/configuration.js');
 var isFunction = require('../lib/helpers/is-function.js');
 
 describe('<Low-level mapping functions>', function() {
   var accessToken;
-  var anyfetchBasic = new Anyfetch(configuration.test.login, configuration.test.password);
+  var anyfetchBasic = new AnyFetch(configuration.test.login, configuration.test.password);
 
   describe('Basic authentication', function() {
     it('should retrieve token from credentials', function(done) {
@@ -27,7 +27,7 @@ describe('<Low-level mapping functions>', function() {
     var anyfetch;
 
     before(function createAnyfetchObject() {
-      anyfetch = new Anyfetch(accessToken);
+      anyfetch = new AnyFetch(accessToken);
     });
     
     var testEndpoint = function(name) {
@@ -258,7 +258,7 @@ describe('<Low-level mapping functions>', function() {
       });
 
       it('should create a subcompany as the new user', function(done) {
-        var chuckFetch = new Anyfetch(userInfos.email, userInfos.password);
+        var chuckFetch = new AnyFetch(userInfos.email, userInfos.password);
         chuckFetch.postSubcompanies(companyInfos, function(err, res) {
           subcompanyId = res.body.id;
           done(err);

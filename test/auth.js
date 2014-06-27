@@ -2,7 +2,7 @@
 
 var should = require('should');
 
-var Anyfetch = require('../lib/index.js');
+var AnyFetch = require('../lib/index.js');
 var createFakeManagerServer = require('./helpers/fake-manager-server.js');
 var configuration = require('../config/configuration.js');
 

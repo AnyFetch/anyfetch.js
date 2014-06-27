@@ -29,7 +29,7 @@ describe('<Low-level mapping functions>', function() {
     before(function() {
       anyfetch = new Anyfetch(accessToken);
     });
-    
+
     var testEndpoint = function(name) {
       describe(name, function() {
         var expected = configuration.apiDescriptors[name];
@@ -92,11 +92,11 @@ describe('<Low-level mapping functions>', function() {
       it('should use the correct verb', function() {
         res.req.method.should.equal(expected.verb);
       });
-      
+
       it('should target the correct endpoint', function() {
         res.req.path.should.startWith(expected.endpoint);
       });
-      
+
       it('should have the expected return code', function() {
         res.res.statusCode.should.equal(expected.expectedStatus);
       });
@@ -149,17 +149,17 @@ describe('<Low-level mapping functions>', function() {
 
         it('should post file created with `fs.createReadStream`', function(done) {
           hash.file = fs.createReadStream(hash.path);
-          subFunctions.postFile(hash, done);          
+          subFunctions.postFile(hash, done);
         });
 
         it('should post file without knowing mime-type', function(done) {
           var file = fs.createReadStream(hash.path);
-          subFunctions.postFile({ file: file }, done);          
+          subFunctions.postFile({ file: file }, done);
         });
 
         it('should post file from a path', function(done) {
           var filename = __dirname + '/samples/hello.md';
-          subFunctions.postFile({ file: filename }, done);          
+          subFunctions.postFile({ file: filename }, done);
         });
       });
 
@@ -207,7 +207,7 @@ describe('<Low-level mapping functions>', function() {
             done();
           });
         });
-        
+
         // Delete phony document
         it('...delete phony document', function(done) {
           anyfetch.deleteDocumentById(documentId, done);
@@ -246,20 +246,18 @@ describe('<Low-level mapping functions>', function() {
       var companyInfos = {
         name: 'the-fake-company'
       };
-      var userId = null;
       var subcompanyId = null;
 
       before(function(done) {
         // Setup: an admin user who will be named admin of the new subcompany
         anyfetch.postUser(userInfos, function(err, res) {
-          userId = res.body.id;
+          companyInfos.user = res.body.id;
           done(err);
         });
       });
 
-      it('should create a subcompany as the new user', function(done) {
-        var chuckFetch = new Anyfetch(userInfos.email, userInfos.password);
-        chuckFetch.postSubcompanies(companyInfos, function(err, res) {
+      it('should create a subcompany with the new user', function(done) {
+        anyfetch.postSubcompanies(companyInfos, function(err, res) {
           subcompanyId = res.body.id;
           done(err);
         });

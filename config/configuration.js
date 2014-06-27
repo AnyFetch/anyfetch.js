@@ -57,10 +57,7 @@ module.exports = {
     },
     fakeCompany: {
       name: 'the_fake_subcompany',
-      hydraters: [
-      //   'http://plaintext.hydrater.anyfetch.com/hydrate',
-      //   'http://pdf.hydrater.anyfetch.com/hydrate',
-      ]
+      hydraters: []
     },
     fakeDocument: {
       identifier: 'the "unique" document identifier (éüà)',

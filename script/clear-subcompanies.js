@@ -14,12 +14,12 @@ module.exports = function clearSubcompanies(done) {
   var anyfetch = new AnyFetch(configuration.test.login, configuration.test.password);
 
   async.waterfall([
-    function(cb) {
+    function getSubcompanies(cb) {
       anyfetch.getSubcompanies(function(err, res) {
         cb(err, res.body);
       });
     },
-    function(subcompanies, cb) {
+    function deleteAllSubcompanies(subcompanies, cb) {
       async.map(subcompanies, function(subcompany, cb) {
         anyfetch.deleteSubcompanyById(subcompany.id, {}, cb);
       }, cb);

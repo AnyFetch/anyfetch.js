@@ -8,11 +8,11 @@ if(!configuration.test.login || !configuration.test.password) {
   throw new Error('The test suite requires valid LOGIN and PASSWORD to be set in your env');
 }
 
-before(function(done) {
+before(function clearTheSubcompanies(done) {
   console.log('Clearing subcompanies...');
   clearSubcompanies(done);
 });
-before(function(done) {
+before(function clearTheUsers(done) {
   console.log('Clearing users...');
   clearUsers(done);
 });

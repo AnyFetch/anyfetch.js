@@ -12,8 +12,6 @@ anyFetch api wrapper for Node.js
 
 This npm package makes communicating with the AnyFetch servers easy for clients. Check out the [**full API documentation**](http://developers.anyfetch.com/endpoints/).
 
-Please note: AnyFetch delivers long lived `access_token`, so you don't need to use a `refresh_token`.
-
 ## Basic usage example
 
 ```js
@@ -28,7 +26,38 @@ anyfetch.getCurrentUser(function(err, user) {
 };
 ```
 
-## Basic function / endpoint mappings
+## Access authentication
+
+Both `Basic` and `Bearer` authentication schemes are supported. Note that some endpoints are only accessible using `Bearer` auth. The `getToken` method makes it easy to retrieve a token from the user's credentials.
+Please note: AnyFetch delivers long lived `access_token`, so you don't need to use a `refresh_token`.
+
+```js
+var Anyfetch = require('../lib/index.js');
+
+var anyfetchBasic = new Anyfetch('LOGIN', 'PASSWORD');
+
+// Retrieve token from credentials (GET /token)
+anyfetchBasic.getToken(function(err, res) {
+  if(err) {
+    throw err;
+  }
+  
+  anyfetch = new Anyfetch(res.body.token);
+  // We now access the Fetch API using Bearer authentication
+};
+```
+
+## oAuth
+
+The `getAccessToken` static function helps you obtain an `access_token` during the oAuth flow.
+
+```js
+Anyfetch.getAccessToken('APP_ID', 'APP_SECRET', 'OAUTH_VERIFICATION_CODE', function(err, accessToken) {
+  var anyfetch = new Anyfetch(accessToken);
+});
+```
+
+## Basic endpoint to function mappings
 
 This library provides a function per [API endpoint](http://developers.anyfetch.com/endpoints/). We adopt the following naming convention:
 
@@ -57,7 +86,7 @@ For the sake of clarity, we provide the following two-steps call syntax:
 - `getDocumentById(id).getRaw(cb)` will call `GET /documents/{id}/raw`
 - `getDocumentById(id).postFile(cb)` will call `POST /documents/{id}/file`
 
-Note that the first function **does not take any callback**. It is simply responsible for building the first part of the request, which is then carried out when calling the second part.
+Note that the first function **does not take any callback**. It is simply responsible for building the first part of the request, which is then carried out when calling the sub-function.
 
 ## Helper functions
 

@@ -15,7 +15,7 @@ This `npm` package makes communicating with the AnyFetch servers easy for client
 ## Basic usage example
 
 ```js
-var AnyFetch = require('../lib/index.js');
+var AnyFetch = require('anyfetch');
 
 var anyfetchBasic = new AnyFetch('LOGIN', 'PASSWORD');
 // OR
@@ -28,11 +28,11 @@ anyfetch.getCurrentUser(function(err, user) {
 
 ## Access authentication
 
-Both `Basic` and `Bearer` authentication schemes are supported. Note that some endpoints are only accessible using `Bearer` auth. The `getToken` method makes it easy to retrieve a token from the user's credentials.
+Both `Basic` and `Bearer` authentication schemes are supported. The `getToken` method makes it easy to retrieve a token from the user's credentials.
 Please note: AnyFetch delivers long lived `access_token`, so you don't need to use a `refresh_token`.
 
 ```js
-var Anyfetch = require('../lib/index.js');
+var Anyfetch = require('anyfetch');
 
 var anyfetchBasic = new Anyfetch('LOGIN', 'PASSWORD');
 
@@ -41,15 +41,15 @@ anyfetchBasic.getToken(function(err, res) {
   if(err) {
     throw err;
   }
-  
+
   anyfetch = new Anyfetch(res.body.token);
   // We now access the Fetch API using Bearer authentication
 };
 ```
 
-## oAuth
+## OAuth
 
-The `getAccessToken` static function helps you obtain an `access_token` during the oAuth flow.
+The `getAccessToken` static function helps you obtain an `access_token` during the OAuth flow.
 
 ```js
 Anyfetch.getAccessToken('APP_ID', 'APP_SECRET', 'OAUTH_VERIFICATION_CODE', function(err, accessToken) {
@@ -103,13 +103,18 @@ var pages = {
     search: 'Marc'
   }
 };
-self.batch(pages, cb);
+anyfetch.batch(pages, function(err, res) {
+  // Handle err
+
+  var users = res.body['/users'];
+  var documents = res.body['/documents'];
+});
 ```
 
 ### Create a subcompany
 
 When [creating a subcompany](http://developers.anyfetch.com/endpoints/#subcompanies-subcompanies-post), we usually want to create its first admin, and migrate it into the new subcompany. The function `createSubcompanyWithAdmin` allows you to do this automatically.
-The created user **will be** an admin.
+The created user **will be** an admin in the new subcompany.
 
 ```js
 var subcompany = {
@@ -163,7 +168,7 @@ Once the server is running, override the AnyFetch API host to make it point to y
 **Example**: starting the mock server on port 1337
 
 ```js
-var AnyFetch = require('anyfetch.js');
+var AnyFetch = require('anyfetch');
 server = Anyfetch.createMockServer();
 
 var port = 1337;

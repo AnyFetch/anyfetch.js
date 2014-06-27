@@ -33,8 +33,8 @@ module.exports = {
   aliases: require('../config/json/aliases.json'),
   apiDescriptors: extendAllDescriptors(apiDescriptors, defaultDescriptor),
 
-  apiHost: process.env.API_URL || 'https://api.anyfetch.com',
-  managerHost: process.env.MANAGER_HOST || 'https://manager.anyfetch.com',
+  apiUrl: process.env.API_URL || 'https://api.anyfetch.com',
+  managerUrl: process.env.MANAGER_URL || 'https://manager.anyfetch.com',
   oAuthEndpoint: '/oauth/access_token',
 
   // Warning: the USERNAME env variable can be used by the OS

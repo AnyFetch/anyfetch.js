@@ -20,7 +20,7 @@ describe('<Auth>', function() {
 
       fakeManagerServer.listen(port, function() {
         console.log('Fake Manager server running on port ' + port);
-        AnyFetch.setManagerHost('http://localhost:' + port);
+        AnyFetch.setManagerUrl('http://localhost:' + port);
         done();
       });
     });

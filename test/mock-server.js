@@ -14,9 +14,9 @@ describe('<Mock server>', function() {
     server = createMockServer();
     var port = configuration.test.mockPort;
     server.listen(port, function() {
-      var apiHost = 'http://localhost:' + port;
-      console.log('Mock server running on ' + apiHost);
-      anyfetch.setApiHost(apiHost);
+      var apiUrl = 'http://localhost:' + port;
+      console.log('Mock server running on ' + apiUrl);
+      anyfetch.setApiUrl(apiUrl);
 
       done();
     });

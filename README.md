@@ -163,7 +163,7 @@ Related:
 `anyfetch.js` provides a ready-to-run mock server based on Restify. It may be useful to test apps that use the AnyFetch API.
 
 The mock server is created with `Anyfetch.createMockServer()` and started with `server.listen(port, cb)`. It is a simple [Restify server](http://mcavage.me/node-restify/).
-Once the server is running, override the AnyFetch API host to make it point to your `localhost` with `anyfetch.setApiHost(apiHost)`.
+Once the server is running, override the AnyFetch API url to make it point to your `localhost` with `anyfetch.setApiUrl(url)`.
 
 **Example**: starting the mock server on port 1337
 
@@ -172,10 +172,10 @@ var AnyFetch = require('anyfetch');
 server = Anyfetch.createMockServer();
 
 var port = 1337;
-var apiHost = 'http://localhost:' + port;
+var apiUrl = 'http://localhost:' + port;
 server.listen(port, function() {
-  console.log('Anyfetch mock server running on ' + apiHost);
-  anyfetch.setApiHost(apiHost);
+  console.log('Anyfetch mock server running on ' + apiUrl);
+  anyfetch.setApiUrl(apiUrl);
 
   done();
 });

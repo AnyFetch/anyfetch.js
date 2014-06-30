@@ -8,7 +8,7 @@ var configuration = require('../config/configuration.js');
 /**
  * @file Test that all aliases refer to their original function
  */
-describe('<aliases>', function() {
+describe('<Aliases>', function() {
   var aliases = configuration.aliases;
   var anyfetch = new AnyFetch(configuration.test.login, configuration.test.password);
 

@@ -4,10 +4,14 @@
   "getSubcompanyById": "getSubcompaniesById",
   "deleteSubcompanyById": "deleteSubcompaniesById",
   "getDocumentById": "getDocumentsById",
+  "patchDocumentById": "patchDocumentsById",
   "deleteDocumentById": "deleteDocumentsById",
   "getDocumentByIdentifier": "getDocumentsByIdentifier",
   "deleteDocumentByIdentifier": "deleteDocumentsByIdentifier",
   "getUserById": "getUsersById",
+  "patchUserById": "patchUsersById",
   "deleteUserById": "deleteUsersById",
-  "postUser": "postUsers"
+  "postUser": "postUsers",
+  "getProviderById": "getProvidersById",
+  "deleteProviderById": "deleteProvidersById"
 }

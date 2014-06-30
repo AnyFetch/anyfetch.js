@@ -65,16 +65,6 @@ describe('<Low-level mapping functions>', function() {
   testEndpoint('getDocumentTypes');
   testEndpoint('getProviders');
 
-  describe('getDocuments parameters', function() {
-    it('should allow arbitrary parameters (noCheckParams)', function(done){
-      anyfetch.getDocuments({
-        "search": 'some_search_query',
-        "_arbitrary_key": 'arbitrary value',
-        "has_key": true
-      }, done);
-    });
-  });
-
   describe('getBatch', function() {
     var expected = configuration.apiDescriptors.getBatch;
     var res;
@@ -107,102 +97,114 @@ describe('<Low-level mapping functions>', function() {
     });
   });
 
-  describe('getDocumentById & getDocumentByIdentifier subfunctions', function() {
-    before(cleaner);
-    var anyfetchBearer;
-    before(function() {
-      anyfetchBearer = new AnyFetch(this.token);
-    });
-
-    var documentId = null;
-    var fakeDocument = configuration.test.fakeDocument;
-    var subFunctions;
-
-    it('...create phony document', function(done) {
-
-      anyfetchBearer.postDocument(fakeDocument, function(err, res) {
-        documentId = res.body.id;
-        subFunctions = anyfetchBearer.getDocumentById(documentId);
-        done(err);
+  describe('> document-related functions', function() {
+    describe('getDocuments parameters', function() {
+      it('should allow arbitrary parameters (noCheckParams)', function(done){
+        anyfetch.getDocuments({
+          "search": 'some_search_query',
+          "_arbitrary_key": 'arbitrary value',
+          "has_key": true
+        }, done);
       });
     });
 
-    it('should return synchronously an object containing only functions', function() {
-      for(var i in subFunctions) {
-        isFunction(subFunctions[i]).should.be.ok;
-      }
-    });
-
-    it('should only accept mongo-style ids', function(done) {
-      anyfetchBearer.getDocumentById('aze').getRaw(function(err) {
-        should(err).not.equal(null);
-        err.message.toLowerCase().should.include('argument error');
-        done();
-      });
-    });
-
-    describe('postFile', function() {
-      it('should post file created with `fs.createReadStream`', function(done) {
-        // Warning! Do not use directly the object from `config`, its scope is global!
-        var hash = extendDefaults({}, configuration.test.fakeImageFile);
-        hash.file = fs.createReadStream(hash.path);
-        subFunctions.postFile(hash, done);
+    describe('getDocumentById & getDocumentByIdentifier subfunctions', function() {
+      before(cleaner);
+      var anyfetchBearer;
+      before(function() {
+        anyfetchBearer = new AnyFetch(this.token);
       });
 
-      it('should post file without knowing mime-type', function(done) {
-        var file = fs.createReadStream(configuration.test.fakeImageFile.path);
-        subFunctions.postFile({ file: file }, done);
+      var documentId = null;
+      var fakeDocument = configuration.test.fakeDocument;
+      var subFunctions;
+
+      it('...create phony document', function(done) {
+
+        anyfetchBearer.postDocument(fakeDocument, function(err, res) {
+          documentId = res.body.id;
+          subFunctions = anyfetchBearer.getDocumentById(documentId);
+          done(err);
+        });
       });
 
-      it('should post file from a path', function(done) {
-        var filename = __dirname + '/samples/hello.md';
-        subFunctions.postFile({ file: filename }, done);
-      });
-    });
-
-    describe('getDocumentByIdentifier', function() {
-      var documentIdentifier = fakeDocument.identifier;
-      var subFunctionsByIdentifier;
-
-      before(function retrieveSubfunctions() {
-        subFunctionsByIdentifier = anyfetchBearer.getDocumentByIdentifier(documentIdentifier);
-      });
-
-      it('should offer the same functions as byId', function() {
-        subFunctionsByIdentifier.should.have.keys(Object.keys(subFunctions));
-
-        for(var i in subFunctionsByIdentifier) {
-          isFunction(subFunctionsByIdentifier[i]).should.be.ok;
-          subFunctions[i].should.be.ok;
+      it('should return synchronously an object containing only functions', function() {
+        for(var i in subFunctions) {
+          isFunction(subFunctions[i]).should.be.ok;
         }
       });
 
-      it('should retrieve the document with this identifier', function(done) {
-        anyfetchBearer.getDocumentsByIdentifier(documentIdentifier, function(err, res) {
-          should(err).be.exactly(null);
-          should(res).be.ok;
-          should(res.body).be.ok;
-          should(res.body.identifier).be.ok;
-          res.body.identifier.should.equal(documentIdentifier);
+      it('should only accept mongo-style ids', function(done) {
+        anyfetchBearer.getDocumentById('aze').getRaw(function(err) {
+          should(err).not.equal(null);
+          err.message.toLowerCase().should.include('argument error');
           done();
         });
       });
 
-      it('should retrieve the document with this identifier (via the alias function as well)', function(done) {
-        anyfetchBearer.getDocumentByIdentifier(documentIdentifier, function(err, res) {
-          should(err).be.exactly(null);
-          should(res).be.ok;
-          should(res.body).be.ok;
-          should(res.body.identifier).be.ok;
-          res.body.identifier.should.equal(documentIdentifier);
-          done();
+      describe('postFile', function() {
+        it('should post file created with `fs.createReadStream`', function(done) {
+          // Warning! Do not use directly the object from `config`, its scope is global!
+          var hash = extendDefaults({}, configuration.test.fakeImageFile);
+          hash.file = fs.createReadStream(hash.path);
+          subFunctions.postFile(hash, done);
+        });
+
+        it('should post file without knowing mime-type', function(done) {
+          var file = fs.createReadStream(configuration.test.fakeImageFile.path);
+          subFunctions.postFile({ file: file }, done);
+        });
+
+        it('should post file from a path', function(done) {
+          var filename = __dirname + '/samples/hello.md';
+          subFunctions.postFile({ file: filename }, done);
         });
       });
 
-      it('should accept any kind of identifier', function(done) {
-        subFunctionsByIdentifier.getRaw(function(err) {
-          should(err).be.exactly(null);
-          done();
+      describe('getDocumentByIdentifier', function() {
+        var documentIdentifier = fakeDocument.identifier;
+        var subFunctionsByIdentifier;
+
+        before(function retrieveSubfunctions() {
+          subFunctionsByIdentifier = anyfetchBearer.getDocumentByIdentifier(documentIdentifier);
+        });
+
+        it('should offer the same functions as byId', function() {
+          subFunctionsByIdentifier.should.have.keys(Object.keys(subFunctions));
+
+          for(var i in subFunctionsByIdentifier) {
+            isFunction(subFunctionsByIdentifier[i]).should.be.ok;
+            subFunctions[i].should.be.ok;
+          }
+        });
+
+        it('should retrieve the document with this identifier', function(done) {
+          anyfetchBearer.getDocumentsByIdentifier(documentIdentifier, function(err, res) {
+            should(err).be.exactly(null);
+            should(res).be.ok;
+            should(res.body).be.ok;
+            should(res.body.identifier).be.ok;
+            res.body.identifier.should.equal(documentIdentifier);
+            done();
+          });
+        });
+
+        it('should retrieve the document with this identifier (via the alias function as well)', function(done) {
+          anyfetchBearer.getDocumentByIdentifier(documentIdentifier, function(err, res) {
+            should(err).be.exactly(null);
+            should(res).be.ok;
+            should(res.body).be.ok;
+            should(res.body.identifier).be.ok;
+            res.body.identifier.should.equal(documentIdentifier);
+            done();
+          });
+        });
+
+        it('should accept any kind of identifier', function(done) {
+          subFunctionsByIdentifier.getRaw(function(err) {
+            should(err).be.exactly(null);
+            done();
+          });
         });
       });
     });
@@ -241,11 +243,10 @@ describe('<Low-level mapping functions>', function() {
         done(err);
       });
     });
-
   });
 
   var userInfos = configuration.test.fakeUser;
-  describe('postUser', function() {
+  describe('> user-related functions', function() {
     before(cleaner);
     before(clearUsers);
 
@@ -263,7 +264,7 @@ describe('<Low-level mapping functions>', function() {
     });
   });
 
-  describe('subcompanies', function() {
+  describe('> subcompanies-related functions', function() {
     before(cleaner);
     before(clearSubcompanies);
     before(clearUsers);

@@ -9,5 +9,7 @@
   "deleteDocumentByIdentifier": "deleteDocumentsByIdentifier",
   "getUserById": "getUsersById",
   "deleteUserById": "deleteUsersById",
-  "postUser": "postUsers"
+  "postUser": "postUsers",
+  "getProviderById": "getProvidersById",
+  "deleteProviderById": "deleteProvidersById"
 }

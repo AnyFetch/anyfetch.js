@@ -163,5 +163,15 @@
   },
   "getProviders": {
     "endpoint": "/providers"
+  },
+  "getProvidersById": {
+    "endpoint": "/providers/{id}",
+    "requireId": true
+  },
+  "deleteProvidersById": {
+    "endpoint": "/providers/{id}",
+    "verb": "DELETE",
+    "requireId": true,
+    "expectedStatus": 204
   }
 }

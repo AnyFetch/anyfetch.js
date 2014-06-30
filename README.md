@@ -1,4 +1,4 @@
-anyFetch api wrapper for Node.js
+AnyFetch API wrapper for Node.js
 ================================
 [![Build Status](https://travis-ci.org/AnyFetch/anyfetch.js.png?branch=master)](https://travis-ci.org/AnyFetch/anyfetch.js)
 [![Dependency Status](https://gemnasium.com/AnyFetch/anyfetch.js.png)](https://gemnasium.com/AnyFetch/anyfetch.js)

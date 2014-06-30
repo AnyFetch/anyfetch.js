@@ -208,6 +208,46 @@ describe('<Low-level mapping functions>', function() {
         });
       });
     });
+
+    describe('patchDocumentById', function() {
+      before(cleaner);
+      var anyfetchBearer;
+      before(function() {
+        anyfetchBearer = new AnyFetch(this.token);
+      });
+
+      var documentId = null;
+      var fakeDocument = configuration.test.fakeDocument;
+
+      it('...create phony document', function(done) {
+        anyfetchBearer.postDocument(fakeDocument, function(err, res) {
+          documentId = res.body.id;
+          done(err);
+        });
+      });
+
+      it('should run smoothly', function(done) {
+        var changes = {
+          data: {
+            has_been_patched: true
+          }
+        };
+        anyfetch.patchDocumentById(documentId, changes, done);
+      });
+
+      it('should have applied the changes', function(done) {
+        anyfetch.getDocumentById(documentId).getRaw(function(err, res) {
+          should(err).not.be.ok;
+          should(res).be.ok;
+
+          var doc = res.body;
+          doc.should.have.properties('data');
+          doc.data.should.have.properties({ has_been_patched: true });
+
+          done();
+        });
+      });
+    });
   });
 
   describe('getProviderById', function() {
@@ -286,6 +326,7 @@ describe('<Low-level mapping functions>', function() {
     before(clearSubcompanies);
     before(clearUsers);
 
+    var userInfos = configuration.test.fakeUser;
     var companyInfos = {
       name: 'the-fake-company'
     };

@@ -1,0 +1,203 @@
+{
+  "getStatus": {
+    "endpoint": "/status"
+  },
+  "getIndex": {
+    "endpoint": "/"
+  },
+  "getBatch": {
+    "endpoint": "/batch",
+    "params": [
+      "pages"
+    ]
+  },
+  "getToken": {
+    "endpoint": "/token"
+  },
+  "deleteToken": {
+    "endpoint": "/token",
+    "verb": "DELETE",
+    "expectedStatus": 204
+  },
+  "getCompany": {
+    "endpoint": "/company"
+  },
+  "postCompanyUpdate": {
+    "endpoint": "/company/update",
+    "verb": "POST",
+    "expectedStatus": 202
+  },
+  "deleteCompanyReset": {
+    "endpoint": "/company/reset",
+    "verb": "DELETE",
+    "expectedStatus": 204
+  },
+  "getSubcompanies": {
+    "endpoint": "/subcompanies"
+  },
+  "postSubcompanies": {
+    "endpoint": "/subcompanies",
+    "verb": "POST",
+    "body": [
+      "user",
+      "name",
+      "hydraters"
+    ]
+  },
+  "getSubcompaniesById": {
+    "endpoint": "/subcompanies/{id}",
+    "requireId": true
+  },
+  "deleteSubcompaniesById": {
+    "endpoint": "/subcompanies/{id}",
+    "verb": "DELETE",
+    "requireId": true,
+    "params": [
+      "force"
+    ],
+    "expectedStatus": 204
+  },
+  "getDocuments": {
+    "endpoint": "/documents",
+    "noCheckParams": true,
+    "params": [
+      "id",
+      "search",
+      "before",
+      "after",
+      "document_type",
+      "token",
+      "_meta",
+      "has_meta",
+      "snippet_size",
+      "start",
+      "limit"
+    ]
+  },
+  "postDocuments": {
+    "endpoint": "/documents",
+    "verb": "POST",
+    "body": [
+      "identifier",
+      "document_type",
+      "actions",
+      "data",
+      "metadata",
+      "related",
+      "user_access"
+    ]
+  },
+  "getDocumentsById": {
+    "endpoint": "/documents/{id}",
+    "requireId": true,
+    "subFunctions": {
+      "getSimilar": {
+        "endpoint": "/similar"
+      },
+      "getRelated": {
+        "endpoint": "/related"
+      },
+      "getRaw": {
+        "endpoint": "/raw"
+      },
+      "getFile": {
+        "endpoint": "/file"
+      }
+    }
+  },
+  "patchDocumentsById": {
+    "endpoint": "/documents/{id}",
+    "verb": "PATCH",
+    "requireId": true,
+    "body": [
+      "identifier",
+      "document_type",
+      "actions",
+      "data",
+      "metadata",
+      "related",
+      "user_access"
+    ],
+    "expectedStatus": 204
+  },
+  "deleteDocumentsById": {
+    "endpoint": "/documents/{id}",
+    "verb": "DELETE",
+    "requireId": true,
+    "expectedStatus": 204
+  },
+  "getDocumentsByIdentifier": {
+    "endpoint": "/documents/identifier/{identifier}",
+    "requireIdentifier": true,
+    "subFunctions": {
+      "getSimilar": {
+        "endpoint": "/similar"
+      },
+      "getRelated": {
+        "endpoint": "/related"
+      },
+      "getRaw": {
+        "endpoint": "/raw"
+      },
+      "getFile": {
+        "endpoint": "/file"
+      }
+    }
+  },
+  "deleteDocumentsByIdentifier": {
+    "endpoint": "/documents/identifier/{identifier}",
+    "verb": "DELETE",
+    "requireIdentifier": true,
+    "expectedStatus": 204
+  },
+  "getUsers": {
+    "endpoint": "/users"
+  },
+  "postUsers": {
+    "endpoint": "/users",
+    "verb": "POST",
+    "body": [
+      "email",
+      "name",
+      "password",
+      "is_admin"
+    ]
+  },
+  "getUsersById": {
+    "endpoint": "/users/{id}",
+    "requireId": true
+  },
+  "patchUsersById": {
+    "endpoint": "/users/{id}",
+    "verb": "PATCH",
+    "requireId": true,
+    "body": [
+      "email",
+      "name",
+      "password",
+      "is_admin"
+    ]
+  },
+  "deleteUsersById": {
+    "endpoint": "/users/{id}",
+    "verb": "DELETE",
+    "requireId": true,
+    "expectedStatus": 204
+  },
+  "getDocumentTypes": {
+    "endpoint": "/document_types"
+  },
+  "getProviders": {
+    "endpoint": "/providers"
+  },
+  "getProvidersById": {
+    "endpoint": "/providers/{id}",
+    "requireId": true
+  },
+  "deleteProvidersById": {
+    "endpoint": "/providers/{id}",
+    "verb": "DELETE",
+    "requireId": true,
+    "expectedStatus": 204
+  }
+}

@@ -1,20 +1,16 @@
 {
   "name": "anyfetch",
-  "description": "anyFetch api wrapper for Node.js",
-  "version": "0.2.27",
-  "author": "Matthieu Bacconnier <matthieu.bacconnier@papiel.fr>",
+  "description": "AnyFetch API wrapper for Node.js",
+  "version": "1.0.0",
+  "author": "Merlin Nimier-David <merlin@anyfetch.com>",
   "contributors": [
     {
-      "name": "Robin Ricard",
-      "email": "ricard.robin@gmail.com"
-    },
-    {
-      "name": "Pierre-Marie Dartus",
-      "email": "dartus.pierremarie@gmail.com"
+      "name": "Matthieu Bacconnier",
+      "email": "matthieu.bacconnier@papiel.fr"
     }
   ],
   "scripts": {
-    "test": "NODE_ENV=test mocha -R spec test/ -t 5000",
+    "test": "NODE_ENV=test mocha -R spec test/ -t 10000 -s 1000",
     "lint": "jshint lib/ test/"
   },
   "main": "./lib/",
@@ -24,12 +20,14 @@
   },
   "keywords": [
     "papiel",
-    "anyFetch",
     "anyFetch"
   ],
   "dependencies": {
     "restify": "2.8.x",
-    "supertest": "0.13.x"
+    "supertest": "0.13.x",
+    "mkdirp": "^0.5.0",
+    "rarity": "^2.1.1",
+    "auto-load": "^1.1.0"
   },
   "devDependencies": {
     "async": "0.8.x",

@@ -1,11 +1,14 @@
 language: node_js
 node_js:
   - '0.10'
+env:
+  - API_URL=https://api.anyfetch.com LOGIN=test@anyfetch.com PASSWORD=password
+  - API_URL=http://staging.api.anyfetch.com LOGIN=staging.test@anyfetch.com PASSWORD=password
 before_script:
   - npm install -g istanbul
   - npm install coveralls
   - npm install mocha-lcov-reporter
 script:
-  - npm test
+  - travis_retry npm test
 after_script:
   - NODE_ENV=test istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage

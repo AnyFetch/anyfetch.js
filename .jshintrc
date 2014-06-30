@@ -24,7 +24,7 @@
   "es5"           : false,
   "esnext"        : false,
   "evil"          : false,
-  "expr"          : false,
+  "expr"          : true,
   "forin"         : false,
   "funcscope"     : false,
   "globalstrict"  : false,

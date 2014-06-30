@@ -1,0 +1,18 @@
+[
+  {
+    "_type": "User",
+    "id": "5391b692c8318c0ec7000027",
+    "email": "merlin@anyfetch.com",
+    "name": "User",
+    "is_admin": true,
+    "user_url": "/users/5391b692c8318c0ec7000027"
+  },
+  {
+    "_type": "User",
+    "id": "53aad42245419da341fc5bfc",
+    "email": "thechuck1049@norris.com",
+    "name": "Chuck Norris",
+    "is_admin": true,
+    "user_url": "/users/53aad42245419da341fc5bfc"
+  }
+]

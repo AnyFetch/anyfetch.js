@@ -1,4 +1,4 @@
-anyFetch api wrapper for Node.js
+AnyFetch API wrapper for Node.js
 ================================
 [![Build Status](https://travis-ci.org/AnyFetch/anyfetch.js.png?branch=master)](https://travis-ci.org/AnyFetch/anyfetch.js)
 [![Dependency Status](https://gemnasium.com/AnyFetch/anyfetch.js.png)](https://gemnasium.com/AnyFetch/anyfetch.js)
@@ -6,185 +6,182 @@ anyFetch api wrapper for Node.js
 [![NPM version](https://badge.fury.io/js/anyfetch.png)](http://badge.fury.io/js/anyfetch)
 
 
-> You'll only be interested in this package if you want to create a client applications for [anyFetch](http://anyFetch.com).
+> You'll only be interested in this package if you want to create client applications for [AnyFetch](http://anyfetch.com).
 
-> In most cases, you'll find [anyFetch Hydrater Library](https://github.com/AnyFetch/anyfetch-hydratation.js) and [anyFetch Provider Library](https://github.com/AnyFetch/anyfetch-provider.js) more high level, and more easy to work with.
+> If you're interested in creating a Hydrater or a Provider, you may find [AnyFetch Hydrater Library](https://github.com/AnyFetch/anyfetch-file-hydrater.js) and [AnyFetch Provider Library](https://github.com/AnyFetch/anyfetch-provider.js) more high level, and easier to work with.
 
-This npm package makes communicating with anyFetch servers easy for clients, providers and hydraters.
+This `npm` package makes communicating with the AnyFetch servers easy for clients. Check out the [**full API documentation**](http://developers.anyfetch.com/endpoints/).
 
-Please note: anyFetch delivers long lived `access_token`, so you don't need to use a `refresh_token`.
+## Basic usage example
 
-Example use
------------
-
-### Trade authorization code
-Create a client, then call `getAccessToken()` with the code and a callback. Callback will takes two parameters: the error if any, then the access token.
-
-```javascript
+```js
 var AnyFetch = require('anyfetch');
 
-// Get your id and secret key on
-// https://manager.anyfetch.com/clients/new
-var ANYFETCH_ID = "your_anyfetch_id";
-var ANYFETCH_SECRET = "your_anyfetch_secret";
+var anyfetchBasic = new AnyFetch('LOGIN', 'PASSWORD');
+// OR
+var anyfetch = new AnyFetch('TOKEN');
 
-// Your authorization code
-var code = req.params.code;
+anyfetch.getCurrentUser(function(err, user) {
+  console.log('Hello, my name is ' + user.name);
+};
+```
 
-var afclient = new AnyFetch(ANYFETCH_ID, ANYFETCH_SECRET);
+## Access authentication
+> AnyFetch delivers long lived `access_token`, so you don't need to use a `refresh_token`.
 
-afclient.getAccessToken(code, function(err, accessToken) {
+Both `Basic` and `Bearer` authentication schemes are supported. The `getToken` method makes it easy to retrieve a token from the user's credentials.
+
+```js
+var Anyfetch = require('anyfetch');
+
+var anyfetchBasic = new Anyfetch('LOGIN', 'PASSWORD');
+
+// Retrieve token from credentials (GET /token)
+anyfetchBasic.getToken(function(err, res) {
   if(err) {
     throw err;
   }
 
-  console.log("Your access_token: ", accessToken)
+  anyfetch = new Anyfetch(res.body.token);
+  // We now access the Fetch API using Bearer authentication
+};
+```
+
+## OAuth
+
+The `getAccessToken` static function helps you obtain an `access_token` during the OAuth flow.
+
+```js
+Anyfetch.getAccessToken('APP_ID', 'APP_SECRET', 'OAUTH_VERIFICATION_CODE', function(err, accessToken) {
+  var anyfetch = new Anyfetch(accessToken);
 });
 ```
 
-### Send a document
-Create a client, then call `setAccessToken()` with some access_token. Then, call `sendDocument()` with an object hash containing the document (need to have at least an identifier key, everything else follows the rules defined in anyFetch API) and a callback (first parameter is the error if any, then the document).
+## Basic endpoint to function mappings
 
-```javascript
-var AnyFetch = require('anyfetch');
+This library provides a function per [API endpoint](http://developers.anyfetch.com/endpoints/). We adopt the following naming convention:
 
-// Get your id and secret key on
-// https://manager.anyfetch.com/clients/new
-var ANYFETCH_ID = "your_anyfetch_id";
-var ANYFETCH_SECRET = "your_anyfetch_secret";
+```js
+verbEndpointName(function(error, result) {})
+```
 
-// Your authorization code
-var code = req.params.code;
+Callbacks are expected to be of the form: `function(err, result)`. Note that some endpoints do not yield any result (e.g. `POST /company/update`).
 
-var afclient = new AnyFetch(ANYFETCH_ID, ANYFETCH_SECRET);
+Examples:
 
-afclient.setAccessToken(token);
+- `getUsers(cb)` will call `GET /users`
+- `postCompanyUpdate(cb)` will call `POST /company/update`
+- `deleteCompanyReset(cb)` will call `DELETE /company/reset`
+- `deleteToken(cb)` will call `DELETE /token`
 
-// Document to be sent to anyFetch.
-var document = {
-  'identifier': 'http://unique-document-identifier',
-  'metadata': {
-    'foo': 'bar',
-    'hello': ['world']
+Some functions expect an `id` or `identifier`:
+
+- `getDocumentById(id, cb)` will call `GET /documents/{id}`
+- `getDocumentByIdentifier(identifier, cb)` will call `GET /documents/identifier/{identifier}`
+
+Some other endpoints are expressed relative to a document. For example, `GET /documents/{id}/raw` refers to the document with id `{id}`.
+For the sake of clarity, we provide the following two-steps call syntax:
+
+- `getDocumentById(id).getSimilar(cb)` will call `GET /documents/{id}/similar`
+- `getDocumentById(id).getRaw(cb)` will call `GET /documents/{id}/raw`
+- `getDocumentById(id).postFile(cb)` will call `POST /documents/{id}/file`
+
+Note that the first function **does not take any callback**. It is simply responsible for building the first part of the request, which is then carried out when calling the sub-function.
+
+## Utility functions
+`anyfetch.js` provides higher level utility functions. They cover classic use-cases that would otherwise require several API calls. When possible, calls are grouped in a single batch call.
+
+### Batch request
+
+Make several `GET` calls in a single request. It takes a map associating the endpoint to its parameters.
+
+```js
+var pages = {
+  '/users': null,
+  '/documents': {
+    search: 'Marc'
   }
-}
+};
+anyfetch.batch(pages, function(err, res) {
+  // Handle err
 
-afclient.sendDocument(document, function(err, document) {
-  if(err) {
-    throw err;
-  }
+  var users = res.body['/users'];
+  var documents = res.body['/documents'];
+});
+```
+See [GET /batch](http://developers.anyfetch.com/endpoints/#index-batch-calls) for details.
 
-  console.log("Document successfully saved.")
+### Create a subcompany
+
+When [creating a subcompany](http://developers.anyfetch.com/endpoints/#subcompanies-subcompanies-post), we usually want to create its first admin, and migrate it into the new subcompany. The function `createSubcompanyWithAdmin` allows you to do this automatically.
+The created user **will be** an admin in the new subcompany.
+
+```js
+var subcompany = {
+  name: 'the_fake_subcompany',
+  hydraters: [
+    'http://plaintext.hydrater.anyfetch.com/hydrate',
+    'http://pdf.hydrater.anyfetch.com/hydrate',
+  ]
+};
+var admin = {
+  email: 'thechuck@norris.com',
+  name: 'Chuck Norris',
+  password: 'no_need'
+};
+anyfetch.createSubcompanyWithAdmin(subcompany, admin, function(err, company) {
+  console.log('Company ' + company.id + ' has been created');
 });
 ```
 
-### Send a file
-Create a client, then call `setAccessToken()` with some access_token. Then, call `sendDocument()` as defined above.
-Then, you can call `sendFile()` with an object hash containing the file (needs to have at least a file key, which can be a stream or a buffer. When using home-made streams, you also need to specify a knownLength attribute with the stream size in bytes) and a callback function (first parameter is the error if any).
+### Get current user
+This function allows you to retrieve the user's info from its credentials (login / password or token).
 
-```javascript
-var fs = require('fs');
-var AnyFetch = require('anyfetch');
+```js
+anyfetch.getCurrentUser(function(err, user) {
+  console.log('Hello, my name is ' + user.name);
+};
+```
 
-// Get your id and secret key on
-// https://manager.anyfetch.com/clients/new
-var ANYFETCH_ID = "your_anyfetch_id";
-var ANYFETCH_SECRET = "your_anyfetch_secret";
+### Get document(s) with info
 
-// Your authorization code
-var code = req.params.code;
+When developping a front-end for the AnyFetch API, it's common to need the `document_type` and `provider` of a particular document. This function allows you to do this in one call.
 
-var afclient = new AnyFetch(ANYFETCH_ID, ANYFETCH_SECRET);
-
-afclient.setAccessToken(token);
-
-// Send a document to anyFetch
-var document = {
-  'identifier': 'http://unique-document-identifier',
-  'metadata': {
-    'foo': 'bar',
-    'hello': ['world']
-  }
-}
-afclient.sendDocument(document, function(err, document) {
-  var fileConfig = function() {
-    // Wrap this in a function to avoid creating the stream before reading it.
-    return {
-      file: fs.createReadStream('/path/to/file'),
-      filename: 'name_of_file.png',
-    };
-  };
-  anyFetch.sendFile(document.identifier, fileConfig, function(err) {
-    if(err) {
-      throw err;
-    }
-  });
+```js
+anyfetch.getDocumentWithInfo(documentId, function(err, doc) {
+  document.log('This document is a ' + doc.document_type.name + ' and has been provided by ' + doc.provider.name);
 });
 ```
 
-### Remove a document
-```javascript
+Related:
+- `getDocumentByIdentifierWithInfo(identifier, cb)` is similar but finds the document by its `identifier` instead of its `id`
+- `getDocumentsWithInfo(params, cb)` returns the documents matched by the request expressed in `params`
+
+## Test framework
+
+`anyfetch.js` provides a ready-to-run mock server based on Restify. It may be useful to test apps that use the AnyFetch API.
+
+The mock server is created with `Anyfetch.createMockServer()` and started with `server.listen(port, cb)`. It is a simple [Restify server](http://mcavage.me/node-restify/).
+Once the server is running, override the AnyFetch API url to make it point to your `localhost` with `anyfetch.setApiUrl(url)`.
+
+**Example**: starting the mock server on port 1337
+```js
 var AnyFetch = require('anyfetch');
+server = Anyfetch.createMockServer();
 
-// Get your id and secret key on
-// https://manager.anyfetch.com/clients/new
-var ANYFETCH_ID = "your_anyfetch_id";
-var ANYFETCH_SECRET = "your_anyfetch_secret";
+var port = 1337;
+var apiUrl = 'http://localhost:' + port;
+server.listen(port, function() {
+  console.log('Anyfetch mock server running on ' + apiUrl);
+  anyfetch.setApiUrl(apiUrl);
 
-// Your authorization code
-var code = req.params.code;
-
-var afclient = new AnyFetch(ANYFETCH_ID, ANYFETCH_SECRET);
-
-afclient.setAccessToken(token);
-
-var identifier = 'http://unique-document-identifier';
-
-afclient.deleteDocument(identifier, function(err) {
-  if(err) {
-    throw err;
-  }
-
-  console.log("Document successfully deleted.")
+  done();
 });
 ```
 
-### Send a document and a file
-Combine `sendDocument()` and `sendFile()`.
-Call `sendDocumentAndFile()` with an object hash defining the document, an object hash defining the file and a final callback (first parameter is the error if any, second parameter is the document).
+### Mocks
 
-> If you use this, keep in mind you need to wrap the creation of the file object in a function. This function will be called when needed. Without the function, any stream you create will start sending data before being listened to.
+The mock server will serve static JSON files from the folder `node_modules/anyfetch/lib/test-server/mocks`. You can tailor them to your need. You can generate those JSON files at any time by:
 
-## Helper functions
-
-### `debug.createTestFrontServer(debugFunction)`
-Create a mock server for your test, to trade authorization grants.
-Will always return an `access_token` with value `fake_access_token`.
-Use with `process.env.ANYFETCH_MANAGER_URL`, for instance:
-
-```javascript
-var AnyFetch = require('anyfetch');
-process.env.ANYFETCH_MANAGER_URL = 'http://localhost:1337';
-
-// Create a fake HTTP server
-var frontServer = AnyFetch.debug.createTestFrontServer();
-frontServer.listen(1337);
-```
-
-You can enable debug mode by specifying `true` as first parameter (will use `console.log`) or sending a custom logging function.
-
-### `debug.createTestApiServer(debugFunction)`
-Create a mock server for your test, to upload documents and file.
-Will provide `/providers/document` (post and delete) and `/providers/document/file`.
-Use with `process.env.ANYFETCH_API_URL`, for instance:
-
-```javascript
-var AnyFetch = require('anyfetch');
-process.env.ANYFETCH_API_URL = 'http://localhost:1338';
-
-// Create a fake HTTP server
-var frontServer = AnyFetch.debug.createTestApiServer();
-frontServer.listen(1338);
-```
-
-You can enable debug mode by specifying `true` as first parameter (will use `console.log`) or sending a custom logging function.
+1. Setting the `LOGIN` and `PASSWORD` environment variables to your Fetch API credentials
+2. Running `node node_modules/anyfetch/bin/make-mocks.js`

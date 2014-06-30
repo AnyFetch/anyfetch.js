@@ -245,22 +245,39 @@ describe('<Low-level mapping functions>', function() {
     });
   });
 
-  var userInfos = configuration.test.fakeUser;
   describe('> user-related functions', function() {
     before(cleaner);
     before(clearUsers);
 
+    var userInfos = configuration.test.fakeUser;
+    var newName = "My New Name";
     var userId = null;
 
-    it('should create a phony user', function(done) {
+    it('postUser', function(done) {
       anyfetch.postUser(userInfos, function(err, res) {
         userId = res.body.id;
         done(err);
       });
     });
 
-    it('should delete the phony user', function(done) {
-      anyfetch.deleteUsersById(userId, done);
+    it('patchUserById should run smoothly', function(done) {
+      var changes = {
+        name: newName
+      };
+      anyfetch.patchUserById(userId, changes, done);
+    });
+
+    it('patchUserById should have applied the changes', function(done) {
+      anyfetch.getUserById(userId, function(err, res) {
+        should(err).not.be.ok;
+        should(res).be.ok;
+        res.body.should.have.property({ name: newName });
+        done();
+      });
+    });
+
+    it('deleteUserById', function(done) {
+      anyfetch.deleteUserById(userId, done);
     });
   });
 

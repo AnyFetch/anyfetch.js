@@ -105,6 +105,21 @@
       }
     }
   },
+  "patchDocumentsById": {
+    "endpoint": "/documents/{id}",
+    "verb": "PATCH",
+    "requireId": true,
+    "body": [
+      "identifier",
+      "document_type",
+      "actions",
+      "data",
+      "metadata",
+      "related",
+      "user_access"
+    ],
+    "expectedStatus": 204
+  },
   "deleteDocumentsById": {
     "endpoint": "/documents/{id}",
     "verb": "DELETE",
@@ -151,6 +166,17 @@
   "getUsersById": {
     "endpoint": "/users/{id}",
     "requireId": true
+  },
+  "patchUsersById": {
+    "endpoint": "/users/{id}",
+    "verb": "PATCH",
+    "requireId": true,
+    "body": [
+      "email",
+      "name",
+      "password",
+      "is_admin"
+    ]
   },
   "deleteUsersById": {
     "endpoint": "/users/{id}",

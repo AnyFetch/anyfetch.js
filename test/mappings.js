@@ -115,22 +115,12 @@ describe('<Low-level mapping functions>', function() {
     });
 
     var documentId = null;
-    var documentIdentifier = 'some_identifier';
+    var fakeDocument = configuration.test.fakeDocument;
     var subFunctions;
 
     it('...create phony document', function(done) {
-      var body = {
-        identifier: documentIdentifier,
-        document_type: 'file',
-        data: {
-          foo: 'some_string'
-        },
-        metadata: {
-          some_key: 'some random sentence'
-        }
-      };
 
-      anyfetchBearer.postDocument(body, function(err, res) {
+      anyfetchBearer.postDocument(fakeDocument, function(err, res) {
         documentId = res.body.id;
         subFunctions = anyfetchBearer.getDocumentById(documentId);
         done(err);
@@ -171,6 +161,7 @@ describe('<Low-level mapping functions>', function() {
     });
 
     describe('getDocumentByIdentifier', function() {
+      var documentIdentifier = fakeDocument.identifier;
       var subFunctionsByIdentifier;
 
       before(function retrieveSubfunctions() {
@@ -253,12 +244,7 @@ describe('<Low-level mapping functions>', function() {
 
   });
 
-  var userInfos = {
-    email: 'chuck' + Math.round(Math.random() * 42) + '@norris.com',
-    name: 'Chuck Norris',
-    password: 'no_need',
-    is_admin: true
-  };
+  var userInfos = configuration.test.fakeUser;
   describe('postUser', function() {
     before(cleaner);
     before(clearUsers);

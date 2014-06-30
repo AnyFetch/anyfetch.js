@@ -214,7 +214,7 @@ describe('<Low-level mapping functions>', function() {
     });
   });
 
-  describe.only('getProviderById', function() {
+  describe('getProviderById', function() {
     it('should retrieve a single provider by its id', function(done) {
       // We use a dummy error to bail out of waterfall
       // Otherwise, it might cause a leak

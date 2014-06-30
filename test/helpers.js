@@ -69,9 +69,9 @@ describe('<High-level helper functions>', function() {
     });
 
     it('should get all documents and populate their `document_type` and `provider`', function(done) {
-      //TODO : remove dat shit (but solve ES shard indexing before)
+      // TODO : remove dat shit (but solve ES shard indexing before)
       setTimeout(function() {
-        anyfetch.getDocumentsWithInfo(function(err, docs) {
+        anyfetch.getDocumentsWithInfo({ sort: 'creationDate' }, function(err, docs) {
           should(err).not.be.ok;
 
           docs.data.forEach(function(doc) {

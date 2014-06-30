@@ -27,9 +27,9 @@ anyfetch.getCurrentUser(function(err, user) {
 ```
 
 ## Access authentication
+> AnyFetch delivers long lived `access_token`, so you don't need to use a `refresh_token`.
 
 Both `Basic` and `Bearer` authentication schemes are supported. The `getToken` method makes it easy to retrieve a token from the user's credentials.
-Please note: AnyFetch delivers long lived `access_token`, so you don't need to use a `refresh_token`.
 
 ```js
 var Anyfetch = require('anyfetch');
@@ -110,6 +110,7 @@ anyfetch.batch(pages, function(err, res) {
   var documents = res.body['/documents'];
 });
 ```
+See [GET /batch](http://developers.anyfetch.com/endpoints/#index-batch-calls) for details.
 
 ### Create a subcompany
 

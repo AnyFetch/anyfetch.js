@@ -2,6 +2,8 @@
 
 var should = require('should');
 var fs = require('fs');
+var async = require('async');
+var rarity = require('rarity');
 
 var Anyfetch = require('../lib/index.js');
 var configuration = require('../config/configuration.js');
@@ -210,6 +212,44 @@ describe('<Low-level mapping functions>', function() {
         });
       });
     });
+  });
+
+  describe.only('getProviderById', function() {
+    it('should retrieve a single provider by its id', function(done) {
+      // We use a dummy error to bail out of waterfall
+      // Otherwise, it might cause a leak
+      var noProvider = new Error('No provider available');
+
+      async.waterfall([
+        function getAlProviders(cb) {
+          anyfetch.getProviders(cb);
+        },
+        function extractFirstId(res, cb) {
+          var providerIds = Object.keys(res.body);
+          if(!providerIds || providerIds.length < 1) {
+            return cb(noProvider);
+          }
+          cb(null, providerIds[0]);
+        },
+        function getSingleProvider(id, cb) {
+          anyfetch.getProviderById(id, rarity.carry(id, cb));
+        },
+        function checkProvider(id, res, cb) {
+          var provider = res.body;
+          provider.should.have.properties('id', 'client');
+          provider.id.should.equal(id);
+          provider.client.should.have.properties('id', 'name');
+          cb(null);
+        }
+      ], function(err) {
+        // Do not fail if there's zero provider to test on
+        if(err === noProvider) {
+          return done();
+        }
+        done(err);
+      });
+    });
+
   });
 
   var userInfos = {

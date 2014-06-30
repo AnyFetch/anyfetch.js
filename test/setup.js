@@ -16,3 +16,6 @@ before(function clearTheUsers(done) {
   console.log('Clearing users...');
   clearUsers(done);
 });
+
+after(clearSubcompanies);
+after(clearUsers);

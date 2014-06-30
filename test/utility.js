@@ -3,13 +3,16 @@
 var should = require('should');
 var async = require('async');
 
-var Anyfetch = require('../lib/index.js');
+var AnyFetch = require('../lib/index.js');
 var configuration = require('../config/configuration.js');
 var extendDefaults = require('../lib/helpers/extend-defaults.js');
+
 var makeResetFunction = require('./helpers/reset.js');
+var clearSubcompanies = require('../script/clear-subcompanies.js');
+var clearUsers = require('../script/clear-users.js');
 
 describe('<High-level helper functions>', function() {
-  var anyfetch = new Anyfetch(configuration.test.login, configuration.test.password);
+  var anyfetch = new AnyFetch(configuration.test.login, configuration.test.password);
   var cleaner = makeResetFunction(anyfetch);
 
   describe('getDocumentWithInfo', function() {
@@ -17,8 +20,8 @@ describe('<High-level helper functions>', function() {
 
     before(cleaner);
     // Prepare a fake document
-    before(function(done) {
-      var anyfetch = new Anyfetch(this.token);
+    before(function postFakeDocument(done) {
+      var anyfetch = new AnyFetch(this.token);
       anyfetch.postDocument(configuration.test.fakeDocument, function(err, res) {
         if(res.body && res.body.id) {
           documentId = res.body.id;
@@ -55,9 +58,10 @@ describe('<High-level helper functions>', function() {
 
   describe('getDocumentsWithInfo', function() {
     before(cleaner);
+
     // Prepare two fake documents
     before(function(done) {
-      var anyfetch = new Anyfetch(this.token);
+      var anyfetch = new AnyFetch(this.token);
       async.parallel([
         function(cb) {
           anyfetch.postDocument(configuration.test.fakeDocument, cb);
@@ -97,7 +101,7 @@ describe('<High-level helper functions>', function() {
     hash.file = hash.path;
 
     it('should create the document and post the file without error', function(done) {
-      var anyfetch = new Anyfetch(this.token);
+      var anyfetch = new AnyFetch(this.token);
       anyfetch.sendDocumentAndFile(doc, hash, function(err, doc) {
         should(err).not.be.ok;
         should(doc).be.ok;
@@ -123,9 +127,12 @@ describe('<High-level helper functions>', function() {
 
   describe('createSubcompanyWithAdmin', function() {
     before(cleaner);
+    before(clearSubcompanies);
+    before(clearUsers);
+
     var anyfetch;
     before(function() {
-      anyfetch = new Anyfetch(this.token);
+      anyfetch = new AnyFetch(this.token);
     });
 
     var admin = configuration.test.fakeUser;
@@ -154,7 +161,7 @@ describe('<High-level helper functions>', function() {
     });
 
     it('should have created the new user and moved it to the subcompany', function(done) {
-      var newAdminFetch = new Anyfetch(admin.email, admin.password);
+      var newAdminFetch = new AnyFetch(admin.email, admin.password);
       newAdminFetch.getCompany(function(err, res) {
         should(err).not.be.ok;
 
@@ -164,11 +171,6 @@ describe('<High-level helper functions>', function() {
 
         done();
       });
-    });
-
-    // Subcompanies are not cleared by a simple reset, we must still delete it by hand
-    after(function(done) {
-      anyfetch.deleteSubcompanyById(subcompanyId, done);
     });
   });
 

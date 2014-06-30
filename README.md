@@ -89,7 +89,6 @@ For the sake of clarity, we provide the following two-steps call syntax:
 Note that the first function **does not take any callback**. It is simply responsible for building the first part of the request, which is then carried out when calling the sub-function.
 
 ## Utility functions
-
 `anyfetch.js` provides higher level utility functions. They cover classic use-cases that would otherwise require several API calls. When possible, calls are grouped in a single batch call.
 
 ### Batch request
@@ -136,7 +135,6 @@ anyfetch.createSubcompanyWithAdmin(subcompany, admin, function(err, company) {
 ```
 
 ### Get current user
-
 This function allows you to retrieve the user's info from its credentials (login / password or token).
 
 ```js
@@ -167,7 +165,6 @@ The mock server is created with `Anyfetch.createMockServer()` and started with `
 Once the server is running, override the AnyFetch API url to make it point to your `localhost` with `anyfetch.setApiUrl(url)`.
 
 **Example**: starting the mock server on port 1337
-
 ```js
 var AnyFetch = require('anyfetch');
 server = Anyfetch.createMockServer();

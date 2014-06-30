@@ -239,9 +239,7 @@ describe('<Low-level mapping functions>', function() {
         },
         function checkProvider(id, res, cb) {
           var provider = res.body;
-          provider.should.have.properties('id', 'client');
-          provider.id.should.equal(id);
-          provider.client.should.have.properties('id', 'name');
+          provider.should.have.properties({ 'id': id });
           cb(null);
         }
       ], function(err) {

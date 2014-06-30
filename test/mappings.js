@@ -3,14 +3,17 @@
 var should = require('should');
 var fs = require('fs');
 
-var Anyfetch = require('../lib/index.js');
+var AnyFetch = require('../lib/index.js');
 var configuration = require('../config/configuration.js');
 var isFunction = require('../lib/helpers/is-function.js');
 var extendDefaults = require('../lib/helpers/extend-defaults.js');
+
 var makeResetFunction = require('./helpers/reset.js');
+var clearSubcompanies = require('../script/clear-subcompanies.js');
+var clearUsers = require('../script/clear-users.js');
 
 describe('<Low-level mapping functions>', function() {
-  var anyfetch = new Anyfetch(configuration.test.login, configuration.test.password);
+  var anyfetch = new AnyFetch(configuration.test.login, configuration.test.password);
   var cleaner = makeResetFunction(anyfetch);
 
   describe('Basic authentication', function() {
@@ -106,7 +109,7 @@ describe('<Low-level mapping functions>', function() {
     before(cleaner);
     var anyfetchBearer;
     before(function() {
-      anyfetchBearer = new Anyfetch(this.token);
+      anyfetchBearer = new AnyFetch(this.token);
     });
 
     var documentId = null;
@@ -168,7 +171,7 @@ describe('<Low-level mapping functions>', function() {
     describe('getDocumentByIdentifier', function() {
       var subFunctionsByIdentifier;
 
-      before(function() {
+      before(function retrieveSubfunctions() {
         subFunctionsByIdentifier = anyfetchBearer.getDocumentByIdentifier(documentIdentifier);
       });
 
@@ -220,6 +223,7 @@ describe('<Low-level mapping functions>', function() {
   };
   describe('postUser', function() {
     before(cleaner);
+    before(clearUsers);
 
     var userId = null;
 
@@ -236,12 +240,16 @@ describe('<Low-level mapping functions>', function() {
   });
 
   describe('subcompanies', function() {
+    before(cleaner);
+    before(clearSubcompanies);
+    before(clearUsers);
+
     var companyInfos = {
       name: 'the-fake-company'
     };
     var subcompanyId = null;
 
-    before(function(done) {
+    before(function createFakeUser(done) {
       // Setup: an admin user who will be named admin of the new subcompany
       anyfetch.postUser(userInfos, function(err, res) {
         companyInfos.user = res.body.id;

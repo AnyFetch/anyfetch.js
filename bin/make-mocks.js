@@ -14,12 +14,12 @@ var util = require('util');
 var filename = require('../lib/helpers/endpoint-filename.js');
 
 var configuration = require('../config/configuration.js');
-var Anyfetch = require('../lib/index.js');
+var AnyFetch = require('../lib/index.js');
 
 if(!configuration.test.login || !configuration.test.password) {
   throw new Error('This script requires valid LOGIN and PASSWORD to be set in your env');
 }
-var anyfetch = new Anyfetch(configuration.test.login, configuration.test.password);
+var anyfetch = new AnyFetch(configuration.test.login, configuration.test.password);
 var mocksDirectory = __dirname + '/../lib/test-server/mocks/';
 
 /**
@@ -73,7 +73,7 @@ mkdirp(mocksDirectory, function(err) {
     }
     saveMock(configuration.apiDescriptors.getToken, res.body);
 
-    anyfetch = new Anyfetch(res.body.token);
+    anyfetch = new AnyFetch(res.body.token);
 
     async.auto({
       getCurrentUser: function(cb) {
@@ -97,7 +97,7 @@ mkdirp(mocksDirectory, function(err) {
        * who will be moved into the subcompany.
        */
       postSubcompanies: ['postUsers', function(cb) {
-        anyChuck = new Anyfetch(configuration.test.fakeUser.email, configuration.test.fakeUser.password);
+        anyChuck = new AnyFetch(configuration.test.fakeUser.email, configuration.test.fakeUser.password);
 
         anyChuck.postSubcompanies(configuration.test.fakeCompany, function(err, res) {
           // The fake user is now the first admin of the new company

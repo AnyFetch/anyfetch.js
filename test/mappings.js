@@ -181,9 +181,22 @@ describe('<Low-level mapping functions>', function() {
 
       describe('postFile', function() {
         it('should only accept mongo-style ids', function(done) {
-          anyfetchBearer.getDocumentById('aze', function(err) {
+          anyfetchBearer.getDocumentById('aze').postFile({}, function(err) {
             should(err).be.ok;
             err.message.toLowerCase().should.include('argument error');
+            done();
+          });
+        });
+
+        it('should accept a function as `config` parameter', function(done) {
+          var deliverConfig = function() {
+            return {
+              not_a_file_key: 'on purpose'
+            };
+          };
+          subFunctions.postFile(deliverConfig, function(err) {
+            should(err).be.ok;
+            err.message.toLowerCase().should.include('must contain a `file` key');
             done();
           });
         });
@@ -213,6 +226,11 @@ describe('<Low-level mapping functions>', function() {
         it('should post file from a path', function(done) {
           var filename = __dirname + '/samples/hello.md';
           subFunctions.postFile({ file: filename }, done);
+        });
+
+        it('should post file to document by identifier', function(done) {
+          var filename = __dirname + '/samples/hello.md';
+          anyfetchBearer.getDocumentByIdentifier(fakeDocument.identifier).postFile({ file: filename }, done);
         });
       });
 

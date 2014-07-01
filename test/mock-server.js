@@ -1,24 +1,78 @@
 'use strict';
 
 var should = require('should');
+var request = require('supertest');
 
 var AnyFetch = require('../lib/index.js');
 var createMockServer = require('../lib/test-server/index.js');
 var configuration = require('../config/configuration.js');
+var filename = require('../lib/helpers/endpoint-filename.js');
 
 describe('<Mock server>', function() {
   var anyfetch = new AnyFetch(configuration.test.login, configuration.test.password);
   var server;
+  var port = configuration.test.mockPort;
+  var mockUrl = 'http://localhost:' + port;
 
   before(function launchMockServer(done) {
     server = createMockServer();
-    var port = configuration.test.mockPort;
     server.listen(port, function() {
-      var apiUrl = 'http://localhost:' + port;
-      console.log('Mock server running on ' + apiUrl);
-      anyfetch.setApiUrl(apiUrl);
+      console.log('Mock server running on ' + mockUrl);
+      anyfetch.setApiUrl(mockUrl);
 
       done();
+    });
+  });
+
+  /**
+   * We are testing the server here, not the lib
+   * That's why we send a direct request
+   */
+  describe('Errors', function() {
+    it('should err on invalid GET parameter', function(done) {
+      request(mockUrl)
+        .get('/documents')
+        .query({ random_key: 'random_value' })
+        .expect(409)
+        .expect(/not allowed/i)
+        .expect(/query parameter/i)
+        .end(done);
+    });
+
+    it('should err on invalid key in POST body', function(done) {
+      request(mockUrl)
+        .post('/users')
+        .send({ random_key: 'random_value' })
+        .expect(409)
+        .expect(/not allowed/i)
+        .expect(/request's body/i)
+        .end(done);
+    });
+  });
+
+  describe('Endpoints responding with 204', function() {
+    it('should return no content', function(done) {
+      request(mockUrl)
+        .delete('/company/reset')
+        .expect(204)
+        .expect(/^$/)
+        .end(done);
+    });
+  });
+
+  describe('Endpoints responding with 200', function() {
+    it('should return some mocked content', function(done) {
+      var mockName = filename({
+        verb: 'GET',
+        endpoint: '/'
+      });
+      var expectedContent = require('../lib/test-server/mocks/' + mockName + '.json');
+
+      request(mockUrl)
+        .get('/')
+        .expect(200)
+        .expect(expectedContent)
+        .end(done);
     });
   });
 

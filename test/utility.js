@@ -30,6 +30,14 @@ describe('<High-level helper functions>', function() {
       });
     });
 
+    it('should only accept mongo-style ids', function(done) {
+      anyfetch.getDocumentWithInfo('octodad', function(err) {
+        should(err).be.ok;
+        err.message.toLowerCase().should.include('argument error');
+        done();
+      });
+    });
+
     it('should get document and populate `document_type` and `provider`', function(done) {
       anyfetch.getDocumentWithInfo(documentId, function(err, doc) {
         should(err).not.be.ok;
@@ -89,6 +97,10 @@ describe('<High-level helper functions>', function() {
           done();
         });
       }, 1500);
+    });
+
+    it('should allow `params` to be omitted', function(done) {
+      anyfetch.getDocumentsWithInfo(done);
     });
   });
 

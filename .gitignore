@@ -25,4 +25,4 @@ docs/*
 # Jekyll Artifacts
 _site/*
 
-keys.sh
+.env

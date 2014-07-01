@@ -65,6 +65,35 @@ describe('<Low-level mapping functions>', function() {
   testEndpoint('getDocumentTypes');
   testEndpoint('getProviders');
 
+  describe('Errors', function() {
+    it('should throw an error when not passing a callback function', function() {
+      try {
+        anyfetch.getIndex(null);
+      } catch(err) {
+        should(err).be.ok;
+        err.message.toLowerCase().should.containEql('last argument must be a function');
+      }
+    });
+
+    it('should err synchronously when passing an invalid POST argument', function(done) {
+      anyfetch.postUser({ random_key: 'random_value' }, function(err) {
+        should(err).be.ok;
+        err.message.toLowerCase().should.containEql('random_key');
+        err.message.toLowerCase().should.containEql('not allowed in this request\'s body');
+        done();
+      });
+    });
+
+    it('should err synchronously when passing an invalid GET parameter', function(done) {
+      anyfetch.getBatch({ random_key: 'random_value' }, function(err) {
+        should(err).be.ok;
+        err.message.toLowerCase().should.containEql('random_key');
+        err.message.toLowerCase().should.containEql('not allowed in this request\'s get parameters');
+        done();
+      });
+    });
+  });
+
   describe('getBatch', function() {
     var expected = configuration.apiDescriptors.getBatch;
     var res;
@@ -134,15 +163,41 @@ describe('<Low-level mapping functions>', function() {
         }
       });
 
-      it('should only accept mongo-style ids', function(done) {
+      it('should only accept mongo-style ids in single-step call', function(done) {
+        anyfetchBearer.getDocumentById('aze', function(err) {
+          should(err).be.ok;
+          err.message.toLowerCase().should.include('argument error');
+          done();
+        });
+      });
+
+      it('should only accept mongo-style ids in subfunction call', function(done) {
         anyfetchBearer.getDocumentById('aze').getRaw(function(err) {
-          should(err).not.equal(null);
+          should(err).be.ok;
           err.message.toLowerCase().should.include('argument error');
           done();
         });
       });
 
       describe('postFile', function() {
+        it('should only accept mongo-style ids', function(done) {
+          anyfetchBearer.getDocumentById('aze', function(err) {
+            should(err).be.ok;
+            err.message.toLowerCase().should.include('argument error');
+            done();
+          });
+        });
+
+        it('should err on missing `file` key in config hash', function(done) {
+          var hash = extendDefaults({}, configuration.test.fakeImageFile);
+          delete hash.file;
+          subFunctions.postFile(hash, function(err) {
+            should(err).be.ok;
+            err.message.toLowerCase().should.include('must contain a `file` key');
+            done();
+          });
+        });
+
         it('should post file created with `fs.createReadStream`', function(done) {
           // Warning! Do not use directly the object from `config`, its scope is global!
           var hash = extendDefaults({}, configuration.test.fakeImageFile);
@@ -293,7 +348,7 @@ describe('<Low-level mapping functions>', function() {
     var newName = "My New Name";
     var userId = null;
 
-    it('postUser', function(done) {
+    it('postUser should run smoothly', function(done) {
       anyfetch.postUser(userInfos, function(err, res) {
         userId = res.body.id;
         done(err);
@@ -316,7 +371,7 @@ describe('<Low-level mapping functions>', function() {
       });
     });
 
-    it('deleteUserById', function(done) {
+    it('deleteUserById should run smoothly', function(done) {
       anyfetch.deleteUserById(userId, done);
     });
   });

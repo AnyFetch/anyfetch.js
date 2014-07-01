@@ -1,5 +1,9 @@
 'use strict';
 
+// Load environment variables from .env file
+var dotenv = require('dotenv');
+dotenv.load();
+
 var extendDefault = require('../lib/helpers/extend-defaults.js');
 
 var defaultDescriptor = require('../config/json/default-descriptor.json');

@@ -9,8 +9,11 @@ var async = require('async');
 var configuration = require('../config/configuration.js');
 var Anyfetch = require('../lib/index.js');
 
-module.exports = function(done) {
-  var anyfetch = new Anyfetch(configuration.test.rootLogin, configuration.test.rootPassword);
+module.exports = function(anyfetch, done) {
+  if (!done) {
+    done = anyfetch;
+    anyfetch = new Anyfetch(configuration.test.rootLogin, configuration.test.rootPassword);
+  }
 
   async.waterfall([
       function getUsers(cb) {

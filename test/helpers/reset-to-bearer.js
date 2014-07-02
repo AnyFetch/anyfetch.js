@@ -12,6 +12,10 @@ var AnyFetch = require('../../lib/index.js');
 AnyFetch.prototype.resetToBearer = function(done) {
   var self = this;
 
+  if(!self.basicAuthHeader) {
+    return done(new Error('Reset canceled: `this` does not contain basic auth infos, we would not be able to obtain a new token after reset.'));
+  }
+
   async.waterfall([
     function resetCompany(cb) {
       self.deleteCompanyReset(rarity.slice(1, cb));

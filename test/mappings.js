@@ -6,11 +6,11 @@ var async = require('async');
 var rarity = require('rarity');
 
 var AnyFetch = require('../lib/index.js');
+require('./helpers/reset-to-bearer.js');
 var configuration = require('../config/configuration.js');
 var isFunction = require('../lib/helpers/is-function.js');
 var extendDefaults = require('../lib/helpers/extend-defaults.js');
 
-var makeResetFunction = require('./helpers/reset.js');
 var clearSubcompanies = require('../script/clear-subcompanies.js');
 var clearUsers = require('../script/clear-users.js');
 
@@ -22,6 +22,7 @@ describe('<Low-level mapping functions>', function() {
 
   describe('Basic authentication', function() {
     it('should retrieve token from credentials', function(done) {
+      var anyfetch = new AnyFetch(configuration.test.user.email, configuration.test.user.password);
       anyfetch.getToken(function(err, res) {
         should(res).be.ok;
         should(res.body).be.ok;
@@ -140,10 +141,8 @@ describe('<Low-level mapping functions>', function() {
     });
 
     describe('getDocumentById & getDocumentByIdentifier subfunctions', function() {
-      before(cleaner);
-      var anyfetchBearer;
-      before(function() {
-        anyfetchBearer = new AnyFetch(this.token);
+      before(function reset(done) {
+        anyfetch.resetToBearer(done);
       });
 
       var documentId = null;
@@ -151,10 +150,9 @@ describe('<Low-level mapping functions>', function() {
       var subFunctions;
 
       it('...create phony document', function(done) {
-
-        anyfetchBearer.postDocument(fakeDocument, function(err, res) {
+        anyfetch.postDocument(fakeDocument, function(err, res) {
           documentId = res.body.id;
-          subFunctions = anyfetchBearer.getDocumentById(documentId);
+          subFunctions = anyfetch.getDocumentById(documentId);
           done(err);
         });
       });
@@ -166,7 +164,7 @@ describe('<Low-level mapping functions>', function() {
       });
 
       it('should only accept mongo-style ids in single-step call', function(done) {
-        anyfetchBearer.getDocumentById('aze', function(err) {
+        anyfetch.getDocumentById('aze', function(err) {
           should(err).be.ok;
           err.message.toLowerCase().should.include('argument error');
           done();
@@ -174,7 +172,7 @@ describe('<Low-level mapping functions>', function() {
       });
 
       it('should only accept mongo-style ids in subfunction call', function(done) {
-        anyfetchBearer.getDocumentById('aze').getRaw(function(err) {
+        anyfetch.getDocumentById('aze').getRaw(function(err) {
           should(err).be.ok;
           err.message.toLowerCase().should.include('argument error');
           done();
@@ -183,7 +181,7 @@ describe('<Low-level mapping functions>', function() {
 
       describe('postFile', function() {
         it('should only accept mongo-style ids', function(done) {
-          anyfetchBearer.getDocumentById('aze').postFile({}, function(err) {
+          anyfetch.getDocumentById('aze').postFile({}, function(err) {
             should(err).be.ok;
             err.message.toLowerCase().should.include('argument error');
             done();
@@ -232,16 +230,16 @@ describe('<Low-level mapping functions>', function() {
 
         it('should post file to document by identifier', function(done) {
           var filename = __dirname + '/samples/hello.md';
-          anyfetchBearer.getDocumentByIdentifier(fakeDocument.identifier).postFile({ file: filename }, done);
+          anyfetch.getDocumentByIdentifier(fakeDocument.identifier).postFile({ file: filename }, done);
         });
       });
 
       describe('getDocumentByIdentifier', function() {
         var documentIdentifier = fakeDocument.identifier;
-        var subFunctionsByIdentifier;
 
+        var subFunctionsByIdentifier;
         before(function retrieveSubfunctions() {
-          subFunctionsByIdentifier = anyfetchBearer.getDocumentByIdentifier(documentIdentifier);
+          subFunctionsByIdentifier = anyfetch.getDocumentByIdentifier(documentIdentifier);
         });
 
         it('should offer the same functions as byId', function() {
@@ -254,7 +252,7 @@ describe('<Low-level mapping functions>', function() {
         });
 
         it('should retrieve the document with this identifier', function(done) {
-          anyfetchBearer.getDocumentsByIdentifier(documentIdentifier, function(err, res) {
+          anyfetch.getDocumentsByIdentifier(documentIdentifier, function(err, res) {
             should(err).be.exactly(null);
             should(res).be.ok;
             should(res.body).be.ok;
@@ -265,7 +263,7 @@ describe('<Low-level mapping functions>', function() {
         });
 
         it('should retrieve the document with this identifier (via the alias function as well)', function(done) {
-          anyfetchBearer.getDocumentByIdentifier(documentIdentifier, function(err, res) {
+          anyfetch.getDocumentByIdentifier(documentIdentifier, function(err, res) {
             should(err).be.exactly(null);
             should(res).be.ok;
             should(res.body).be.ok;
@@ -285,17 +283,11 @@ describe('<Low-level mapping functions>', function() {
     });
 
     describe('patchDocumentById', function() {
-      before(cleaner);
-      var anyfetchBearer;
-      before(function() {
-        anyfetchBearer = new AnyFetch(this.token);
-      });
-
       var documentId = null;
       var fakeDocument = configuration.test.fakeDocument;
 
       it('...create phony document', function(done) {
-        anyfetchBearer.postDocument(fakeDocument, function(err, res) {
+        anyfetch.postDocument(fakeDocument, function(err, res) {
           documentId = res.body.id;
           done(err);
         });
@@ -361,8 +353,16 @@ describe('<Low-level mapping functions>', function() {
   });
 
   describe('> user-related functions', function() {
-    before(cleaner);
-    before(clearUsers);
+    before(function clear(done) {
+      async.series({
+        reset: function(cb) {
+          anyfetch.resetToBearer(cb);
+        },
+        clearUsers: function(cb) {
+          clearUsers(anyfetch, cb);
+        }
+      }, done);
+    });
 
     var userInfos = configuration.test.fakeUser;
     var newName = "My New Name";
@@ -376,10 +376,12 @@ describe('<Low-level mapping functions>', function() {
     });
 
     it('patchUserById should run smoothly', function(done) {
+      // This endpoint is only avalable with Basic auth
+      var anyfetchBasic = new AnyFetch(configuration.test.user.email, configuration.test.user.password);
       var changes = {
         name: newName
       };
-      anyfetch.patchUserById(userId, changes, done);
+      anyfetchBasic.patchUserById(userId, changes, done);
     });
 
     it('patchUserById should have applied the changes', function(done) {
@@ -397,9 +399,19 @@ describe('<Low-level mapping functions>', function() {
   });
 
   describe('> subcompanies-related functions', function() {
-    before(cleaner);
-    before(clearSubcompanies);
-    before(clearUsers);
+    before(function clear(done) {
+      async.series({
+        reset: function(cb) {
+          anyfetch.resetToBearer(cb);
+        },
+        clearUsers: function(cb) {
+          clearUsers(anyfetch, cb);
+        },
+        clearSubcompanies: function(cb) {
+          clearSubcompanies(anyfetch, cb);
+        }
+      }, done);
+    });
 
     var userInfos = configuration.test.fakeUser;
     var companyInfos = {

@@ -16,15 +16,19 @@ module.exports = function(anyfetch, done) {
   }
 
   async.waterfall([
-      function getUsers(cb) {
+      function getIndex(cb) {
+        anyfetch.getIndex(cb);
+      },
+      function getUsers(res, cb) {
+        var currentEmail = res.body.user_email;
         anyfetch.getUsers(function(err, res) {
-          cb(err, res.body);
+          cb(err, currentEmail, res.body);
         });
       },
-      function deleteAllUsers(users, cb) {
+      function deleteAllUsers(currentEmail, users, cb) {
         async.map(users, function(user, cb) {
           // We'd like not to delete the currently logged-in user
-          if(user.email === configuration.test.rootLogin) {
+          if(user.email === currentEmail) {
             return cb(null);
           }
           anyfetch.deleteUserById(user.id, cb);

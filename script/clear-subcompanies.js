@@ -11,7 +11,7 @@ var configuration = require('../config/configuration.js');
 var AnyFetch = require('../lib/index.js');
 
 module.exports = function clearSubcompanies(done) {
-  var anyfetch = new AnyFetch(configuration.test.login, configuration.test.password);
+  var anyfetch = new AnyFetch(configuration.test.rootLogin, configuration.test.rootPassword);
 
   async.waterfall([
     function getSubcompanies(cb) {

@@ -10,7 +10,7 @@ var configuration = require('../config/configuration.js');
 var Anyfetch = require('../lib/index.js');
 
 module.exports = function(done) {
-  var anyfetch = new Anyfetch(configuration.test.login, configuration.test.password);
+  var anyfetch = new Anyfetch(configuration.test.rootLogin, configuration.test.rootPassword);
 
   async.waterfall([
       function getUsers(cb) {
@@ -21,7 +21,7 @@ module.exports = function(done) {
       function deleteAllUsers(users, cb) {
         async.map(users, function(user, cb) {
           // We'd like not to delete the currently logged-in user
-          if(user.email === configuration.test.login) {
+          if(user.email === configuration.test.rootLogin) {
             return cb(null);
           }
           anyfetch.deleteUserById(user.id, cb);

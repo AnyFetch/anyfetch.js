@@ -7,7 +7,7 @@ var should = require('should');
 var configuration = require('../config/configuration.js');
 var AnyFetch = require('../lib/index.js');
 
-if(!configuration.test.login || !configuration.test.password) {
+if(!configuration.test.rootLogin || !configuration.test.rootPassword) {
   throw new Error('The test suite requires valid LOGIN and PASSWORD to be set in your env');
 }
 
@@ -34,7 +34,7 @@ before(function createCompartment(done) {
     function createUser(cb) {
       req.post('/users')
         .send(configuration.test.user)
-        .auth(configuration.test.login, configuration.test.password)
+        .auth(configuration.test.rootLogin, configuration.test.rootPassword)
         .end(cb);
     },
     function createSubcompanyAndUpdateCredential(res, cb) {
@@ -42,7 +42,7 @@ before(function createCompartment(done) {
 
       req.post('/subcompanies')
         .send(configuration.test.subcompany)
-        .auth(configuration.test.login, configuration.test.password)
+        .auth(configuration.test.rootLogin, configuration.test.rootPassword)
         .end(cb);
     },
     function saveSubcompanyId(res, cb) {
@@ -80,6 +80,6 @@ describe('check compartmentalization', function() {
 after(function deleteTestSubcompany(done) {
   request(configuration.apiUrl)
     .del('/subcompanies/' + configuration.test.subcompany.id)
-    .auth(configuration.test.login, configuration.test.password)
+    .auth(configuration.test.rootLogin, configuration.test.rootPassword)
     .end(done);
 });

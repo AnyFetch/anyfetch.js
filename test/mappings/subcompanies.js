@@ -1,7 +1,6 @@
 'use strict';
 
 require('should');
-var async = require('async');
 
 var AnyFetch = require('../../lib/index.js');
 require('../helpers/reset-to-bearer.js');
@@ -12,23 +11,19 @@ var clearUsers = require('../../script/clear-users.js');
 
 describe('<Low-level mapping functions>', function() {
   var anyfetch;
-  before(function instanciateClient() {
+  before(function instantiateClient() {
     anyfetch = new AnyFetch(configuration.test.user.email, configuration.test.user.password);
   });
 
   describe('> subcompanies-related functions', function() {
-    before(function clear(done) {
-      async.series({
-        reset: function(cb) {
-          anyfetch.resetToBearer(cb);
-        },
-        clearUsers: function(cb) {
-          clearUsers(anyfetch, cb);
-        },
-        clearSubcompanies: function(cb) {
-          clearSubcompanies(anyfetch, cb);
-        }
-      }, done);
+    before(function reset(done) {
+      anyfetch.resetToBearer(done);
+    });
+    before(function clearTheUsers(done) {
+      clearUsers(anyfetch, done);
+    });
+    before(function clearTheSubcompanies(done) {
+      clearSubcompanies(anyfetch, done);
     });
 
     var userInfos = configuration.test.fakeUser;

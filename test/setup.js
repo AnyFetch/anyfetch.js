@@ -54,7 +54,7 @@ before(function createCompartment(done) {
 
 describe('check compartmentalization', function() {
   var anyfetch;
-  before(function instanciateClient() {
+  before(function instantiateClient() {
     anyfetch = new AnyFetch(configuration.test.user.email, configuration.test.user.password);
   });
 

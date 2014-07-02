@@ -10,7 +10,7 @@ var configuration = require('../../config/configuration.js');
 
 describe('<Low-level mapping functions>', function() {
   var anyfetch;
-  before(function instanciateClient() {
+  before(function instantiateClient() {
     anyfetch = new AnyFetch(configuration.test.user.email, configuration.test.user.password);
   });
 

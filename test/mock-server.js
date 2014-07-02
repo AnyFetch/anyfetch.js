@@ -10,7 +10,7 @@ var filename = require('../lib/helpers/endpoint-filename.js');
 
 describe('<Mock server>', function() {
   var anyfetch;
-  before(function instanciateClient() {
+  before(function instantiateClient() {
     anyfetch = new AnyFetch(configuration.test.user.email, configuration.test.user.password);
   });
 

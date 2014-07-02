@@ -4,24 +4,27 @@ var should = require('should');
 var async = require('async');
 
 var AnyFetch = require('../lib/index.js');
+require('./helpers/reset-to-bearer.js');
 var configuration = require('../config/configuration.js');
 var extendDefaults = require('../lib/helpers/extend-defaults.js');
 
-var makeResetFunction = require('./helpers/reset.js');
 var clearSubcompanies = require('../script/clear-subcompanies.js');
 var clearUsers = require('../script/clear-users.js');
 
 describe('<High-level helper functions>', function() {
-  var anyfetch = new AnyFetch(configuration.test.login, configuration.test.password);
-  var cleaner = makeResetFunction(anyfetch);
+  var anyfetch;
+  before(function instanciateClient() {
+    anyfetch = new AnyFetch(configuration.test.user.email, configuration.test.user.password);
+  });
 
   describe('getDocumentWithInfo', function() {
     var documentId;
 
-    before(cleaner);
+    before(function reset(done) {
+      anyfetch.resetToBearer(done);
+    });
     // Prepare a fake document
     before(function postFakeDocument(done) {
-      var anyfetch = new AnyFetch(this.token);
       anyfetch.postDocument(configuration.test.fakeDocument, function(err, res) {
         if(res.body && res.body.id) {
           documentId = res.body.id;
@@ -65,11 +68,12 @@ describe('<High-level helper functions>', function() {
   });
 
   describe('getDocumentsWithInfo', function() {
-    before(cleaner);
+    before(function reset(done) {
+      anyfetch.resetToBearer(done);
+    });
 
     // Prepare two fake documents
-    before(function(done) {
-      var anyfetch = new AnyFetch(this.token);
+    before(function postFakeDocuments(done) {
       async.parallel([
         function(cb) {
           anyfetch.postDocument(configuration.test.fakeDocument, cb);
@@ -105,7 +109,9 @@ describe('<High-level helper functions>', function() {
   });
 
   describe('sendDocumentAndFile', function() {
-    before(cleaner);
+    before(function reset(done) {
+      anyfetch.resetToBearer(done);
+    });
 
     var doc = configuration.test.fakeDocument;
     var hash = extendDefaults({}, configuration.test.fakeImageFile);
@@ -113,7 +119,6 @@ describe('<High-level helper functions>', function() {
     hash.file = hash.path;
 
     it('should create the document and post the file without error', function(done) {
-      var anyfetch = new AnyFetch(this.token);
       anyfetch.sendDocumentAndFile(doc, hash, function(err, doc) {
         should(err).not.be.ok;
         should(doc).be.ok;
@@ -130,7 +135,7 @@ describe('<High-level helper functions>', function() {
         should(err).not.be.ok;
         should(user).be.ok;
         should(user).have.properties('id', 'email', 'name', 'is_admin');
-        user.email.should.eql(configuration.test.login);
+        user.email.should.eql(configuration.test.user.email);
 
         done();
       });
@@ -138,13 +143,18 @@ describe('<High-level helper functions>', function() {
   });
 
   describe('createSubcompanyWithAdmin', function() {
-    before(cleaner);
-    before(clearSubcompanies);
-    before(clearUsers);
-
-    var anyfetch;
-    before(function() {
-      anyfetch = new AnyFetch(this.token);
+    before(function clear(done) {
+      async.series({
+        reset: function(cb) {
+          anyfetch.resetToBearer(cb);
+        },
+        clearUsers: function(cb) {
+          clearUsers(anyfetch, cb);
+        },
+        clearSubcompanies: function(cb) {
+          clearSubcompanies(anyfetch, cb);
+        }
+      }, done);
     });
 
     var admin = configuration.test.fakeUser;
@@ -183,6 +193,10 @@ describe('<High-level helper functions>', function() {
 
         done();
       });
+    });
+
+    after(function deleteSubcompany(done) {
+      anyfetch.deleteSubcompanyById(subcompanyId, done);
     });
   });
 

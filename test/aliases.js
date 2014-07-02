@@ -10,7 +10,10 @@ var configuration = require('../config/configuration.js');
  */
 describe('<Aliases>', function() {
   var aliases = configuration.aliases;
-  var anyfetch = new AnyFetch(configuration.test.login, configuration.test.password);
+  var anyfetch;
+  before(function instanciateClient() {
+    anyfetch = new AnyFetch(configuration.test.user.email, configuration.test.user.password);
+  });
 
   Object.keys(aliases).forEach(function(newName) {
     var oldName = aliases[newName];
@@ -20,5 +23,4 @@ describe('<Aliases>', function() {
       });
     });
   });
-
 });

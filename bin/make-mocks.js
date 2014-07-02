@@ -16,10 +16,10 @@ var filename = require('../lib/helpers/endpoint-filename.js');
 var configuration = require('../config/configuration.js');
 var AnyFetch = require('../lib/index.js');
 
-if(!configuration.test.login || !configuration.test.password) {
+if(!configuration.test.rootLogin || !configuration.test.rootPassword) {
   throw new Error('This script requires valid LOGIN and PASSWORD to be set in your env');
 }
-var anyfetch = new AnyFetch(configuration.test.login, configuration.test.password);
+var anyfetch = new AnyFetch(configuration.test.rootLogin, configuration.test.rootPassword);
 var mocksDirectory = __dirname + '/../lib/test-server/mocks/';
 
 /**

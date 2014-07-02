@@ -11,7 +11,7 @@ var configuration = require('../config/configuration.js');
 describe('<Aliases>', function() {
   var aliases = configuration.aliases;
   var anyfetch;
-  before(function instanciateClient() {
+  before(function instantiateClient() {
     anyfetch = new AnyFetch(configuration.test.user.email, configuration.test.user.password);
   });
 

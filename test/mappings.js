@@ -15,8 +15,10 @@ var clearSubcompanies = require('../script/clear-subcompanies.js');
 var clearUsers = require('../script/clear-users.js');
 
 describe('<Low-level mapping functions>', function() {
-  var anyfetch = new AnyFetch(configuration.test.login, configuration.test.password);
-  var cleaner = makeResetFunction(anyfetch);
+  var anyfetch;
+  before(function instanciateClient() {
+    anyfetch = new AnyFetch(configuration.test.user.email, configuration.test.user.password);
+  });
 
   describe('Basic authentication', function() {
     it('should retrieve token from credentials', function(done) {

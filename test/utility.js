@@ -12,8 +12,10 @@ var clearSubcompanies = require('../script/clear-subcompanies.js');
 var clearUsers = require('../script/clear-users.js');
 
 describe('<High-level helper functions>', function() {
-  var anyfetch = new AnyFetch(configuration.test.login, configuration.test.password);
-  var cleaner = makeResetFunction(anyfetch);
+  var anyfetch;
+  before(function instanciateClient() {
+    anyfetch = new AnyFetch(configuration.test.user.email, configuration.test.user.password);
+  });
 
   describe('getDocumentWithInfo', function() {
     var documentId;
@@ -113,7 +115,6 @@ describe('<High-level helper functions>', function() {
     hash.file = hash.path;
 
     it('should create the document and post the file without error', function(done) {
-      var anyfetch = new AnyFetch(this.token);
       anyfetch.sendDocumentAndFile(doc, hash, function(err, doc) {
         should(err).not.be.ok;
         should(doc).be.ok;
@@ -130,7 +131,7 @@ describe('<High-level helper functions>', function() {
         should(err).not.be.ok;
         should(user).be.ok;
         should(user).have.properties('id', 'email', 'name', 'is_admin');
-        user.email.should.eql(configuration.test.login);
+        user.email.should.eql(configuration.test.user.email);
 
         done();
       });

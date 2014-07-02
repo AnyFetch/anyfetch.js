@@ -53,8 +53,12 @@ before(function createCompartment(done) {
 });
 
 describe('check compartmentalization', function() {
+  var anyfetch;
+  before(function instanciateClient() {
+    anyfetch = new AnyFetch(configuration.test.user.email, configuration.test.user.password);
+  });
+
   it('should be the compartmentalized subcompany', function(done) {
-    var anyfetch = new AnyFetch(configuration.test.user.email, configuration.test.user.password);
     anyfetch.getCompany(function(err, res) {
       should(err).not.be.ok;
       should(res.body).be.ok;
@@ -65,7 +69,6 @@ describe('check compartmentalization', function() {
   });
 
   it('should have no other user', function(done) {
-    var anyfetch = new AnyFetch(configuration.test.user.email, configuration.test.user.password);
     anyfetch.getUsers(function(err, res) {
       should(err).not.be.ok;
       should(res.body).be.ok;

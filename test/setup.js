@@ -52,34 +52,6 @@ before(function createCompartment(done) {
   ], done);
 });
 
-describe('check compartmentalization', function() {
-  var anyfetch;
-  before(function instantiateClient() {
-    anyfetch = new AnyFetch(configuration.test.user.email, configuration.test.user.password);
-  });
-
-  it('should be the compartmentalized subcompany', function(done) {
-    anyfetch.getCompany(function(err, res) {
-      should(err).not.be.ok;
-      should(res.body).be.ok;
-
-      res.body.should.have.property({ 'id': configuration.test.subcompany.id });
-      done();
-    });
-  });
-
-  it('should have no other user', function(done) {
-    anyfetch.getUsers(function(err, res) {
-      should(err).not.be.ok;
-      should(res.body).be.ok;
-
-      res.body.should.have.length(1);
-      res.body[0].should.have.property({ email: configuration.test.user.email });
-      done();
-    });
-  });
-});
-
 after(function deleteTestSubcompany(done) {
   request(configuration.apiUrl)
     .del('/subcompanies/' + configuration.test.subcompany.id)

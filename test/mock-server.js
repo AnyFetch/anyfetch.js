@@ -9,7 +9,11 @@ var configuration = require('../config/configuration.js');
 var filename = require('../lib/helpers/endpoint-filename.js');
 
 describe('<Mock server>', function() {
-  var anyfetch = new AnyFetch(configuration.test.login, configuration.test.password);
+  var anyfetch;
+  before(function instantiateClient() {
+    anyfetch = new AnyFetch(configuration.test.user.email, configuration.test.user.password);
+  });
+
   var server;
   var port = configuration.test.mockPort;
   var mockUrl = 'http://localhost:' + port;

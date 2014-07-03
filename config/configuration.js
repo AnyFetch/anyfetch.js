@@ -47,8 +47,8 @@ module.exports = {
     managerPort: process.env.MANAGER_TEST_PORT || '50001',
     mockPort: process.env.MOCK_TEST_PORT || '50002',
 
-    login: process.env.LOGIN,
-    password: process.env.PASSWORD,
+    rootLogin: process.env.LOGIN,
+    rootPassword: process.env.PASSWORD,
 
     fakeAppId: '53a7ef7b3b28ab0c7c46863c',
     fakeAppSecret: '88dc117fd640df09fe94f409476132484267e361567744879b20c2ba2a6c0944',

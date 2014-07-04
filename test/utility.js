@@ -142,7 +142,7 @@ describe('<High-level helper functions>', function() {
     });
   });
 
-  describe('createSubcompanyWithAdmin', function() {
+  describe.only('createSubcompanyWithAdmin', function() {
     before(function reset(done) {
       anyfetch.resetToBearer(done);
     });
@@ -157,10 +157,16 @@ describe('<High-level helper functions>', function() {
     var subcompany = configuration.test.fakeCompany;
     var subcompanyId;
 
-    it('should run smoothly', function(done) {
-      anyfetch.createSubcompanyWithAdmin(subcompany, admin, function(err, company) {
+    it('should run smoothly and return infos from subcompany and admin', function(done) {
+      anyfetch.createSubcompanyWithAdmin(subcompany, admin, function(err, results) {
         should(err).not.be.ok;
-        subcompanyId = company.id;
+        should(results).be.ok;
+
+        results.should.have.properties('subcompany', 'admin');
+        results.subcompany.should.have.properties('id', 'name');
+        results.admin.should.have.properties('id', 'email');
+
+        subcompanyId = results.subcompany.id;
         done(err);
       });
     });

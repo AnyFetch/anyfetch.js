@@ -116,7 +116,7 @@ See [GET /batch](http://developers.anyfetch.com/endpoints/#index-batch-calls) fo
 When [creating a subcompany](http://developers.anyfetch.com/endpoints/#subcompanies-subcompanies-post), we usually want to create its first admin, and migrate it into the new subcompany. The function `createSubcompanyWithAdmin` allows you to do this automatically.
 The created user **will be** an admin in the new subcompany.
 
-Your callback is called with `err` and an object with keys `subcompany` and `admin` containing infos about the newly created entities.
+Your callback is called with `err`, `subcompanies` (info about the newly created company) and `admin` (info about its admin).
 
 ```js
 var subcompany = {
@@ -131,10 +131,8 @@ var admin = {
   name: 'Chuck Norris',
   password: 'no_need'
 };
-anyfetch.createSubcompanyWithAdmin(subcompany, admin, function(err, results) {
-  var companyId = results.subcompany.id;
-  var adminId = results.admin.id;
-  console.log('Company ' + companyId + ' has been created, with ' + adminId + ' as its admin');
+anyfetch.createSubcompanyWithAdmin(subcompany, admin, function(err, company, admin) {
+  console.log('Company ' + company.id + ' has been created, with ' + admin.id + ' as its admin');
 });
 ```
 

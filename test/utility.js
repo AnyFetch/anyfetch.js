@@ -169,15 +169,15 @@ describe('<High-level helper functions>', function() {
     var subcompanyId;
 
     it('should run smoothly and return infos from subcompany and admin', function(done) {
-      anyfetch.createSubcompanyWithAdmin(subcompany, admin, function(err, results) {
+      anyfetch.createSubcompanyWithAdmin(subcompany, admin, function(err, company, user) {
         should(err).not.be.ok;
-        should(results).be.ok;
+        should(company).be.ok;
+        should(user).be.ok;
 
-        results.should.have.properties('subcompany', 'admin');
-        results.subcompany.should.have.properties('id', 'name');
-        results.admin.should.have.properties('id', 'email');
+        company.should.have.properties('id', 'name');
+        user.should.have.properties('id', 'email');
 
-        subcompanyId = results.subcompany.id;
+        subcompanyId = company.id;
         done(err);
       });
     });

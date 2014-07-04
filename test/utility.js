@@ -42,7 +42,7 @@ describe('<High-level helper functions>', function() {
     });
 
     it('should get document and populate `document_type` and `provider`', function(done) {
-      anyfetch.getDocumentWithInfo(documentId, function(err, doc) {
+      anyfetch.getDocumentWithInfo(documentId, { has_some_key: true }, function(err, doc) {
         should(err).not.be.ok;
         should(doc).be.ok;
         doc.should.have.properties('id', 'identifier', 'provider', 'document_type');
@@ -53,16 +53,27 @@ describe('<High-level helper functions>', function() {
       });
     });
 
-    it('same thing by identifier', function(done) {
-      var identifier = configuration.test.fakeDocument.identifier;
-      anyfetch.getDocumentByIdentifierWithInfo(identifier, function(err, doc) {
-        should(err).not.be.ok;
-        should(doc).be.ok;
-        doc.should.have.properties('id', 'identifier', 'provider', 'document_type');
-        doc.provider.should.have.properties('client', 'name', 'document_count');
-        doc.document_type.should.have.properties('id', 'name', 'templates');
+    it('should allow `params` to be omitted', function(done) {
+      anyfetch.getDocumentWithInfo(documentId, done);
+    });
 
-        done();
+    describe('getDocumentByIdentifierWithInfo', function() {
+      var identifier = configuration.test.fakeDocument.identifier;
+
+      it('should run smoothly as well', function(done) {
+        anyfetch.getDocumentByIdentifierWithInfo(identifier, { has_some_key: true }, function(err, doc) {
+          should(err).not.be.ok;
+          should(doc).be.ok;
+          doc.should.have.properties('id', 'identifier', 'provider', 'document_type');
+          doc.provider.should.have.properties('client', 'name', 'document_count');
+          doc.document_type.should.have.properties('id', 'name', 'templates');
+
+          done();
+        });
+      });
+
+      it('should allow `params` to be omitted', function(done) {
+        anyfetch.getDocumentByIdentifierWithInfo(identifier, done);
       });
     });
   });
@@ -157,9 +168,15 @@ describe('<High-level helper functions>', function() {
     var subcompany = configuration.test.fakeCompany;
     var subcompanyId;
 
-    it('should run smoothly', function(done) {
-      anyfetch.createSubcompanyWithAdmin(subcompany, admin, function(err, company) {
+    it('should run smoothly and return infos from subcompany and admin', function(done) {
+      anyfetch.createSubcompanyWithAdmin(subcompany, admin, function(err, company, user) {
         should(err).not.be.ok;
+        should(company).be.ok;
+        should(user).be.ok;
+
+        company.should.have.properties('id', 'name');
+        user.should.have.properties('id', 'email');
+
         subcompanyId = company.id;
         done(err);
       });

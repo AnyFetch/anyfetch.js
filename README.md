@@ -157,6 +157,25 @@ Related:
 - `getDocumentByIdentifierWithInfo(identifier, cb)` is similar but finds the document by its `identifier` instead of its `id`
 - `getDocumentsWithInfo(params, cb)` returns the documents matched by the request expressed in `params`
 
+## Overriding API URL
+
+By default, all methods target the production API URL: [https://api.anyfetch.com](https://api.anyfetch.com). There are two ways to override that:
+
+- For **all** instances:
+
+  ```js
+  var AnyFetch = require('anyfetch');
+  AnyFetch.setApiUrl('http://localhost:3000');
+  ```
+- For one instance only:
+
+  ```js
+  var AnyFetch = require('anyfetch');
+  var anyfetch = new AnyFetch('TOKEN');
+  anyfetch.setApiUrl('http://localhost:3000');
+  ```
+
+
 ## Test framework
 
 `anyfetch.js` provides a ready-to-run mock server based on Restify. It may be useful to test apps that use the AnyFetch API.
@@ -167,13 +186,13 @@ Once the server is running, override the AnyFetch API url to make it point to yo
 **Example**: starting the mock server on port 1337
 ```js
 var AnyFetch = require('anyfetch');
-server = Anyfetch.createMockServer();
+var server = Anyfetch.createMockServer();
 
 var port = 1337;
 var apiUrl = 'http://localhost:' + port;
 server.listen(port, function() {
   console.log('Anyfetch mock server running on ' + apiUrl);
-  anyfetch.setApiUrl(apiUrl);
+  AnyFetch.setApiUrl(apiUrl);
 
   done();
 });

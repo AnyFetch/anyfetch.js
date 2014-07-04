@@ -4,7 +4,6 @@ var should = require('should');
 var request = require('supertest');
 
 var AnyFetch = require('../lib/index.js');
-var createMockServer = require('../lib/test-server/index.js');
 var configuration = require('../config/configuration.js');
 var filename = require('../lib/helpers/endpoint-filename.js');
 
@@ -19,7 +18,7 @@ describe('<Mock server>', function() {
   var mockUrl = 'http://localhost:' + port;
 
   before(function launchMockServer(done) {
-    server = createMockServer();
+    server = AnyFetch.createMockServer();
     server.listen(port, function() {
       console.log('Mock server running on ' + mockUrl);
       anyfetch.setApiUrl(mockUrl);

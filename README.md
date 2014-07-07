@@ -183,7 +183,7 @@ By default, all methods target the production API URL: [https://api.anyfetch.com
 `anyfetch.js` provides a ready-to-run mock server based on Restify. It may be useful to test apps that use the AnyFetch API.
 
 The mock server is created with `Anyfetch.createMockServer()` and started with `server.listen(port, cb)`. It is a simple [Restify server](http://mcavage.me/node-restify/).
-Once the server is running, override the AnyFetch API url to make it point to your `localhost` with `anyfetch.setApiUrl(url)`.
+Once the server is running, override the AnyFetch API url to make it point to your `localhost` with `anyfetch.setApiUrl(url)`. If you're using the OAuth helper method `AnyFetch.getAccessToken`, override the manager URL as well with `AnyFetch.setManagerUrl(url)`. Indeed, the mock server also plays the role of manager.
 
 **Example**: starting the mock server on port 1337
 ```js
@@ -195,6 +195,7 @@ var apiUrl = 'http://localhost:' + port;
 server.listen(port, function() {
   console.log('Anyfetch mock server running on ' + apiUrl);
   AnyFetch.setApiUrl(apiUrl);
+  AnyFetch.setManagerUrl(apiUrl);
 
   done();
 });

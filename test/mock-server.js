@@ -6,6 +6,7 @@ var request = require('supertest');
 var AnyFetch = require('../lib/index.js');
 var configuration = require('../config/configuration.js');
 var filename = require('../lib/helpers/endpoint-filename.js');
+var extend = require('../lib/helpers/extend-defaults.js');
 
 describe('<Mock server>', function() {
   var anyfetch;
@@ -21,6 +22,7 @@ describe('<Mock server>', function() {
     server = AnyFetch.createMockServer();
     server.listen(port, function() {
       console.log('Mock server running on ' + mockUrl);
+      AnyFetch.setManagerUrl(mockUrl);
       anyfetch.setApiUrl(mockUrl);
 
       done();
@@ -88,6 +90,56 @@ describe('<Mock server>', function() {
         res.body.should.have.keys(pages);
         done();
       });
+    });
+  });
+
+  describe('POST /oauth/access_token', function() {
+    var body = {
+      client_id: configuration.test.fakeAppId,
+      client_secret: configuration.test.fakeAppSecret,
+      code: configuration.test.fakeOAuthCode,
+      grant_type: 'authorization_code'
+    };
+
+    it('should err on missing parameter', function(done) {
+      var invalidBody = extend({}, body);
+      delete invalidBody.code;
+
+      request(mockUrl)
+        .post('/oauth/access_token')
+        .type('form')
+        .send(invalidBody)
+        .expect(409)
+        .end(done);
+    });
+
+    it('should err on invalid grant_type', function(done) {
+      var invalidBody = extend({}, body);
+      invalidBody.grant_type = 'invalid';
+
+      request(mockUrl)
+        .post('/oauth/access_token')
+        .type('form')
+        .send(invalidBody)
+        .expect(409)
+        .end(done);
+    });
+
+    it('should respond with the fake access token', function(done) {
+      request(mockUrl)
+        .post('/oauth/access_token')
+        .type('form')
+        .send(body)
+        .expect(200)
+        .expect(function(res) {
+          should(res).be.ok;
+          should(res.body).be.ok;
+          res.body.should.have.properties({
+            'token_type': 'bearer',
+            'access_token': configuration.test.fakeAccessToken
+          });
+        })
+        .end(done);
     });
   });
 

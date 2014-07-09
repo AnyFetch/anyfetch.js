@@ -81,7 +81,34 @@ describe('<Mock server>', function() {
     });
   });
 
+  describe.only('POST /documents/:id/file', function() {
+    it('should err on missing file attachment', function(done) {
+      request(mockUrl)
+        .post('/documents/azer/file')
+        .expect(409)
+        .expect(/missing file in request/i)
+        .end(done);
+    });
+
+    it('should respond with 204', function(done) {
+      var filename = __dirname + '/samples/hello.md';
+      request(mockUrl)
+        .post('/documents/azer/file')
+        .attach('file', filename, {})
+        .expect(204)
+        .end(done);
+    });
+  });
+
   describe('GET /batch', function() {
+    it('should err on missing `pages` parameter', function(done) {
+      request(mockUrl)
+        .get('/batch')
+        .expect(409)
+        .expect(/missing `pages` parameter/i)
+        .end(done);
+    });
+
     it('should respond with all the mocks we asked for', function(done) {
       var pages = ['/document_types', '/providers', '/users', '/company'];
       anyfetch.getBatch({ pages: pages }, function(err, res) {

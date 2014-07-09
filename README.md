@@ -65,14 +65,27 @@ This library provides a function per [API endpoint](http://developers.anyfetch.c
 verbEndpointName(function(error, result) {})
 ```
 
-Callbacks are expected to be of the form: `function(err, result)`. Note that some endpoints do not yield any result (e.g. `POST /company/update`).
+Callbacks are expected to be of the form: `function(err, result)`. `result` is a [`Response` object from Superagent](http://visionmedia.github.io/superagent/#response-properties).
+Note that some endpoints yield a result with empty body (e.g. `POST /company/update`). 
 
 Examples:
-
 - `getUsers(cb)` will call `GET /users`
 - `postCompanyUpdate(cb)` will call `POST /company/update`
+- `postUser({ email: 'chuck@norris.com' }, cb)`
 - `deleteCompanyReset(cb)` will call `DELETE /company/reset`
 - `deleteToken(cb)` will call `DELETE /token`
+
+**Example usage**:
+```js
+var anyfetch = new AnyFetch('TOKEN');
+anyfetch.getDocuments({ search: 'John' }, function(err, res) {
+  if(err) {
+    throw err;
+  }
+  var docs = res.body;
+  console.log('Got these documents:', docs)
+});
+```
 
 Some functions expect an `id` or `identifier`:
 
@@ -87,6 +100,8 @@ For the sake of clarity, we provide the following two-steps call syntax:
 - `getDocumentById(id).postFile(cb)` will call `POST /documents/{id}/file`
 
 Note that the first function **does not take any callback**. It is simply responsible for building the first part of the request, which is then carried out when calling the sub-function.
+
+A full description of the mapping functions is available in [`api-descriptors.json`](config/json/api-descriptors.json).
 
 ## Utility functions
 `anyfetch.js` provides higher level utility functions. They cover classic use-cases that would otherwise require several API calls. When possible, calls are grouped in a single batch call.

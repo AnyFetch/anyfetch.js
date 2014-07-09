@@ -2,8 +2,12 @@ language: node_js
 node_js:
   - '0.10'
 env:
-  - API_URL=https://api.anyfetch.com LOGIN=test@anyfetch.com PASSWORD=password
-  - API_URL=http://staging.api.anyfetch.com LOGIN=staging.test@anyfetch.com PASSWORD=password
+  global:
+    - secure: "cLUcZWiRZr8TPk+Yb0YZkW6pNuWurvvK8NKPaPV8g5XM0+zpNiJT2nv8mOnIrHiMtkSNU03ZW9m5BCzS1ZEbRxabdJbKTLEN++WuhJRiq8HdlsCD98hbllsGunpn+bA450dgVajMu2rQbYk/VXNU/s8SY4Xf4lRLbodrbiecBVA="
+    - secure: "PgLfjq7anWiButF3bFH00G/8YTJjdfR22fJzg0wmHdqca/Sk4GnwZoZtqy9o9VsSc/A4mttsgEs+rucXYUKC7gG90T0ZRaV2l8Vk+kzpGu+9jQG4egUOiln6rQjwr9UW7j4vqcYPPyMOTC8AoegX8HiiAOcV0tyBBDCvLileI0E="
+  matrix:
+    - API_URL=https://api.anyfetch.com
+    - API_URL=http://staging.api.anyfetch.com
 before_script:
   - npm install -g istanbul
   - npm install coveralls

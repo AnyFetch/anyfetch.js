@@ -79,6 +79,7 @@
     "verb": "POST",
     "body": [
       "identifier",
+      "creation_date",
       "document_type",
       "actions",
       "data",

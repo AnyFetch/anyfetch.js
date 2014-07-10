@@ -81,7 +81,7 @@ describe('<Mock server>', function() {
     });
   });
 
-  describe.only('POST /documents/:id/file', function() {
+  describe('POST /documents/:id/file', function() {
     it('should err on missing file attachment', function(done) {
       request(mockUrl)
         .post('/documents/azer/file')

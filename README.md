@@ -30,6 +30,7 @@ anyfetch.getCurrentUser(function(err, user) {
 > AnyFetch delivers long lived `access_token`, so you don't need to use a `refresh_token`.
 
 Both `Basic` and `Bearer` authentication schemes are supported. The `getToken` method makes it easy to retrieve a token from the user's credentials.
+If you're using `Bearer` authentication, the token in use is available in the property `anyfetch.accessToken`.
 
 ```js
 var Anyfetch = require('anyfetch');
@@ -44,6 +45,8 @@ anyfetchBasic.getToken(function(err, res) {
 
   anyfetch = new Anyfetch(res.body.token);
   // We now access the Fetch API using Bearer authentication
+  // You can get back the token by accessing `anyfetch.accessToken`
+  console.log('We are using the token ' + anyfetch.accessToken);
 };
 ```
 
@@ -66,7 +69,7 @@ verbEndpointName(function(error, result) {})
 ```
 
 Callbacks are expected to be of the form: `function(err, result)`. `result` is a [`Response` object from Superagent](http://visionmedia.github.io/superagent/#response-properties).
-Note that some endpoints yield a result with empty body (e.g. `POST /company/update`). 
+Note that some endpoints yield a result with empty body (e.g. `POST /company/update`).
 
 Examples:
 - `getUsers(cb)` will call `GET /users`

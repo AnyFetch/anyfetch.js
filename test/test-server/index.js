@@ -71,7 +71,7 @@ describe('<Mock server>', function() {
         verb: 'GET',
         endpoint: '/'
       });
-      var expectedContent = require('../lib/test-server/mocks/' + mockName + '.json');
+      var expectedContent = require('../../lib/test-server/mocks/' + mockName + '.json');
 
       request(mockUrl)
         .get('/')

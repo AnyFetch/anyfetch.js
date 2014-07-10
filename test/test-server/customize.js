@@ -45,13 +45,7 @@ describe('<Mock server customization>', function() {
       .end(done);
   };
 
-  describe('Endpoint overriding', function() {
-    it('should override and restore smoothly', function(done) {
-      server.override('get', '/status', overridedContent);
-      server.restore('get', '/status');
-      done();
-    });
-
+  describe('Overriding', function() {
     it('should serve overrided JSON', function(done) {
       server.override('get', endpoint, overridedContent);
       checkOverrided(done);
@@ -74,6 +68,24 @@ describe('<Mock server customization>', function() {
       checkOverrided(done);
     });
 
+    it('should be able to override /oauth/access_token as well', function(done) {
+      server.override('post', '/oauth/access_token', overridedContent);
+
+      var data = {
+        client_id: 'chuck_norris',
+        client_secret: 'no_need',
+        code: '1234',
+        grant_type: 'authorization_code'
+      };
+      mockRequest.post('/oauth/access_token')
+        .send(data)
+        .expect(200)
+        .expect(overridedContent)
+        .end(done);
+    });
+  });
+
+  describe('Restoring', function() {
     it('should restore a single endpoints', function(done) {
       server.override(endpoint, overridedContent);
       server.restore(endpoint);
@@ -112,7 +124,9 @@ describe('<Mock server customization>', function() {
         }
       }, done);
     });
+  });
 
+  describe('Edge cases', function() {
     it('should err when overriding GET /batch', function() {
       try {
         server.override('/batch', overridedContent);

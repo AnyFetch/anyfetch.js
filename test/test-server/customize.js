@@ -7,7 +7,7 @@ var async = require('async');
 var AnyFetch = require('../../lib/index.js');
 var configuration = require('../../config/configuration.js');
 
-describe.skip('<Mock server customization>', function() {
+describe('<Mock server customization>', function() {
   var endpoint = '/status';
   var overridedContent = require('../samples/mock.json');
 

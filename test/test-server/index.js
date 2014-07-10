@@ -3,10 +3,10 @@
 var should = require('should');
 var request = require('supertest');
 
-var AnyFetch = require('../lib/index.js');
-var configuration = require('../config/configuration.js');
-var filename = require('../lib/helpers/endpoint-filename.js');
-var extend = require('../lib/helpers/extend-defaults.js');
+var AnyFetch = require('../../lib/index.js');
+var configuration = require('../../config/configuration.js');
+var filename = require('../../lib/helpers/endpoint-filename.js');
+var extend = require('../../lib/helpers/extend-defaults.js');
 
 describe('<Mock server>', function() {
   var anyfetch;
@@ -91,7 +91,7 @@ describe('<Mock server>', function() {
     });
 
     it('should respond with 204', function(done) {
-      var filename = __dirname + '/samples/hello.md';
+      var filename = __dirname + '/../samples/hello.md';
       request(mockUrl)
         .post('/documents/azer/file')
         .attach('file', filename, {})

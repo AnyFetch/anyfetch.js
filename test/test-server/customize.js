@@ -2,6 +2,7 @@
 
 var should = require('should');
 var request = require('supertest');
+var async = require('async');
 
 var AnyFetch = require('../../lib/index.js');
 var configuration = require('../../config/configuration.js');
@@ -80,13 +81,36 @@ describe.skip('<Mock server customization>', function() {
         .expect(200)
         .expect(function(res) {
           should(res.body).be.ok;
-          res.body.should.not.have.keys(overridedContent)
+          res.body.should.not.have.properties(overridedContent);
         })
         .end(done);
     });
 
     it('should restore all endpoints', function(done) {
-      done();
+      server.override('/status', overridedContent);
+      server.override('/providers', overridedContent);
+      server.restore();
+
+      async.parallel({
+        'status': function status(cb) {
+          mockRequest.get('/status')
+            .expect(200)
+            .expect(function(res) {
+              should(res.body).be.ok;
+              res.body.should.not.have.properties(overridedContent);
+            })
+            .end(cb);
+        },
+        'providers': function providers(cb) {
+          mockRequest.get('/providers')
+            .expect(200)
+            .expect(function(res) {
+              should(res.body).be.ok;
+              res.body.should.not.have.properties(overridedContent);
+            })
+            .end(cb);
+        }
+      }, done);
     });
 
     it('should err when overriding GET /batch', function() {
@@ -108,7 +132,13 @@ describe.skip('<Mock server customization>', function() {
     });
 
     it('should still serve no content on 204 endpoints', function(done) {
-      done();
+      server.override('delete', '/token', overridedContent);
+      mockRequest.delete('/token')
+        .expect(204)
+        .expect(function(res) {
+          should(res.body).be.empty;
+        })
+        .end(done);
     });
   });
 

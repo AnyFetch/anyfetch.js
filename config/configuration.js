@@ -5,6 +5,7 @@ var dotenv = require('dotenv');
 dotenv.load();
 
 var extendDefault = require('../lib/helpers/extend-defaults.js');
+var safeVerb = require('../lib/helpers/safe-verb.js');
 
 var defaultDescriptor = require('../config/json/default-descriptor.json');
 var apiDescriptors = require('../config/json/api-descriptors.json');
@@ -18,7 +19,7 @@ var extendAllDescriptors = function(descriptors, defaultDescriptor) {
 
     // While we're at it, convert the verb to a valid method name
     var verb = descriptors[name].verb;
-    descriptors[name].method = (verb === 'DELETE' ? 'del' : verb.toLowerCase());
+    descriptors[name].method = safeVerb(verb);
 
     // The sub-functions extend this descriptor
     for (var subName in descriptors[name].subFunctions) {

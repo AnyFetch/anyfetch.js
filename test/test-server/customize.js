@@ -33,7 +33,7 @@ describe('<Mock server customization>', function() {
     server.restore();
   });
 
-  var checkoverriden = function(expected, done) {
+  var checkOverriden = function(expected, done) {
     if(!done) {
       done = expected;
       expected = overridenContent;
@@ -48,19 +48,19 @@ describe('<Mock server customization>', function() {
   describe('Overriding', function() {
     it('should serve overriden JSON', function(done) {
       server.override('get', endpoint, overridenContent);
-      checkoverriden(done);
+      checkOverriden(done);
     });
 
     it('should serve overriden JSON from filename', function(done) {
       var filename = __dirname + '/../samples/mock.json';
       server.override('get', endpoint, filename);
-      checkoverriden(done);
+      checkOverriden(done);
     });
 
-    it('should override GET by default', function(done) {
+    it('should allow `verb` to be omitted and default to GET', function(done) {
       var filename = __dirname + '/../samples/mock.json';
       server.override(endpoint, filename);
-      checkoverriden(done);
+      checkOverriden(done);
     });
 
     it('should ignore endpoint querystring', function(done) {
@@ -150,12 +150,34 @@ describe('<Mock server customization>', function() {
     });
 
     it('should still serve no content on 204 endpoints', function(done) {
-      server.override('delete', '/token', overridenContent);
-      mockRequest.delete('/token')
+      server.override('DELETE', '/token', overridenContent);
+      mockRequest.del('/token')
         .expect(204)
         .expect(function(res) {
           should(res.body).be.empty;
         })
+        .end(done);
+    });
+  });
+
+  describe('Arbitrary endpoints', function() {
+    it('should be able to override an arbitrary endpoint', function(done) {
+      server.override('post', '/manager.json', overridenContent);
+
+      mockRequest.post('/manager.json')
+        .expect(200)
+        .expect(overridenContent)
+        .end(done);
+    });
+
+    it('should respond with 404 after being restored', function(done) {
+      server.override('delete', '/pony/and/unicorn', overridenContent);
+      server.restore('delete', '/pony/and/unicorn');
+
+      mockRequest.del('/pony/and/unicorn')
+        .expect(404)
+        .expect(/no mock for/i)
+        .expect(/\/pony\/and\/unicorn/i)
         .end(done);
     });
   });

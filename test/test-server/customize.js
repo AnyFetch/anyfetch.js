@@ -87,6 +87,30 @@ describe('<Mock server customization>', function() {
         .expect(overridenContent)
         .end(done);
     });
+
+    it('should respond by exact match, then fallback on default var', function(done) {
+      var exactContent = {
+        exact_match: true
+      };
+
+      server.override('get', '/documents/some_exact_id', exactContent);
+      server.override('get', '/documents/:id', overridenContent);
+
+      async.waterfall([
+        function exactMatch(cb) {
+          mockRequest.get('/documents/some_exact_id')
+            .expect(200)
+            .expect(exactContent)
+            .end(cb);
+        },
+        function defaultMatch(res, cb) {
+          mockRequest.get('/documents/expecting_default')
+            .expect(200)
+            .expect(overridenContent)
+            .end(cb);
+        }
+      ], done);
+    });
   });
 
   describe('Restoring', function() {

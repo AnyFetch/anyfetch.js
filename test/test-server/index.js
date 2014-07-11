@@ -56,9 +56,9 @@ describe('<Mock server>', function() {
 
     it('should send 404 when no mock is available', function(done) {
       request(mockUrl)
-        .get('/documents/unknown')
+        .get('/pony')
         .expect(404)
-        .expect(/no mock for \/documents\/unknown/i)
+        .expect(/\/pony does not exist/i)
         .end(done);
     });
   });
@@ -93,6 +93,34 @@ describe('<Mock server>', function() {
 
       request(mockUrl)
         .get('/')
+        .expect(200)
+        .expect(expectedContent)
+        .end(done);
+    });
+
+    it('should allow any value for :id parameter', function(done) {
+      var mockName = filename({
+        verb: 'GET',
+        endpoint: '/documents/{id}'
+      });
+      var expectedContent = require('../../lib/test-server/mocks/' + mockName + '.json');
+
+      request(mockUrl)
+        .get('/documents/arbitrary')
+        .expect(200)
+        .expect(expectedContent)
+        .end(done);
+    });
+
+    it('should allow any value for :identifier parameter', function(done) {
+      var mockName = filename({
+        verb: 'GET',
+        endpoint: '/documents/identifier/{identifier}'
+      });
+      var expectedContent = require('../../lib/test-server/mocks/' + mockName + '.json');
+
+      request(mockUrl)
+        .get('/documents/identifier/arbitrary')
         .expect(200)
         .expect(expectedContent)
         .end(done);

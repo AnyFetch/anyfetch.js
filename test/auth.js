@@ -5,7 +5,7 @@ var should = require('should');
 var AnyFetch = require('../lib/index.js');
 var configuration = require('../config/configuration.js');
 
-describe.only('<Auth>', function() {
+describe('<Auth>', function() {
   describe('accessToken property', function() {
     it('should be exposed when instanciated with an access token', function() {
       var token = 'my_access_token';

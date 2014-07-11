@@ -53,6 +53,14 @@ describe('<Mock server>', function() {
         .expect(/request's body/i)
         .end(done);
     });
+
+    it('should send 404 when no mock is available', function(done) {
+      request(mockUrl)
+        .get('/documents/unknown')
+        .expect(404)
+        .expect(/no mock for \/documents\/unknown/i)
+        .end(done);
+    });
   });
 
   describe('Endpoints responding with 204', function() {
@@ -125,6 +133,15 @@ describe('<Mock server>', function() {
         should(err).not.be.ok;
         should(res.body).be.ok;
         res.body.should.have.keys(pages);
+        done();
+      });
+    });
+
+    it('should send 404 when one of the pages is missing', function(done) {
+      var pages = ['/document_types', '/unknown', '/providers'];
+      anyfetch.getBatch({ pages: pages }, function(err) {
+        should(err).be.ok;
+        err.message.should.match(/404/i);
         done();
       });
     });

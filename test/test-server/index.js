@@ -65,6 +65,16 @@ describe('<Mock server>', function() {
     });
   });
 
+  describe('Endpoints responding with 202', function() {
+    it('should return no content', function(done) {
+      request(mockUrl)
+        .post('/company/update')
+        .expect(202)
+        .expect(/^$/)
+        .end(done);
+    });
+  });
+
   describe('Endpoints responding with 200', function() {
     it('should return some mocked content', function(done) {
       var mockName = filename({

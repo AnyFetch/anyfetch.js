@@ -3,7 +3,7 @@
 require('should');
 var restify = require('restify');
 
-var routeExists = require('../../lib/test-server/route-exists.js');
+var routeExists = require('../../lib/test-server/helpers/route-exists.js');
 
 describe('<Mock server>', function() {
   // Create a dummy test server (which won't even be started)

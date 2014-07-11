@@ -3,10 +3,10 @@
 var should = require('should');
 var request = require('supertest');
 
-var AnyFetch = require('../lib/index.js');
-var configuration = require('../config/configuration.js');
-var filename = require('../lib/helpers/endpoint-filename.js');
-var extend = require('../lib/helpers/extend-defaults.js');
+var AnyFetch = require('../../lib/index.js');
+var configuration = require('../../config/configuration.js');
+var filename = require('../../lib/helpers/endpoint-filename.js');
+var extend = require('../../lib/helpers/extend-defaults.js');
 
 describe('<Mock server>', function() {
   var anyfetch;
@@ -53,6 +53,14 @@ describe('<Mock server>', function() {
         .expect(/request's body/i)
         .end(done);
     });
+
+    it('should send 404 when no mock is available', function(done) {
+      request(mockUrl)
+        .get('/pony')
+        .expect(404)
+        .expect(/\/pony does not exist/i)
+        .end(done);
+    });
   });
 
   describe('Endpoints responding with 204', function() {
@@ -65,16 +73,54 @@ describe('<Mock server>', function() {
     });
   });
 
+  describe('Endpoints responding with 202', function() {
+    it('should return no content', function(done) {
+      request(mockUrl)
+        .post('/company/update')
+        .expect(202)
+        .expect(/^$/)
+        .end(done);
+    });
+  });
+
   describe('Endpoints responding with 200', function() {
     it('should return some mocked content', function(done) {
       var mockName = filename({
         verb: 'GET',
         endpoint: '/'
       });
-      var expectedContent = require('../lib/test-server/mocks/' + mockName + '.json');
+      var expectedContent = require('../../lib/test-server/mocks/' + mockName + '.json');
 
       request(mockUrl)
         .get('/')
+        .expect(200)
+        .expect(expectedContent)
+        .end(done);
+    });
+
+    it('should allow any value for :id parameter', function(done) {
+      var mockName = filename({
+        verb: 'GET',
+        endpoint: '/documents/{id}'
+      });
+      var expectedContent = require('../../lib/test-server/mocks/' + mockName + '.json');
+
+      request(mockUrl)
+        .get('/documents/arbitrary')
+        .expect(200)
+        .expect(expectedContent)
+        .end(done);
+    });
+
+    it('should allow any value for :identifier parameter', function(done) {
+      var mockName = filename({
+        verb: 'GET',
+        endpoint: '/documents/identifier/{identifier}'
+      });
+      var expectedContent = require('../../lib/test-server/mocks/' + mockName + '.json');
+
+      request(mockUrl)
+        .get('/documents/identifier/arbitrary')
         .expect(200)
         .expect(expectedContent)
         .end(done);
@@ -91,7 +137,7 @@ describe('<Mock server>', function() {
     });
 
     it('should respond with 204', function(done) {
-      var filename = __dirname + '/samples/hello.md';
+      var filename = __dirname + '/../samples/hello.md';
       request(mockUrl)
         .post('/documents/azer/file')
         .attach('file', filename, {})
@@ -115,6 +161,15 @@ describe('<Mock server>', function() {
         should(err).not.be.ok;
         should(res.body).be.ok;
         res.body.should.have.keys(pages);
+        done();
+      });
+    });
+
+    it('should send 404 when one of the pages is missing', function(done) {
+      var pages = ['/document_types', '/unknown', '/providers'];
+      anyfetch.getBatch({ pages: pages }, function(err) {
+        should(err).be.ok;
+        err.message.should.match(/404/i);
         done();
       });
     });

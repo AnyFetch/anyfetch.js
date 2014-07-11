@@ -225,3 +225,13 @@ The mock server will serve static JSON files from the folder `node_modules/anyfe
 
 1. Setting the `LOGIN` and `PASSWORD` environment variables to your Fetch API credentials
 2. Running `node node_modules/anyfetch/bin/make-mocks.js`
+
+### Overriding
+
+At any point, you can specify which JSON content to serve for any endpoint using the following methods:
+
+- `server.override(verb, endpoint, json)` to start serving your custom JSON for this endpoint
+- `server.restore(verb, endpoint)` to go back to the default built-in response
+- `server.restore()` to restore all previously overriden endpoints
+
+Note that these will work even if you try to override an endpoint which does not exist by default. It is useful in testing, for example if you have an odd request to send to a specific route on another API.

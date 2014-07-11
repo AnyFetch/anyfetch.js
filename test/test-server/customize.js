@@ -64,8 +64,12 @@ describe('<Mock server customization>', function() {
     });
 
     it('should ignore endpoint querystring', function(done) {
-      server.override(endpoint + '?useful=false&nonsense[0]=true', overridenContent);
-      checkoverriden(done);
+      var url = endpoint + '?useful=false&nonsense[0]=true';
+      server.override(url, overridenContent);
+      mockRequest.get(url)
+        .expect(200)
+        .expect(overridenContent)
+        .end(done);
     });
 
     it('should be able to override /oauth/access_token as well', function(done) {

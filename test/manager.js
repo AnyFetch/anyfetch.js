@@ -57,7 +57,11 @@ describe('<Manager>', function() {
 
   describe('getAvailableProviders', function() {
     it('should run smoothly without any auth', function(done) {
-      AnyFetch.getAvailableProviders(false, false, function(err, res) {
+      var options = {
+        trusted: false,
+        featured: false
+      };
+      AnyFetch.getAvailableProviders(options, function(err, res) {
         should(err).not.be.ok;
         should(res).be.ok;
 
@@ -72,12 +76,12 @@ describe('<Manager>', function() {
       });
     });
 
-    it('should allow to omit parameters', function(done) {
+    it('should allow to omit options', function(done) {
       AnyFetch.getAvailableProviders(done);
     });
 
     it('should be able to restrict to trusted providers', function(done) {
-      AnyFetch.getAvailableProviders(true, function(err, res) {
+      AnyFetch.getAvailableProviders({ trusted: true }, function(err, res) {
         should(err).not.be.ok;
         should(res).be.ok;
 
@@ -94,7 +98,7 @@ describe('<Manager>', function() {
     });
 
     it('should be able to restrict to featured providers', function(done) {
-      AnyFetch.getAvailableProviders(false, true, function(err, res) {
+      AnyFetch.getAvailableProviders({ featured: true }, function(err, res) {
         should(err).not.be.ok;
         should(res).be.ok;
 

@@ -185,12 +185,12 @@ A few endpoints of the AnyFetch Manager are available in `anyfetch.js` for conve
 
 - `postAccountName(accountName, cb)` allows you to associate an account name to the access token currently in use. It can only be used with Bearer auth.
 
-- `getAvailableProviders(trusted, featured, cb)` allows you to obtain a list of all the available providers. The `trusted` and `featured` booleans can be used to restrict the list, but are both optional.
+- `getAvailableProviders(options, cb)` allows you to obtain a list of all the available providers. The `options` object can have booleans `trusted` and `featured` to restrict the list. `options` can be omitted.
   **Example:**
 
   ```js
   var anyfetch = new AnyFetch('access_token');
-  anyfetch.getAvailableProviders(true, 'my_awesome_account_name', function(err, res) {
+  anyfetch.getAvailableProviders({ trusted: true }, 'my_awesome_account_name', function(err, res) {
     console.log('Here are all the trusted providers:');
     console.log(res.body);
   });

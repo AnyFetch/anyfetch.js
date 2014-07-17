@@ -63,5 +63,16 @@
     "trusted": false,
     "featured": false,
     "description": "An experimental (not trusted nor featured) provider."
+  },
+  {
+    "id": "53047faac8318c2d65000090",
+    "name": "Not featured",
+    "redirect_uri": "http://not-featured.provider.anyfetch.com/init/connect",
+    "developer": {
+      "name": "AnyFetch"
+    },
+    "trusted": true,
+    "featured": false,
+    "description": "A provider which is not featured."
   }
 ]

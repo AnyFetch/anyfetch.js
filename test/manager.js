@@ -72,7 +72,7 @@ describe('<Manager>', function() {
       });
     });
 
-    it('should allow to ommit parameters', function(done) {
+    it('should allow to omit parameters', function(done) {
       AnyFetch.getAvailableProviders(done);
     });
 

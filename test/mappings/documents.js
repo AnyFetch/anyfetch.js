@@ -35,7 +35,7 @@ describe('<Low-level mapping functions>', function() {
       var fakeDocument = configuration.test.fakeDocument;
       var subFunctions;
 
-      it('...create phony document', function(done) {
+      before(function(done) {
         anyfetch.postDocument(fakeDocument, function(err, res) {
           documentId = res.body.id;
           subFunctions = anyfetch.getDocumentById(documentId);
@@ -74,19 +74,6 @@ describe('<Low-level mapping functions>', function() {
           });
         });
 
-        it('should accept a function as `config` parameter', function(done) {
-          var deliverConfig = function() {
-            return {
-              not_a_file_key: 'on purpose'
-            };
-          };
-          subFunctions.postFile(deliverConfig, function(err) {
-            should(err).be.ok;
-            err.message.toLowerCase().should.include('must contain a `file` key');
-            done();
-          });
-        });
-
         it('should err on missing `file` key in config hash', function(done) {
           var hash = extendDefaults({}, configuration.test.fakeImageFile);
           delete hash.file;
@@ -97,8 +84,21 @@ describe('<Low-level mapping functions>', function() {
           });
         });
 
+        it('should accept a function as `config` parameter', function(done) {
+          var deliverConfig = function(cb) {
+            cb(null, {
+              not_a_file_key: 'on purpose'
+            });
+          };
+          subFunctions.postFile(deliverConfig, function(err) {
+            should(err).be.ok;
+            err.message.toLowerCase().should.include('must contain a `file` key');
+            done();
+          });
+        });
+
         it('should post file created with `fs.createReadStream`', function(done) {
-          // Warning! Do not use directly the object from `config`, its scope is global!
+          // Warning! Do not write directly in an object from `configuration`, its scope is global!
           var hash = extendDefaults({}, configuration.test.fakeImageFile);
           hash.file = fs.createReadStream(hash.path);
           subFunctions.postFile(hash, done);

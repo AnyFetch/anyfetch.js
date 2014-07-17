@@ -1,0 +1,67 @@
+[
+  {
+    "id": "53232d1dc8318cba94000042",
+    "name": "Evernote",
+    "redirect_uri": "http://anyfetch-provider-evernote.herokuapp.com/init/connect",
+    "developer": {
+      "name": "Matthieu"
+    },
+    "trusted": true,
+    "featured": true
+  },
+  {
+    "id": "539ef7289f240405465a2e1f",
+    "name": "Google Drive",
+    "redirect_uri": "http://gdrive.provider.anyfetch.com/init/connect",
+    "developer": {
+      "name": "AnyFetch"
+    },
+    "trusted": true,
+    "featured": true,
+    "description": "Add your Google Drive to AnyFetch."
+  },
+  {
+    "id": "52bff114c8318c29e9000005",
+    "name": "Dropbox",
+    "redirect_uri": "http://dropbox.provider.anyfetch.com/init/connect",
+    "developer": {
+      "name": "AnyFetch"
+    },
+    "trusted": true,
+    "featured": true,
+    "description": "Add your Dropbox to AnyFetch."
+  },
+  {
+    "id": "52bff1eec8318cb228000001",
+    "name": "Google Contacts",
+    "redirect_uri": "http://gcontacts.provider.anyfetch.com/init/connect",
+    "developer": {
+      "name": "AnyFetch"
+    },
+    "trusted": true,
+    "featured": true,
+    "description": "Add your Google Contacts to AnyFetch."
+  },
+  {
+    "id": "53047faac8318c2d65000096",
+    "name": "GMail",
+    "redirect_uri": "http://gmail.provider.anyfetch.com/init/connect",
+    "developer": {
+      "name": "AnyFetch"
+    },
+    "trusted": true,
+    "featured": true,
+    "description": "Add your GMail to AnyFetch."
+  },
+  {
+    "id": "53047faac8318c2d65000090",
+    "name": "Experimental",
+    "redirect_uri": "http://experimental.provider.anyfetch.com/init/connect",
+    "developer": {
+      "name": "AnyFetch"
+    },
+    "trusted": false,
+    "featured": false,
+    "description": "An experimental (not trusted nor featured) provider."
+  }
+]

@@ -7,7 +7,7 @@ env:
     - secure: "PgLfjq7anWiButF3bFH00G/8YTJjdfR22fJzg0wmHdqca/Sk4GnwZoZtqy9o9VsSc/A4mttsgEs+rucXYUKC7gG90T0ZRaV2l8Vk+kzpGu+9jQG4egUOiln6rQjwr9UW7j4vqcYPPyMOTC8AoegX8HiiAOcV0tyBBDCvLileI0E="
   matrix:
     - API_URL=https://api.anyfetch.com
-    - API_URL=http://staging.api.anyfetch.com
+    - API_URL=https://api-staging.anyfetch.com
 before_script:
   - npm install -g istanbul
   - npm install coveralls

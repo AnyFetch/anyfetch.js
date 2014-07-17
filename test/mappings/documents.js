@@ -66,6 +66,8 @@ describe('<Low-level mapping functions>', function() {
       });
 
       describe('postFile', function() {
+        var path = __dirname + '/../samples/hello.md';
+
         it('should only accept mongo-style ids', function(done) {
           anyfetch.getDocumentById('aze').postFile({}, function(err) {
             should(err).be.ok;
@@ -78,19 +80,6 @@ describe('<Low-level mapping functions>', function() {
           var hash = extendDefaults({}, configuration.test.fakeImageFile);
           delete hash.file;
           subFunctions.postFile(hash, function(err) {
-            should(err).be.ok;
-            err.message.toLowerCase().should.include('must contain a `file` key');
-            done();
-          });
-        });
-
-        it('should accept a function as `config` parameter', function(done) {
-          var deliverConfig = function(cb) {
-            cb(null, {
-              not_a_file_key: 'on purpose'
-            });
-          };
-          subFunctions.postFile(deliverConfig, function(err) {
             should(err).be.ok;
             err.message.toLowerCase().should.include('must contain a `file` key');
             done();
@@ -110,13 +99,20 @@ describe('<Low-level mapping functions>', function() {
         });
 
         it('should post file from a path', function(done) {
-          var filename = __dirname + '/../samples/hello.md';
-          subFunctions.postFile({ file: filename }, done);
+          subFunctions.postFile({ file: path }, done);
         });
 
         it('should post file to document by identifier', function(done) {
-          var filename = __dirname + '/../samples/hello.md';
-          anyfetch.getDocumentByIdentifier(fakeDocument.identifier).postFile({ file: filename }, done);
+          anyfetch.getDocumentByIdentifier(fakeDocument.identifier).postFile({ file: path }, done);
+        });
+
+        it('should accept a function as `config` parameter', function(done) {
+          var deliverConfig = function(cb) {
+            cb(null, {
+              file: path
+            });
+          };
+          subFunctions.postFile(deliverConfig, done);
         });
       });
 

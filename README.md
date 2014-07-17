@@ -115,7 +115,7 @@ The function `getDocumentById(id).postFile(config, cb)` expects a `config` hash 
 **Example usage:**
 ```js
 var deliverConfig = function(cb) {
-   cb({
+   cb(null, {
       file: fs.createReadStream('path/to/file.png'),
       filename: 'doge.png'
    });

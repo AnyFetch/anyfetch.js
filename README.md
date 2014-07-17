@@ -169,7 +169,7 @@ When developping a front-end for the AnyFetch API, it's common to need the `docu
 
 ```js
 anyfetch.getDocumentWithInfo(documentId, function(err, doc) {
-  document.log('This document is a ' + doc.document_type.name + ' and has been provided by ' + doc.provider.name);
+  console.log('This document is a ' + doc.document_type.name + ' and has been provided by ' + doc.provider.name);
 });
 ```
 
@@ -177,15 +177,35 @@ Related:
 - `getDocumentByIdentifierWithInfo(identifier, cb)` is similar but finds the document by its `identifier` instead of its `id`
 - `getDocumentsWithInfo(params, cb)` returns the documents matched by the request expressed in `params`
 
-## Overriding API URL
+## Manager endpoints
 
-By default, all methods target the production API URL: [https://api.anyfetch.com](https://api.anyfetch.com). There are two ways to override that:
+A few endpoints of the AnyFetch Manager are available in `anyfetch.js` for convenience.
+
+- The first example is `getToken(cb)`, [described above](#oauth).
+
+- `getAvailableProviders(trusted, featured, cb)` allows you to obtain a list of all the available providers. The `trusted` and `featured` booleans can be used to restrict the list, but are both optionnal.
+
+- `postAccountName(accountName, cb)` allows you to associate an account name to the access token currently in use. It can only be used with Bearer auth.
+  **Example:**
+
+  ```js
+  var anyfetch = new AnyFetch('access_token');
+  anyfetch.postAccountName(true, 'my_awesome_account_name', function(err, res) {
+    console.log('Here are all the trusted providers:');
+    console.log(res.body);
+  });
+  ```
+
+## Overriding target URLs
+
+By default, all methods target the production URLs: [https://api.anyfetch.com](https://api.anyfetch.com) and [https://manager.anyfetch.com](https://manager.anyfetch.com) respectively. There are two ways to override that:
 
 - For **all** instances:
 
   ```js
   var AnyFetch = require('anyfetch');
   AnyFetch.setApiUrl('http://localhost:3000');
+  AnyFetch.setManagerUrl('http://localhost:3000');
   ```
 - For one instance only:
 
@@ -193,8 +213,10 @@ By default, all methods target the production API URL: [https://api.anyfetch.com
   var AnyFetch = require('anyfetch');
   var anyfetch = new AnyFetch('TOKEN');
   anyfetch.setApiUrl('http://localhost:3000');
+  anyfetch.setManagerUrl('http://localhost:3000');
   ```
 
+It is very useful when writing tests and want to take advantage of the mocking server described below.
 
 ## Test framework
 

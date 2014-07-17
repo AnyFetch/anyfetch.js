@@ -100,11 +100,31 @@ For the sake of clarity, we provide the following two-steps call syntax:
 
 - `getDocumentById(id).getSimilar(cb)` will call `GET /documents/{id}/similar`
 - `getDocumentById(id).getRaw(cb)` will call `GET /documents/{id}/raw`
-- `getDocumentById(id).postFile(cb)` will call `POST /documents/{id}/file`
+- `getDocumentById(id).postFile(config, cb)` will call `POST /documents/{id}/file`
 
 Note that the first function **does not take any callback**. It is simply responsible for building the first part of the request, which is then carried out when calling the sub-function.
 
 A full description of the mapping functions is available in [`api-descriptors.json`](config/json/api-descriptors.json).
+
+### Posting a file associated to a document
+
+The function `getDocumentById(id).postFile(config, cb)` expects a `config` hash containing at least a `file` key from which to obtain the file. It can be a string (path to the file) or a `ReadStream`. It can also contains `contentType` (MIME type) and `filename` keys.
+
+`config` can also be passed as a function. In this case, it is invoked with a callback, which must be called with `(err, config)`.
+
+**Example usage:**
+```js
+var deliverConfig = function(cb) {
+   cb(null, {
+      file: fs.createReadStream('path/to/file.png'),
+      filename: 'doge.png'
+   });
+};
+
+getDocumentById(id).postFile(deliverConfig, function(err) {
+  // Handle error if any
+});
+```
 
 ## Utility functions
 `anyfetch.js` provides higher level utility functions. They cover classic use-cases that would otherwise require several API calls. When possible, calls are grouped in a single batch call.
@@ -169,7 +189,7 @@ When developping a front-end for the AnyFetch API, it's common to need the `docu
 
 ```js
 anyfetch.getDocumentWithInfo(documentId, function(err, doc) {
-  document.log('This document is a ' + doc.document_type.name + ' and has been provided by ' + doc.provider.name);
+  console.log('This document is a ' + doc.document_type.name + ' and has been provided by ' + doc.provider.name);
 });
 ```
 
@@ -177,15 +197,35 @@ Related:
 - `getDocumentByIdentifierWithInfo(identifier, cb)` is similar but finds the document by its `identifier` instead of its `id`
 - `getDocumentsWithInfo(params, cb)` returns the documents matched by the request expressed in `params`
 
-## Overriding API URL
+## Manager endpoints
 
-By default, all methods target the production API URL: [https://api.anyfetch.com](https://api.anyfetch.com). There are two ways to override that:
+A few endpoints of the AnyFetch Manager are available in `anyfetch.js` for convenience.
+
+- The first example is `getToken(cb)`, [described above](#oauth).
+
+- `postAccountName(accountName, cb)` allows you to associate an account name to the access token currently in use. It can only be used with Bearer auth.
+
+- `getAvailableProviders(options, cb)` allows you to obtain a list of all the available providers. The `options` object can have booleans `trusted` and `featured` to restrict the list. `options` can be omitted.
+  **Example:**
+
+  ```js
+  var anyfetch = new AnyFetch('access_token');
+  anyfetch.getAvailableProviders({ trusted: true }, 'my_awesome_account_name', function(err, res) {
+    console.log('Here are all the trusted providers:');
+    console.log(res.body);
+  });
+  ```
+
+## Overriding target URLs
+
+By default, all methods target the production URLs: [https://api.anyfetch.com](https://api.anyfetch.com) and [https://manager.anyfetch.com](https://manager.anyfetch.com) respectively. There are two ways to override that:
 
 - For **all** instances:
 
   ```js
   var AnyFetch = require('anyfetch');
   AnyFetch.setApiUrl('http://localhost:3000');
+  AnyFetch.setManagerUrl('http://localhost:3000');
   ```
 - For one instance only:
 
@@ -193,8 +233,10 @@ By default, all methods target the production API URL: [https://api.anyfetch.com
   var AnyFetch = require('anyfetch');
   var anyfetch = new AnyFetch('TOKEN');
   anyfetch.setApiUrl('http://localhost:3000');
+  anyfetch.setManagerUrl('http://localhost:3000');
   ```
 
+It is very useful when writing tests and want to take advantage of the mocking server described below.
 
 ## Test framework
 

@@ -12,6 +12,7 @@ var async = require('async');
 var util = require('util');
 
 var filename = require('../lib/helpers/endpoint-filename.js');
+var extend = require('../lib/helpers/extend-defaults.js');
 
 var configuration = require('../config/configuration.js');
 var AnyFetch = require('../lib/index.js');
@@ -62,7 +63,7 @@ mkdirp(mocksDirectory, function(err) {
 
   // ----- Fill with fake content
   var userId;
-  var anyChuck;
+  var chuckId;
   var subcompanyId;
   var documentId;
   var documentIdentifier = configuration.test.fakeDocument.identifier;
@@ -86,6 +87,7 @@ mkdirp(mocksDirectory, function(err) {
       postUsers: function(cb) {
         anyfetch.postUsers(configuration.test.fakeUser, function(err, res) {
           if(res.body && res.body.id) {
+            chuckId = res.body.id;
             saveMock(configuration.apiDescriptors.postUsers, res.body);
           }
           cb(err);
@@ -97,9 +99,10 @@ mkdirp(mocksDirectory, function(err) {
        * who will be moved into the subcompany.
        */
       postSubcompanies: ['postUsers', function(cb) {
-        anyChuck = new AnyFetch(configuration.test.fakeUser.email, configuration.test.fakeUser.password);
+        var subcompany = extend({}, configuration.test.fakeCompany);
+        subcompany.user = chuckId;
 
-        anyChuck.postSubcompanies(configuration.test.fakeCompany, function(err, res) {
+        anyfetch.postSubcompanies(subcompany, function(err, res) {
           // The fake user is now the first admin of the new company
           if(res.body && res.body.id) {
             subcompanyId = res.body.id;

@@ -25,7 +25,7 @@
   "postCompanyUpdate": {
     "endpoint": "/company/update",
     "verb": "POST",
-    "expectedStatus": 202
+    "expectedStatus": 200
   },
   "deleteCompanyReset": {
     "endpoint": "/company/reset",

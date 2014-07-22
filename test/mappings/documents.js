@@ -31,7 +31,7 @@ describe('<Low-level mapping functions>', function() {
         anyfetch.resetToBearer(done);
       });
 
-      var documentId = null;
+      var documentId;
       var fakeDocument = configuration.test.fakeDocument;
       var subFunctions;
 
@@ -43,25 +43,38 @@ describe('<Low-level mapping functions>', function() {
         });
       });
 
-      it('should return synchronously an object containing only functions', function() {
+      describe('getDocumentById', function() {
+        it('should return synchronously an object containing only functions', function() {
         for(var i in subFunctions) {
           isFunction(subFunctions[i]).should.be.ok;
         }
-      });
-
-      it('should only accept mongo-style ids in single-step call', function(done) {
-        anyfetch.getDocumentById('aze', function(err) {
-          should(err).be.ok;
-          err.message.toLowerCase().should.include('argument error');
-          done();
         });
-      });
 
-      it('should only accept mongo-style ids in subfunction call', function(done) {
-        anyfetch.getDocumentById('aze').getRaw(function(err) {
-          should(err).be.ok;
-          err.message.toLowerCase().should.include('argument error');
-          done();
+        it('should only accept mongo-style ids in single-step call', function(done) {
+          anyfetch.getDocumentById('aze', function(err) {
+            should(err).be.ok;
+            err.message.toLowerCase().should.include('argument error');
+            done();
+          });
+        });
+
+        it('should only accept mongo-style ids in subfunction call', function(done) {
+          anyfetch.getDocumentById('aze').getRaw(function(err) {
+            should(err).be.ok;
+            err.message.toLowerCase().should.include('argument error');
+            done();
+          });
+        });
+
+        it('should retrieve the document with this id', function(done) {
+          anyfetch.getDocumentsById(documentId, function(err, res) {
+            should(err).be.exactly(null);
+            should(res).be.ok;
+            should(res.body).be.ok;
+            should(res.body.identifier).be.ok;
+            res.body.id.should.equal(documentId);
+            done();
+          });
         });
       });
 

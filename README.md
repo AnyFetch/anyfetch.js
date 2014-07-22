@@ -183,20 +183,6 @@ anyfetch.getCurrentUser(function(err, user) {
 };
 ```
 
-### Get document(s) with info
-
-When developping a front-end for the AnyFetch API, it's common to need the `document_type` and `provider` of a particular document. This function allows you to do this in one call.
-
-```js
-anyfetch.getDocumentWithInfo(documentId, function(err, doc) {
-  console.log('This document is a ' + doc.document_type.name + ' and has been provided by ' + doc.provider.name);
-});
-```
-
-Related:
-- `getDocumentByIdentifierWithInfo(identifier, cb)` is similar but finds the document by its `identifier` instead of its `id`
-- `getDocumentsWithInfo(params, cb)` returns the documents matched by the request expressed in `params`
-
 ## Manager endpoints
 
 A few endpoints of the AnyFetch Manager are available in `anyfetch.js` for convenience.

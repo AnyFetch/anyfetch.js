@@ -36,9 +36,14 @@
         "document_count": 1
       }
     ],
-    "creation_dates": {
-      "1404172800000": 1
-    }
+    "creation_dates": [
+      {
+        "_type": "Date",
+        "timestamp": "1404172800000",
+        "date": "Tue Jul 01 2014 02:00:00 GMT+0200 (CEST)",
+        "document_count": 1
+      }
+    ]
   },
   "data": [
     {

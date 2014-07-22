@@ -1,7 +1,6 @@
 'use strict';
 
 var should = require('should');
-var async = require('async');
 
 var AnyFetch = require('../lib/index.js');
 require('./helpers/reset-to-bearer.js');
@@ -15,108 +14,6 @@ describe('<High-level helper functions>', function() {
   var anyfetch;
   before(function instantiateClient() {
     anyfetch = new AnyFetch(configuration.test.user.email, configuration.test.user.password);
-  });
-
-  describe('getDocumentWithInfo', function() {
-    var documentId;
-
-    before(function reset(done) {
-      anyfetch.resetToBearer(done);
-    });
-    // Prepare a fake document
-    before(function postFakeDocument(done) {
-      anyfetch.postDocument(configuration.test.fakeDocument, function(err, res) {
-        if(res.body && res.body.id) {
-          documentId = res.body.id;
-        }
-        done(err);
-      });
-    });
-
-    it('should only accept mongo-style ids', function(done) {
-      anyfetch.getDocumentWithInfo('octodad', function(err) {
-        should(err).be.ok;
-        err.message.toLowerCase().should.include('argument error');
-        done();
-      });
-    });
-
-    it('should get document and populate `document_type` and `provider`', function(done) {
-      anyfetch.getDocumentWithInfo(documentId, { has_some_key: true }, function(err, doc) {
-        should(err).not.be.ok;
-        should(doc).be.ok;
-        doc.should.have.properties('id', 'identifier', 'provider', 'document_type');
-        doc.provider.should.have.properties('client', 'name', 'document_count');
-        doc.document_type.should.have.properties('id', 'name', 'templates');
-
-        done();
-      });
-    });
-
-    it('should allow `params` to be omitted', function(done) {
-      anyfetch.getDocumentWithInfo(documentId, done);
-    });
-
-    describe('getDocumentByIdentifierWithInfo', function() {
-      var identifier = configuration.test.fakeDocument.identifier;
-
-      it('should run smoothly as well', function(done) {
-        anyfetch.getDocumentByIdentifierWithInfo(identifier, { has_some_key: true }, function(err, doc) {
-          should(err).not.be.ok;
-          should(doc).be.ok;
-          doc.should.have.properties('id', 'identifier', 'provider', 'document_type');
-          doc.provider.should.have.properties('client', 'name', 'document_count');
-          doc.document_type.should.have.properties('id', 'name', 'templates');
-
-          done();
-        });
-      });
-
-      it('should allow `params` to be omitted', function(done) {
-        anyfetch.getDocumentByIdentifierWithInfo(identifier, done);
-      });
-    });
-  });
-
-  describe('getDocumentsWithInfo', function() {
-    before(function reset(done) {
-      anyfetch.resetToBearer(done);
-    });
-
-    // Prepare two fake documents
-    before(function postFakeDocuments(done) {
-      async.parallel([
-        function(cb) {
-          anyfetch.postDocument(configuration.test.fakeDocument, cb);
-        },
-        function(cb) {
-          anyfetch.postDocument(configuration.test.fakeDocument2, cb);
-        }
-      ], done);
-    });
-
-    it('should get all documents and populate their `document_type` and `provider`', function(done) {
-      // TODO : remove dat shit (but solve ES shard indexing before)
-      setTimeout(function() {
-        anyfetch.getDocumentsWithInfo({ sort: 'creationDate' }, function(err, docs) {
-          should(err).not.be.ok;
-
-          docs.data.forEach(function(doc) {
-            should(err).not.be.ok;
-            should(doc).be.ok;
-            doc.should.have.properties('id', 'identifier', 'provider', 'document_type');
-            doc.provider.should.have.properties('client', 'name', 'document_count');
-            doc.document_type.should.have.properties('id', 'name', 'templates');
-          });
-
-          done();
-        });
-      }, 1500);
-    });
-
-    it('should allow `params` to be omitted', function(done) {
-      anyfetch.getDocumentsWithInfo(done);
-    });
   });
 
   describe('sendDocumentAndFile', function() {

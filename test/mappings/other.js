@@ -26,7 +26,7 @@ describe('<Low-level mapping functions>', function() {
     });
   });
 
-  describe('getBatch', function() {
+  describe('getBatch()', function() {
     var expected = configuration.apiDescriptors.getBatch;
     var res;
     var pages = [
@@ -58,7 +58,7 @@ describe('<Low-level mapping functions>', function() {
     });
   });
 
-  describe('getProviderById', function() {
+  describe('getProviderById()', function() {
     it('should retrieve a single provider by its id', function(done) {
       // We use a dummy error to bail out of waterfall
       // Otherwise, it might cause a leak

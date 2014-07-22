@@ -16,7 +16,7 @@ describe('<High-level helper functions>', function() {
     anyfetch = new AnyFetch(configuration.test.user.email, configuration.test.user.password);
   });
 
-  describe('sendDocumentAndFile', function() {
+  describe('sendDocumentAndFile()', function() {
     before(function reset(done) {
       anyfetch.resetToBearer(done);
     });
@@ -37,7 +37,7 @@ describe('<High-level helper functions>', function() {
     });
   });
 
-  describe('getCurrentUser', function() {
+  describe('getCurrentUser()', function() {
     it('should get the correct user', function(done) {
       anyfetch.getCurrentUser(function(err, user) {
         should(err).not.be.ok;
@@ -50,7 +50,7 @@ describe('<High-level helper functions>', function() {
     });
   });
 
-  describe('createSubcompanyWithAdmin', function() {
+  describe('createSubcompanyWithAdmin()', function() {
     before(function reset(done) {
       anyfetch.resetToBearer(done);
     });

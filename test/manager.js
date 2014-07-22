@@ -38,7 +38,7 @@ describe('<Manager>', function() {
     });
   });
 
-  describe('getAccessToken', function() {
+  describe('getAccessToken()', function() {
     it('should err on missing code', function(done) {
       AnyFetch.getAccessToken(appId, appSecret, '', function(err) {
         should(err).have.property('message').and.match(/409/);
@@ -55,7 +55,7 @@ describe('<Manager>', function() {
     });
   });
 
-  describe('getAvailableProviders', function() {
+  describe('getAvailableProviders()', function() {
     it('should run smoothly without any auth', function(done) {
       var options = {
         trusted: false,
@@ -115,7 +115,7 @@ describe('<Manager>', function() {
     });
   });
 
-  describe('postAccountName', function() {
+  describe('postAccountName()', function() {
     var accountName = 'my_dummy_account_name';
 
     it('should err when using Basic auth', function(done) {

@@ -18,15 +18,15 @@ describe('<Low-level mapping functions>', function() {
         anyfetch.getIndex(null);
       } catch(err) {
         should(err).be.ok;
-        err.message.toLowerCase().should.containEql('last argument must be a function');
+        err.message.should.match(/last argument must be a function/i);
       }
     });
 
     it('should err synchronously when passing an invalid POST argument', function(done) {
       anyfetch.postUser({ random_key: 'random_value' }, function(err) {
         should(err).be.ok;
-        err.message.toLowerCase().should.containEql('random_key');
-        err.message.toLowerCase().should.containEql('not allowed in this request\'s body');
+        err.message.should.match(/random_key/i);
+        err.message.should.match(/not allowed in this request\'s body/i);
         done();
       });
     });
@@ -34,8 +34,8 @@ describe('<Low-level mapping functions>', function() {
     it('should err synchronously when passing an invalid GET parameter', function(done) {
       anyfetch.getBatch({ random_key: 'random_value' }, function(err) {
         should(err).be.ok;
-        err.message.toLowerCase().should.containEql('random_key');
-        err.message.toLowerCase().should.containEql('not allowed in this request\'s get parameters');
+        err.message.should.match(/random_key/i);
+        err.message.should.match(/not allowed in this request\'s get parameters/i);
         done();
       });
     });

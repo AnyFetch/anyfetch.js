@@ -26,14 +26,14 @@ describe('<Low-level mapping functions>', function() {
     var newName = "My New Name";
     var userId = null;
 
-    it('postUser should run smoothly', function(done) {
+    it('postUser() should run smoothly', function(done) {
       anyfetch.postUser(userInfos, function(err, res) {
         userId = res.body.id;
         done(err);
       });
     });
 
-    it('patchUserById should run smoothly', function(done) {
+    it('patchUserById() should run smoothly', function(done) {
       // This endpoint is only available with Basic auth
       var anyfetchBasic = new AnyFetch(configuration.test.user.email, configuration.test.user.password);
       var changes = {
@@ -42,7 +42,7 @@ describe('<Low-level mapping functions>', function() {
       anyfetchBasic.patchUserById(userId, changes, done);
     });
 
-    it('patchUserById should have applied the changes', function(done) {
+    it('patchUserById() should have applied the changes', function(done) {
       anyfetch.getUserById(userId, function(err, res) {
         should(err).not.be.ok;
         should(res).be.ok;
@@ -51,7 +51,7 @@ describe('<Low-level mapping functions>', function() {
       });
     });
 
-    it('deleteUserById should run smoothly', function(done) {
+    it('deleteUserById() should run smoothly', function(done) {
       anyfetch.deleteUserById(userId, done);
     });
   });

@@ -1,14 +1,18 @@
 {
   "_type": "Company",
-  "id": "5391b692c8318c0ec7000026",
-  "name": "merlin@anyfetch.com",
+  "id": "52f0bb24c8318c2d65000035",
+  "name": "test@anyfetch.com",
   "hydraters": [
-    "http://plaintext.hydrater.anyfetch.com/hydrate",
-    "http://pdf.hydrater.anyfetch.com/hydrate",
-    "http://office.hydrater.anyfetch.com/hydrate",
-    "http://image.hydrater.anyfetch.com/hydrate",
-    "http://ocr.hydrater.anyfetch.com/hydrate",
-    "http://eml.hydrater.anyfetch.com/hydrate",
-    "http://filecleaner.hydrater.anyfetch.com/hydrate"
+    "https://plaintext-staging.anyfetch.com/hydrate",
+    "https://pdf-staging.anyfetch.com/hydrate",
+    "https://office-staging.anyfetch.com/hydrate",
+    "https://image-staging.anyfetch.com/hydrate",
+    "https://ocr-staging.anyfetch.com/hydrate",
+    "https://iptc-staging.anyfetch.com/hydrate",
+    "https://markdown-staging.anyfetch.com/hydrate",
+    "https://eml-staging.anyfetch.com/hydrate",
+    "https://embedmail-staging.anyfetch.com/hydrate",
+    "https://ics-staging.anyfetch.com/hydrate",
+    "https://filecleaner-staging.anyfetch.com/hydrate"
   ]
 }

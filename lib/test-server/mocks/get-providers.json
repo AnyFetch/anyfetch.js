@@ -1,14 +1,11 @@
-{
-  "5396f9a148f9f76e6b197957": {
+[
+  {
+    "_type": "AccessToken",
+    "id": "53c66af5d3bda13f3a848ab9",
     "client": null,
-    "name": null,
-    "updated": "2014-06-25T14:06:24.833Z",
-    "document_count": 1
-  },
-  "53a14dadaa19645626f38b4a": {
-    "client": "52bff1eec8318cb228000001",
-    "name": "Google Contacts",
-    "updated": "2014-06-25T07:59:21.566Z",
-    "document_count": 381
+    "is_basic_token": true,
+    "account_name": "",
+    "document_count": 2,
+    "updated": "2014-07-22T12:16:28.613Z"
   }
-}
+]

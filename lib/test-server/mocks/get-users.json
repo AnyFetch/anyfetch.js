@@ -1,18 +1,18 @@
 [
   {
     "_type": "User",
-    "id": "5391b692c8318c0ec7000027",
-    "email": "merlin@anyfetch.com",
-    "name": "User",
+    "id": "52f0bb24c8318c2d65000036",
+    "email": "test@anyfetch.com",
+    "name": "Anyfetch Test",
     "is_admin": true,
-    "user_url": "/users/5391b692c8318c0ec7000027"
+    "user_url": "/users/52f0bb24c8318c2d65000036"
   },
   {
     "_type": "User",
-    "id": "53aad42245419da341fc5bfc",
-    "email": "thechuck1049@norris.com",
+    "id": "53ce561cc2453be57db39686",
+    "email": "thechuck480@norris.com",
     "name": "Chuck Norris",
     "is_admin": true,
-    "user_url": "/users/53aad42245419da341fc5bfc"
+    "user_url": "/users/53ce561cc2453be57db39686"
   }
 ]

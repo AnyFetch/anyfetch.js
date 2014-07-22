@@ -1,21 +1,28 @@
 {
   "_type": "Document",
-  "id": "53aad75f45419da341fc5c02",
+  "id": "53ce561c6564a8a47dd6d5fc",
   "identifier": "the \"unique\" document identifier (éüà)",
-  "creation_date": "2014-06-25T14:06:23.948Z",
-  "provider": "5396f9a148f9f76e6b197957",
-  "company": "5391b692c8318c0ec7000026",
-  "document_type": "5252ce4ce4cfcd16f55cfa3b",
-  "actions": {},
-  "document_url": "/documents/53aad75f45419da341fc5c02",
-  "projection_type": "full",
-  "data": {
-    "title": "Hello",
-    "path": "/hello",
-    "extension": "_blank"
+  "creation_date": "2014-07-22T12:16:28.606Z",
+  "provider": {
+    "_type": "AccessToken",
+    "id": "53c66af5d3bda13f3a848ab9",
+    "client": null,
+    "is_basic_token": true,
+    "account_name": ""
   },
+  "company": "52f0bb24c8318c2d65000035",
+  "document_type": {
+    "_type": "DocumentType",
+    "id": "5252ce4ce4cfcd16f55cfa3b",
+    "name": "file",
+    "templates": {
+      "full": "<article>\n  <h1>{{{ title }}}</h1>\n  <code>{{{ path }}}</code>\n</article>\n"
+    }
+  },
+  "actions": {},
+  "document_url": "/documents/53ce561c6564a8a47dd6d5fc",
+  "projection_type": "full",
+  "data": {},
   "related": [],
-  "title": {
-    "title": "Hello"
-  }
+  "title": {}
 }

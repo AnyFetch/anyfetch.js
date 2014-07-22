@@ -90,7 +90,7 @@ describe('<Manager>', function() {
         providers.should.be.instanceof(Array);
         providers.forEach(function(provider) {
           provider.should.have.properties('id', 'name');
-          provider.should.have.property({ 'trusted': true });
+          provider.should.have.property('trusted', true);
         });
 
         done();
@@ -107,7 +107,7 @@ describe('<Manager>', function() {
         providers.should.be.instanceof(Array);
         providers.forEach(function(provider) {
           provider.should.have.properties('id', 'name');
-          provider.should.have.property({ 'featured': true });
+          provider.should.have.property('featured', true);
         });
 
         done();

@@ -99,7 +99,7 @@ describe('<High-level helper functions>', function() {
 
         var company = res.body;
         should(company).be.ok;
-        company.should.have.property('id').and.equal(subcompanyId);
+        company.should.have.property('id', subcompanyId);
 
         done();
       });

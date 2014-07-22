@@ -204,7 +204,7 @@ describe('<Low-level mapping functions>', function() {
 
           var doc = res.body;
           doc.should.have.property('data');
-          doc.data.should.have.property({ has_been_patched: true });
+          doc.data.should.have.property('has_been_patched', true);
 
           done();
         });

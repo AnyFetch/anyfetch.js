@@ -46,7 +46,7 @@ describe('<Low-level mapping functions>', function() {
       anyfetch.getUserById(userId, function(err, res) {
         should(err).not.be.ok;
         should(res).be.ok;
-        res.body.should.have.property({ name: newName });
+        res.body.should.have.property('name', newName);
         done();
       });
     });

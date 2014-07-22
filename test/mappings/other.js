@@ -69,11 +69,11 @@ describe('<Low-level mapping functions>', function() {
           anyfetch.getProviders(cb);
         },
         function extractFirstId(res, cb) {
-          var providerIds = Object.keys(res.body);
-          if(!providerIds || providerIds.length < 1) {
+          var providers = res.body;
+          if(!providers || providers.length < 1) {
             return cb(noProvider);
           }
-          cb(null, providerIds[0]);
+          cb(null, providers[0].id);
         },
         function getSingleProvider(id, cb) {
           anyfetch.getProviderById(id, rarity.carry(id, cb));

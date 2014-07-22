@@ -71,6 +71,7 @@
       "has_meta",
       "snippet_size",
       "start",
+      "sort",
       "limit"
     ]
   },

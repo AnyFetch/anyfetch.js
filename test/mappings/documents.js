@@ -16,7 +16,7 @@ describe('<Low-level mapping functions>', function() {
   });
 
   describe('> document-related functions', function() {
-    describe('getDocuments parameters', function() {
+    describe('getDocuments() parameters', function() {
       it('should allow arbitrary parameters (noCheckParams)', function(done){
         anyfetch.getDocuments({
           "search": 'some_search_query',
@@ -26,12 +26,12 @@ describe('<Low-level mapping functions>', function() {
       });
     });
 
-    describe('getDocumentById & getDocumentByIdentifier subfunctions', function() {
+    describe('getDocumentById() & getDocumentByIdentifier() subfunctions', function() {
       before(function reset(done) {
         anyfetch.resetToBearer(done);
       });
 
-      var documentId = null;
+      var documentId;
       var fakeDocument = configuration.test.fakeDocument;
       var subFunctions;
 
@@ -43,35 +43,48 @@ describe('<Low-level mapping functions>', function() {
         });
       });
 
-      it('should return synchronously an object containing only functions', function() {
+      describe('getDocumentById()', function() {
+        it('should return synchronously an object containing only functions', function() {
         for(var i in subFunctions) {
           isFunction(subFunctions[i]).should.be.ok;
         }
-      });
+        });
 
-      it('should only accept mongo-style ids in single-step call', function(done) {
-        anyfetch.getDocumentById('aze', function(err) {
-          should(err).be.ok;
-          err.message.toLowerCase().should.include('argument error');
-          done();
+        it('should only accept mongo-style ids in single-step call', function(done) {
+          anyfetch.getDocumentById('aze', function(err) {
+            should(err).be.ok;
+            err.message.should.match(/argument error/i);
+            done();
+          });
+        });
+
+        it('should only accept mongo-style ids in subfunction call', function(done) {
+          anyfetch.getDocumentById('aze').getRaw(function(err) {
+            should(err).be.ok;
+            err.message.should.match(/argument error/i);
+            done();
+          });
+        });
+
+        it('should retrieve the document with this id', function(done) {
+          anyfetch.getDocumentsById(documentId, function(err, res) {
+            should(err).not.be.ok;
+            should(res).be.ok;
+            should(res.body).be.ok;
+            should(res.body.identifier).be.ok;
+            res.body.id.should.equal(documentId);
+            done();
+          });
         });
       });
 
-      it('should only accept mongo-style ids in subfunction call', function(done) {
-        anyfetch.getDocumentById('aze').getRaw(function(err) {
-          should(err).be.ok;
-          err.message.toLowerCase().should.include('argument error');
-          done();
-        });
-      });
-
-      describe('postFile', function() {
+      describe('postFile()', function() {
         var path = __dirname + '/../samples/hello.md';
 
         it('should only accept mongo-style ids', function(done) {
           anyfetch.getDocumentById('aze').postFile({}, function(err) {
             should(err).be.ok;
-            err.message.toLowerCase().should.include('argument error');
+            err.message.should.match(/argument error/i);
             done();
           });
         });
@@ -81,7 +94,7 @@ describe('<Low-level mapping functions>', function() {
           delete hash.file;
           subFunctions.postFile(hash, function(err) {
             should(err).be.ok;
-            err.message.toLowerCase().should.include('must contain a `file` key');
+            err.message.should.match(/must contain a `file` key/i);
             done();
           });
         });
@@ -116,7 +129,7 @@ describe('<Low-level mapping functions>', function() {
         });
       });
 
-      describe('getDocumentByIdentifier', function() {
+      describe('getDocumentByIdentifier()', function() {
         var documentIdentifier = fakeDocument.identifier;
 
         var subFunctionsByIdentifier;
@@ -135,7 +148,7 @@ describe('<Low-level mapping functions>', function() {
 
         it('should retrieve the document with this identifier', function(done) {
           anyfetch.getDocumentsByIdentifier(documentIdentifier, function(err, res) {
-            should(err).be.exactly(null);
+            should(err).not.be.ok;
             should(res).be.ok;
             should(res.body).be.ok;
             should(res.body.identifier).be.ok;
@@ -146,7 +159,7 @@ describe('<Low-level mapping functions>', function() {
 
         it('should retrieve the document with this identifier (via the alias function as well)', function(done) {
           anyfetch.getDocumentByIdentifier(documentIdentifier, function(err, res) {
-            should(err).be.exactly(null);
+            should(err).not.be.ok;
             should(res).be.ok;
             should(res.body).be.ok;
             should(res.body.identifier).be.ok;
@@ -157,14 +170,14 @@ describe('<Low-level mapping functions>', function() {
 
         it('should accept any kind of identifier', function(done) {
           subFunctionsByIdentifier.getRaw(function(err) {
-            should(err).be.exactly(null);
+            should(err).not.be.ok;
             done();
           });
         });
       });
     });
 
-    describe('patchDocumentById', function() {
+    describe('patchDocumentById()', function() {
       var documentId = null;
       var fakeDocument = configuration.test.fakeDocument;
 
@@ -191,7 +204,7 @@ describe('<Low-level mapping functions>', function() {
 
           var doc = res.body;
           doc.should.have.property('data');
-          doc.data.should.have.property({ has_been_patched: true });
+          doc.data.should.have.property('has_been_patched', true);
 
           done();
         });

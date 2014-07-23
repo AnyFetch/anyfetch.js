@@ -26,7 +26,7 @@ describe('<Low-level mapping functions>', function() {
     });
   });
 
-  describe('getBatch', function() {
+  describe('getBatch()', function() {
     var expected = configuration.apiDescriptors.getBatch;
     var res;
     var pages = [
@@ -58,7 +58,7 @@ describe('<Low-level mapping functions>', function() {
     });
   });
 
-  describe('getProviderById', function() {
+  describe('getProviderById()', function() {
     it('should retrieve a single provider by its id', function(done) {
       // We use a dummy error to bail out of waterfall
       // Otherwise, it might cause a leak
@@ -69,11 +69,11 @@ describe('<Low-level mapping functions>', function() {
           anyfetch.getProviders(cb);
         },
         function extractFirstId(res, cb) {
-          var providerIds = Object.keys(res.body);
-          if(!providerIds || providerIds.length < 1) {
+          var providers = res.body;
+          if(!providers || providers.length < 1) {
             return cb(noProvider);
           }
-          cb(null, providerIds[0]);
+          cb(null, providers[0].id);
         },
         function getSingleProvider(id, cb) {
           anyfetch.getProviderById(id, rarity.carry(id, cb));

@@ -49,9 +49,7 @@ describe('<Low-level mapping functions>', function() {
 
     it('should get the subcompany', function(done) {
       anyfetch.getSubcompaniesById(subcompanyId, function(err, res) {
-        res.body.should.have.property({
-          name: companyInfos.name
-        });
+        res.body.should.have.property('name', companyInfos.name);
         done(err);
       });
     });

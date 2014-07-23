@@ -71,6 +71,7 @@
       "has_meta",
       "snippet_size",
       "start",
+      "sort",
       "limit"
     ]
   },
@@ -91,6 +92,11 @@
   "getDocumentsById": {
     "endpoint": "/documents/{id}",
     "requireId": true,
+    "noCheckParams": true,
+    "params": [
+      "search",
+      "snippet_size"
+    ],
     "subFunctions": {
       "getSimilar": {
         "endpoint": "/similar"
@@ -130,6 +136,11 @@
   "getDocumentsByIdentifier": {
     "endpoint": "/documents/identifier/{identifier}",
     "requireIdentifier": true,
+    "noCheckParams": true,
+    "params": [
+      "search",
+      "snippet_size"
+    ],
     "subFunctions": {
       "getSimilar": {
         "endpoint": "/similar"

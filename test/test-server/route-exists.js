@@ -19,7 +19,7 @@ describe('<Mock server>', function() {
     res.send('hello');
   });
 
-  describe('routeExists helper function', function() {
+  describe('routeExists() helper function', function() {
     it('should return true for a basic existing route', function() {
       routeExists(server, 'get', '/status').should.be.ok;
     });

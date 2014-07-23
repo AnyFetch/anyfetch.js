@@ -16,6 +16,7 @@ var extend = require('../lib/helpers/extend-defaults.js');
 
 var configuration = require('../config/configuration.js');
 var AnyFetch = require('../lib/index.js');
+AnyFetch.setApiUrl(configuration.apiUrl);
 
 if(!configuration.test.rootLogin || !configuration.test.rootPassword) {
   throw new Error('This script requires valid LOGIN and PASSWORD to be set in your env');

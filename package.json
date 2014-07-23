@@ -23,17 +23,17 @@
     "anyFetch"
   ],
   "dependencies": {
-    "restify": "2.8.x",
-    "supertest": "0.13.x",
+    "restify": "^2.8.0",
+    "supertest": "^0.13.0",
     "mkdirp": "^0.5.0",
     "rarity": "^2.1.1",
     "auto-load": "^1.1.0",
     "dotenv": "^0.4.0"
   },
   "devDependencies": {
-    "async": "0.8.x",
-    "mocha": "1.18.2",
-    "should": "3.3.x"
+    "async": "^0.9.0",
+    "mocha": "^1.20.0",
+    "should": "^4.0.0"
   },
   "licence": "MIT",
   "engines": {

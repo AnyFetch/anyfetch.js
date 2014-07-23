@@ -36,7 +36,7 @@ describe('<Mock server>', function() {
   describe('Errors', function() {
     it('should err on invalid GET parameter', function(done) {
       request(mockUrl)
-        .get('/documents')
+        .del('/subcompanies/53a7ef7b3b28ab0c7c46863z')
         .query({ random_key: 'random_value' })
         .expect(409)
         .expect(/not allowed/i)

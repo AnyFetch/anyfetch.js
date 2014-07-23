@@ -1,12 +1,17 @@
 {
-  "title": {
-    "title": "Hello"
+  "title": {},
+  "document_type": {
+    "_type": "DocumentType",
+    "id": "5252ce4ce4cfcd16f55cfa3b",
+    "name": "file",
+    "templates": {
+      "title": "{{ title }}"
+    }
   },
-  "document_type": "5252ce4ce4cfcd16f55cfa3b",
   "facets": {
-    "document_types": {},
-    "providers": {},
-    "creation_dates": {}
+    "document_types": [],
+    "providers": [],
+    "creation_dates": []
   },
   "data": [],
   "count": 0,

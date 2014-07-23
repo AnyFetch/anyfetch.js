@@ -1,47 +1,93 @@
 {
-  "title": {
-    "title": "Hello"
+  "title": {},
+  "document_type": {
+    "_type": "DocumentType",
+    "id": "5252ce4ce4cfcd16f55cfa3b",
+    "name": "file",
+    "templates": {
+      "title": "{{ title }}"
+    }
   },
-  "document_type": "5252ce4ce4cfcd16f55cfa3b",
   "keywords": [
-    "/hello",
     "some",
     "random"
   ],
   "facets": {
-    "document_types": {
-      "5252ce4ce4cfcd16f55cfa3a": 1
-    },
-    "providers": {
-      "53a14dadaa19645626f38b4a": 1
-    },
-    "creation_dates": {
-      "1401580800000": 1
-    }
+    "document_types": [
+      {
+        "_type": "DocumentType",
+        "id": "5252ce4ce4cfcd16f55cfa3b",
+        "name": "file",
+        "templates": {
+          "snippet": "<article>\n  <h1>{{{ title }}}</h1>\n  <code>{{{ path }}}</code>\n</article>\n",
+          "full": "<article>\n  <h1>{{{ title }}}</h1>\n  <code>{{{ path }}}</code>\n</article>\n",
+          "title": "{{ title }}"
+        },
+        "description": "Most basic document type for any kind of binary content. When a provider sends data without any additional information, it will use this document_type.",
+        "projections": {
+          "snippet": [
+            "title",
+            "path",
+            "extension"
+          ],
+          "full": [
+            "title",
+            "path",
+            "extension"
+          ]
+        },
+        "document_count": 1
+      }
+    ],
+    "providers": [
+      {
+        "_type": "AccessToken",
+        "id": "53c66af5d3bda13f3a848ab9",
+        "client": null,
+        "is_basic_token": true,
+        "account_name": "",
+        "document_count": 1
+      }
+    ],
+    "creation_dates": [
+      {
+        "_type": "Date",
+        "timestamp": "1404172800000",
+        "date": "Tue Jul 01 2014 02:00:00 GMT+0200 (CEST)",
+        "document_count": 1
+      }
+    ]
   },
   "data": [
     {
       "_type": "Document",
-      "id": "53a14e37d9d493b510e41996",
-      "identifier": "https://mail.google.com/mail/b/merlin.nimier@gmail.com/#contact/5865599e0d5e0f2a",
-      "creation_date": "2014-06-18T08:30:47.638Z",
-      "provider": "53a14dadaa19645626f38b4a",
-      "company": "5391b692c8318c0ec7000026",
-      "document_type": "5252ce4ce4cfcd16f55cfa3a",
-      "actions": {
-        "show": "https://mail.google.com/mail/b/merlin.nimier@gmail.com/#contact/5865599e0d5e0f2a"
+      "id": "53ce3726f341e34e309ef0bb",
+      "identifier": "the_unique_identifier",
+      "creation_date": "2014-07-22T10:04:22.441Z",
+      "provider": {
+        "_type": "AccessToken",
+        "id": "53c66af5d3bda13f3a848ab9",
+        "client": null,
+        "is_basic_token": true,
+        "account_name": ""
       },
-      "document_url": "/documents/53a14e37d9d493b510e41996",
+      "company": "52f0bb24c8318c2d65000035",
+      "document_type": {
+        "_type": "DocumentType",
+        "id": "5252ce4ce4cfcd16f55cfa3b",
+        "name": "file",
+        "templates": {
+          "snippet": "<article>\n  <h1>{{{ title }}}</h1>\n  <code>{{{ path }}}</code>\n</article>\n"
+        }
+      },
+      "actions": {},
+      "document_url": "/documents/53ce3726f341e34e309ef0bb",
       "projection_type": "snippet",
-      "data": {
-        "name": "Anonymous",
-        "image": "https://www.gravatar.com/avatar/5348ec1f92ed3a6be5accc2d04566d64?d=mm&s=96",
-        "job": " "
-      },
+      "data": {},
       "related_count": 0,
-      "score": 0.1973946
+      "score": 0.10848885
     }
   ],
   "count": 1,
-  "max_score": 0.1973946
+  "max_score": 0.10848885
 }

@@ -56,18 +56,16 @@ describe('<Mock server customization>', function() {
       var overrideFunction = function(req, res, next) {
         //console.log(arguments);
         count +=1;
+        res.send({});
         next();
       };
       server.override('get', endpoint, overrideFunction);
       mockRequest.get(endpoint)
         .expect(200)
-        .end(function(err) {
-          if(err) {
-            throw err;
-          }
-          count.should.be.eql(1);
-          done();
-        });
+        .expect(function() {
+          count.should.eql(1);
+        })
+        .end(done);
     });
 
 

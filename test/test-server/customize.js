@@ -45,11 +45,29 @@ describe('<Mock server customization>', function() {
       .end(done);
   };
 
-  describe('Overriding', function() {
+  describe.only('Overriding', function() {
     it('should serve overriden JSON', function(done) {
       server.override('get', endpoint, overridenContent);
       checkOverriden(done);
     });
+
+    it('should serve overriden function', function(done) {
+      var count = 0;
+      var overrideFunction = function(req, res, next) {
+        //console.log(arguments);
+        count +=1;
+        res.send({});
+        next();
+      };
+      server.override('get', endpoint, overrideFunction);
+      mockRequest.get(endpoint)
+        .expect(200)
+        .expect(function() {
+          count.should.eql(1);
+        })
+        .end(done);
+    });
+
 
     it('should serve overriden JSON from filename', function(done) {
       var filename = __dirname + '/../samples/mock.json';

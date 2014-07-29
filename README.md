@@ -201,7 +201,7 @@ var doc = {
   }
 };
 // We'll simply upload from filename
-var fileConfig = fakeImageFile: {
+var fileConfig = {
   file: __dirname + '/../test/samples/hello.jpg',
   filename: 'hello_image',
   contentType: 'image/jpeg'

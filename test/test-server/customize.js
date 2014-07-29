@@ -111,6 +111,43 @@ describe('<Mock server customization>', function() {
         }
       ], done);
     });
+
+    describe('overriding with functions', function() {
+      var count = 0;
+      var customResponder = function(req, res, next) {
+        count +=1;
+        res.send({ custom: true });
+        next();
+      };
+
+      it('should use overriden function to respond', function(done) {
+        var endpoint = '/status';
+        count = 0;
+        server.override('get', endpoint, customResponder);
+
+        mockRequest.get(endpoint)
+          .expect(200)
+          .expect(function(res) {
+            res.body.should.have.property('custom', true);
+            count.should.eql(1);
+          })
+          .end(done);
+      });
+
+      it('should be able to override particular endpoints with a function', function(done) {
+        var endpoint = '/marketplace.json';
+        count = 0;
+        server.override('get', endpoint, customResponder);
+
+        mockRequest.get(endpoint)
+          .expect(200)
+          .expect(function(res) {
+            res.body.should.have.property('custom', true);
+            count.should.eql(1);
+          })
+          .end(done);
+      });
+    });
   });
 
   describe('Restoring', function() {

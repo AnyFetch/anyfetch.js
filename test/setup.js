@@ -2,10 +2,8 @@
 
 var async = require('async');
 var request = require('supertest');
-var should = require('should');
 
 var configuration = require('../config/configuration.js');
-var AnyFetch = require('../lib/index.js');
 
 if(!configuration.test.rootLogin || !configuration.test.rootPassword) {
   throw new Error('The test suite requires valid LOGIN and PASSWORD to be set in your env');

@@ -13,6 +13,23 @@ describe('<Low-level mapping functions>', function() {
   });
 
   describe('Errors', function() {
+    it('should throw when setting apiUrl to null', function() {
+      try {
+        anyfetch.setApiUrl(null);
+      } catch(err) {
+        should(err).be.ok;
+        err.message.should.match(/cannot set apiUrl/i);
+      }
+    });
+    it('should throw when setting managerUrl to null', function() {
+      try {
+        anyfetch.setManagerUrl(null);
+      } catch(err) {
+        should(err).be.ok;
+        err.message.should.match(/cannot set managerUrl/i);
+      }
+    });
+
     it('should throw an error when not passing a callback function', function() {
       try {
         anyfetch.getIndex(null);

@@ -108,6 +108,8 @@ A full description of the mapping functions is available in [`api-descriptors.js
 
 ### Posting a file associated to a document
 
+**Head's up:** if you need to post a new document along with a file, [see below](#send-a-document-with-a-file-in-a-single-call) for the `sendDocumentAndFile` helper function.
+
 The function `getDocumentById(id).postFile(config, cb)` expects a `config` hash containing at least a `file` key from which to obtain the file. It can be a string (path to the file) or a `ReadStream`. It can also contains `contentType` (MIME type) and `filename` keys.
 
 `config` can also be passed as a function. In this case, it is invoked with a callback, which must be called with `(err, config)`.
@@ -174,7 +176,8 @@ anyfetch.createSubcompanyWithAdmin(subcompany, admin, function(err, company, adm
 });
 ```
 
-### Get current user
+### Get information about the current user
+
 This function allows you to retrieve the user's info from its credentials (login / password or token).
 
 ```js
@@ -182,6 +185,34 @@ anyfetch.getCurrentUser(function(err, user) {
   console.log('Hello, my name is ' + user.name);
 };
 ```
+
+### Send a document with a file in a single call
+
+When writing an AnyFetch provider, it is very common to need to create a document on the AnyFetch API, and post an associated file right away. This function makes it easy to do just that:
+
+```js
+var doc = {
+  document_type: 'file',
+  data: {
+    foo: 'some_string'
+  },
+  metadata: {
+    some_key: 'some random sentence'
+  }
+};
+// We'll simply upload from filename
+var fileConfig = fakeImageFile: {
+  file: __dirname + '/../test/samples/hello.jpg',
+  filename: 'hello_image',
+  contentType: 'image/jpeg'
+};
+
+anyfetch.sendDocumentAndFile(doc, fileConfig, function(err, doc) {
+  console.log('The document has been posted');
+});
+```
+
+For details about the supported `fileConfig` options, see the [`postFile` function](#posting-a-file-associated-to-a-document) above.
 
 ## Manager endpoints
 

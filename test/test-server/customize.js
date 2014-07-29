@@ -115,7 +115,7 @@ describe('<Mock server customization>', function() {
     describe('overriding with functions', function() {
       var count = 0;
       var customResponder = function(req, res, next) {
-        count +=1;
+        count += 1;
         res.send({ custom: true });
         next();
       };

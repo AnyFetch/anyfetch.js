@@ -45,9 +45,9 @@ describe('<Low-level mapping functions>', function() {
 
       describe('getDocumentById()', function() {
         it('should return synchronously an object containing only functions', function() {
-        for(var i in subFunctions) {
-          isFunction(subFunctions[i]).should.be.ok;
-        }
+          for(var i in subFunctions) {
+            isFunction(subFunctions[i]).should.be.ok;
+          }
         });
 
         it('should only accept mongo-style ids in single-step call', function(done) {

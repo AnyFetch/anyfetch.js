@@ -26,6 +26,7 @@ var extendAllDescriptors = function(descriptors, defaultDescriptor) {
       var subConfig = descriptors[name].subFunctions[subName];
       extendDefault(subConfig, descriptors[name]);
       subConfig.endpoint = descriptors[name].endpoint + subConfig.endpoint;
+      subConfig.method = safeVerb(subConfig.verb);
       delete subConfig.subFunctions;
     }
   }

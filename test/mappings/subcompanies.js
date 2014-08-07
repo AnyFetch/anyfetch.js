@@ -1,6 +1,6 @@
 'use strict';
 
-require('should');
+var should = require('should');
 
 var AnyFetch = require('../../lib/index.js');
 require('../helpers/reset-to-bearer.js');
@@ -49,9 +49,14 @@ describe('<Low-level mapping functions>', function() {
 
     it('should get the subcompany', function(done) {
       anyfetch.getSubcompaniesById(subcompanyId, function(err, res) {
+        should(err).not.be.ok;
         res.body.should.have.property('name', companyInfos.name);
-        done(err);
+        done();
       });
+    });
+
+    it('should reset the subcompany', function(done) {
+      anyfetch.getSubcompaniesById(subcompanyId).deleteReset(done);
     });
 
     it('should delete the subcompany (omitting the `force` argument)', function(done) {

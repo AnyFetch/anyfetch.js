@@ -46,7 +46,14 @@
   },
   "getSubcompaniesById": {
     "endpoint": "/subcompanies/{id}",
-    "requireId": true
+    "requireId": true,
+    "subFunctions": {
+      "deleteReset": {
+        "endpoint": "/reset",
+        "verb": "DELETE",
+        "expectedStatus": 204
+      }
+    }
   },
   "deleteSubcompaniesById": {
     "endpoint": "/subcompanies/{id}",

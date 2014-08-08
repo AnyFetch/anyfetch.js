@@ -76,6 +76,7 @@ Examples:
 - `postCompanyUpdate(cb)` will call `POST /company/update`
 - `postUser({ email: 'chuck@norris.com' }, cb)`
 - `deleteCompanyReset(cb)` will call `DELETE /company/reset`
+- `deleteCompanyReset(cb, { force: true })` will call `DELETE /company/reset?force=true`
 - `deleteToken(cb)` will call `DELETE /token`
 
 **Example usage**:

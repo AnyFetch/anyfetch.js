@@ -33,9 +33,9 @@ Both `Basic` and `Bearer` authentication schemes are supported. The `getToken` m
 If you're using `Bearer` authentication, the token in use is available in the property `anyfetch.accessToken`.
 
 ```js
-var Anyfetch = require('anyfetch');
+var AnyFetch = require('anyfetch');
 
-var anyfetchBasic = new Anyfetch('LOGIN', 'PASSWORD');
+var anyfetchBasic = new AnyFetch('LOGIN', 'PASSWORD');
 
 // Retrieve token from credentials (GET /token)
 anyfetchBasic.getToken(function(err, res) {
@@ -43,7 +43,7 @@ anyfetchBasic.getToken(function(err, res) {
     throw err;
   }
 
-  anyfetch = new Anyfetch(res.body.token);
+  anyfetch = new AnyFetch(res.body.token);
   // We now access the Fetch API using Bearer authentication
   // You can get back the token by accessing `anyfetch.accessToken`
   console.log('We are using the token ' + anyfetch.accessToken);
@@ -55,8 +55,8 @@ anyfetchBasic.getToken(function(err, res) {
 The `getAccessToken` static function helps you obtain an `access_token` during the OAuth flow.
 
 ```js
-Anyfetch.getAccessToken('APP_ID', 'APP_SECRET', 'OAUTH_VERIFICATION_CODE', function(err, accessToken) {
-  var anyfetch = new Anyfetch(accessToken);
+AnyFetch.getAccessToken('APP_ID', 'APP_SECRET', 'OAUTH_VERIFICATION_CODE', function(err, accessToken) {
+  var anyfetch = new AnyFetch(accessToken);
 });
 ```
 
@@ -260,18 +260,18 @@ It is very useful when writing tests and want to take advantage of the mocking s
 
 `anyfetch.js` provides a ready-to-run mock server based on Restify. It may be useful to test apps that use the AnyFetch API.
 
-The mock server is created with `Anyfetch.createMockServer()` and started with `server.listen(port, cb)`. It is a simple [Restify server](http://mcavage.me/node-restify/).
+The mock server is created with `AnyFetch.createMockServer()` and started with `server.listen(port, cb)`. It is a simple [Restify server](http://mcavage.me/node-restify/).
 Once the server is running, override the AnyFetch API url to make it point to your `localhost` with `anyfetch.setApiUrl(url)`. If you're using the OAuth helper method `AnyFetch.getAccessToken`, override the manager URL as well with `AnyFetch.setManagerUrl(url)`. Indeed, the mock server also plays the role of manager.
 
 **Example**: starting the mock server on port 1337
 ```js
 var AnyFetch = require('anyfetch');
-var server = Anyfetch.createMockServer();
+var server = AnyFetch.createMockServer();
 
 var port = 1337;
 var apiUrl = 'http://localhost:' + port;
 server.listen(port, function() {
-  console.log('Anyfetch mock server running on ' + apiUrl);
+  console.log('AnyFetch mock server running on ' + apiUrl);
   AnyFetch.setApiUrl(apiUrl);
   AnyFetch.setManagerUrl(apiUrl);
 

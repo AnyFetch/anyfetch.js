@@ -73,6 +73,9 @@ var generateSignature = function(functionName, descriptor) {
   if(details) {
     result += ':\n\n- Arguments:\n' + details;
   }
+  else {
+    result += '\n';
+  }
   return result;
 }
 
@@ -85,7 +88,7 @@ var generateBody = function(descriptorsByEndpoint) {
   endpoints.forEach(function(endpoint) {
     var descriptors = descriptorsByEndpoint[endpoint];
 
-    body += '\n### `' + endpoint + '` endpoint\n\n';
+    body += '### `' + endpoint + '` endpoint\n\n';
 
     for(var functionName in descriptors) {
       var descriptor = descriptors[functionName];

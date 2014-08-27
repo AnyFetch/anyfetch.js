@@ -76,7 +76,10 @@ var generateSignature = function(functionName, descriptor) {
 var generateBody = function(descriptorsByEndpoint) {
   var body = '';
 
-  for(var endpoint in descriptorsByEndpoint) {
+  var endpoints = Object.keys(descriptorsByEndpoint);
+  endpoints.sort();
+
+  endpoints.forEach(function(endpoint) {
     var descriptors = descriptorsByEndpoint[endpoint];
 
     body += '\n### `' + endpoint + '` endpoint\n\n';
@@ -86,7 +89,7 @@ var generateBody = function(descriptorsByEndpoint) {
       body += '- `' + generateSignature(functionName, descriptor);
       // TODO: subfunctions
     }
-  }
+  });
 
   return body;
 }

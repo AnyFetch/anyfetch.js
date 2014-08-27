@@ -44,19 +44,19 @@ var generateSignature = function(functionName, descriptor) {
   var details = '';
   if(descriptor.requireId) {
     args.push('id');
-    details += '\n  - `id` (string): a valid MongoDB ObjectId';
+    details += '  - `id` (string): a valid MongoDB ObjectId\n';
   }
   if(descriptor.requireIdentifier) {
     args.push('identifier');
-    details += '\n  - `identifier` (string): the custom identifier set for your document';
+    details += '  - `identifier` (string): the custom identifier set for your document\n';
   }
   if(descriptor.params) {
     args.push('[params]');
     var params = descriptor.params.map(function(param){
       return '`' + param + '`';
     });
-    details += '\n  - `params` (object): will be passed as GET parameters.';
-    details += '\nSupported keys: ' + params.join(', ');
+    details += '  - `params` (object): will be passed as GET parameters.\n';
+    details += '  Supported keys: ' + params.join(', ') + '\n';
   }
   if(descriptor.body) {
     args.push('[body]');
@@ -64,13 +64,16 @@ var generateSignature = function(functionName, descriptor) {
       return '`' + key + '`';
     });
 
-    details += '\n  - `body` (object): will be sent as the request\'s body (POST).';
-    details += '\nSupported keys: ' + body.join(', ');
+    details += '  - `body` (object): will be sent as the request\'s body (POST).\n';
+    details += '  Supported keys: ' + body.join(', ') + '\n';
   }
-  details += '\n';
   args.push('cb');
 
-  return functionName + '(' + args.join(', ') + ')`\n' + details;
+  var result = '**`' + functionName + '(' + args.join(', ') + ')`**';
+  if(details) {
+    result += ':\n\n- Arguments:\n' + details;
+  }
+  return result;
 }
 
 var generateBody = function(descriptorsByEndpoint) {
@@ -86,8 +89,22 @@ var generateBody = function(descriptorsByEndpoint) {
 
     for(var functionName in descriptors) {
       var descriptor = descriptors[functionName];
-      body += '- `' + generateSignature(functionName, descriptor);
-      // TODO: subfunctions
+      body += generateSignature(functionName, descriptor);
+
+      if(descriptor.subFunctions) {
+        body += '\n- **Subfunctions**:';
+        for(var subFunctionName in descriptor.subFunctions) {
+          var subDescriptor = descriptor.subFunctions[subFunctionName];
+          var subFunction = generateSignature(functionName + '(id).' + subFunctionName, subDescriptor);
+
+          // Add indentation
+          subFunction = subFunction.replace(/\n/gi, '\n    ');
+
+          body += '\n  - ' + subFunction;
+        }
+      }
+
+      body += '\n';
     }
   });
 

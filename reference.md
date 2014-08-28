@@ -3,7 +3,9 @@ Mappings
 These functions are the easiest way to request the AnyFetch API. Each function corresponds directly to an endpoint: **please see the [full API reference](http://developers.anyfetch.com/endpoints/)**.
 
 Most callbacks are expected to be of the form: `function cb(err, res)`, where `res` is a [SuperAgent Response object](http://visionmedia.github.io/superagent/#response-properties) directly representing the reponse obtained from the API.
-## Mapping functions ordered by API endpoint### `/` endpoint
+## Mapping functions ordered by API endpoint
+
+### `/` endpoint
 
 **`getIndex(cb)`**
 

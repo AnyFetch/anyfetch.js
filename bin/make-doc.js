@@ -80,7 +80,7 @@ var generateSignature = function(functionName, descriptor) {
 }
 
 var generateBody = function(descriptorsByEndpoint) {
-  var body = '';
+  var body = '## Mapping functions ordered by API endpoint\n\n';
 
   var endpoints = Object.keys(descriptorsByEndpoint);
   endpoints.sort();
@@ -122,8 +122,7 @@ var make = function() {
   applyAliases(config.apiDescriptors, config.aliases);
   var grouped = groupByEndpoint(config.apiDescriptors);
 
-  var body = '## Mapping functions ordered by API endpoint';
-  body += generateBody(grouped);
+  var body = generateBody(grouped);
 
   writeMarkdown(header + body);
 

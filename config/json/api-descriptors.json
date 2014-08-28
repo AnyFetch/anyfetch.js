@@ -90,6 +90,7 @@
       "identifier",
       "creation_date",
       "document_type",
+      "last_modification",
       "actions",
       "data",
       "metadata",

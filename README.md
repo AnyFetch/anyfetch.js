@@ -62,7 +62,9 @@ AnyFetch.getAccessToken('APP_ID', 'APP_SECRET', 'OAUTH_VERIFICATION_CODE', funct
 
 ## Basic endpoint to function mappings
 
-This library provides a function per [API endpoint](http://developers.anyfetch.com/endpoints/). We adopt the following naming convention:
+This library provides a function per [API endpoint](http://developers.anyfetch.com/endpoints/). A [full reference card is available](reference.md).
+
+We adopt the following naming convention:
 
 ```js
 verbEndpointName(function(error, result) {})

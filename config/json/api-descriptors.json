@@ -89,8 +89,8 @@
     "body": [
       "identifier",
       "creation_date",
+      "modification_date",
       "document_type",
-      "last_modification",
       "actions",
       "data",
       "metadata",

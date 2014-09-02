@@ -20,7 +20,7 @@ describe('<Low-level mapping functions>', function() {
       it('should allow arbitrary parameters (noCheckParams)', function(done){
         anyfetch.getDocuments({
           "search": 'some_search_query',
-          "_arbitrary_key": 'arbitrary value',
+          "@arbitrary_key": 'arbitrary value',
           "has_key": true
         }, done);
       });

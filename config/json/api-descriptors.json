@@ -219,6 +219,13 @@
     "endpoint": "/providers/{id}",
     "verb": "DELETE",
     "requireId": true,
-    "expectedStatus": 204
+    "expectedStatus": 204,
+    "subFunctions": {
+      "deleteReset": {
+        "endpoint": "/reset",
+        "verb": "DELETE",
+        "expectedStatus": 204
+      }
+    }
   }
 }

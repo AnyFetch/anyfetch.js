@@ -45,7 +45,7 @@ Most callbacks are expected to be of the form: `function cb(err, res)`, where `r
 
 - Arguments:
   - `body` (object): will be sent as the request's body (POST).
-  Supported keys: `identifier`, `creation_date`, `document_type`, `actions`, `data`, `metadata`, `related`, `user_access`
+  Supported keys: `identifier`, `creation_date`, `document_type`, `last_modification`, `actions`, `data`, `metadata`, `related`, `user_access`
 
 ### `/documents/identifier/{identifier}` endpoint
 
@@ -156,6 +156,12 @@ Most callbacks are expected to be of the form: `function cb(err, res)`, where `r
 - Arguments:
   - `id` (string): a valid MongoDB ObjectId
 
+- **Subfunctions**:
+  - **`deleteProviderById(id).deleteReset(id, cb)`**:
+    
+    - Arguments:
+      - `id` (string): a valid MongoDB ObjectId
+    
 ### `/status` endpoint
 
 **`getStatus(cb)`**

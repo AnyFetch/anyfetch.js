@@ -65,7 +65,7 @@ describe('<Low-level mapping functions>', function() {
       var noProvider = new Error('No provider available');
 
       async.waterfall([
-        function getAlProviders(cb) {
+        function getAllProviders(cb) {
           anyfetch.getProviders(cb);
         },
         function extractFirstId(res, cb) {

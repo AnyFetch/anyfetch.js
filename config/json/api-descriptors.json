@@ -69,6 +69,7 @@
     "noCheckParams": true,
     "params": [
       "id",
+      "hash",
       "search",
       "before",
       "after",
@@ -88,6 +89,7 @@
     "verb": "POST",
     "body": [
       "identifier",
+      "hash",
       "creation_date",
       "modification_date",
       "document_type",
@@ -127,6 +129,7 @@
     "requireId": true,
     "body": [
       "identifier",
+      "hash",
       "document_type",
       "actions",
       "data",

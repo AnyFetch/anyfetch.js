@@ -1,7 +1,7 @@
 {
   "name": "anyfetch",
   "description": "AnyFetch API wrapper for Node.js",
-  "version": "2.0.7",
+  "version": "2.0.8",
   "author": "Merlin Nimier-David <merlin@anyfetch.com>",
   "contributors": [
     {
@@ -12,7 +12,6 @@
       "name": "Robin Ricard",
       "email": "ricard.robin@gmail.com"
     }
-
   ],
   "scripts": {
     "test": "NODE_ENV=test mocha --recursive -R spec test/ -t 30000 -s 1000",

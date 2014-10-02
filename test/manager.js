@@ -40,14 +40,14 @@ describe('<Manager>', function() {
 
   describe('getAccessToken()', function() {
     it('should err on missing code', function(done) {
-      AnyFetch.getAccessToken(appId, appSecret, '', function(err) {
+      AnyFetch.getAccessToken(appId, appSecret, '', '', function(err) {
         should(err).have.property('message').and.match(/409/);
         done();
       });
     });
 
     it('should obtain access token', function(done) {
-      AnyFetch.getAccessToken(appId, appSecret, code, function(err, accessToken) {
+      AnyFetch.getAccessToken(appId, appSecret, '', code, function(err, accessToken) {
         should(accessToken).be.ok;
         accessToken.should.equal(configuration.test.fakeAccessToken);
         done(err);

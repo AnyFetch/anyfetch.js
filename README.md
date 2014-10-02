@@ -55,7 +55,7 @@ anyfetchBasic.getToken(function(err, res) {
 The `getAccessToken` static function helps you obtain an `access_token` during the OAuth flow.
 
 ```js
-AnyFetch.getAccessToken('APP_ID', 'APP_SECRET', 'OAUTH_VERIFICATION_CODE', function(err, accessToken) {
+AnyFetch.getAccessToken('APP_ID', 'APP_SECRET', 'REDIRECT_URI', 'OAUTH_VERIFICATION_CODE', function(err, accessToken) {
   var anyfetch = new AnyFetch(accessToken);
 });
 ```

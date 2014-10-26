@@ -17,7 +17,7 @@ describe('<Low-level mapping functions>', function() {
 
   describe('> document-related functions', function() {
     describe('getDocuments() parameters', function() {
-      it('should allow arbitrary parameters (noCheckParams)', function(done){
+      it('should allow arbitrary parameters (noCheckParams)', function(done) {
         anyfetch.getDocuments({
           "search": 'some_search_query',
           "@arbitrary_key": 'arbitrary value',
@@ -108,15 +108,21 @@ describe('<Low-level mapping functions>', function() {
 
         it('should post file without knowing mime-type', function(done) {
           var file = fs.createReadStream(configuration.test.fakeImageFile.path);
-          subFunctions.postFile({ file: file }, done);
+          subFunctions.postFile({
+            file: file
+          }, done);
         });
 
         it('should post file from a path', function(done) {
-          subFunctions.postFile({ file: path }, done);
+          subFunctions.postFile({
+            file: path
+          }, done);
         });
 
         it('should post file to document by identifier', function(done) {
-          anyfetch.getDocumentByIdentifier(fakeDocument.identifier).postFile({ file: path }, done);
+          anyfetch.getDocumentByIdentifier(fakeDocument.identifier).postFile({
+            file: path
+          }, done);
         });
 
         it('should accept a function as `config` parameter', function(done) {

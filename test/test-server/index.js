@@ -37,7 +37,7 @@ describe('<Mock server>', function() {
     it('should err on invalid GET parameter', function(done) {
       request(mockUrl)
         .del('/subcompanies/53a7ef7b3b28ab0c7c46863z')
-        .query({ random_key: 'random_value' })
+        .query({random_key: 'random_value'})
         .expect(409)
         .expect(/not allowed/i)
         .expect(/query parameter/i)
@@ -47,7 +47,7 @@ describe('<Mock server>', function() {
     it('should err on invalid key in POST body', function(done) {
       request(mockUrl)
         .post('/users')
-        .send({ random_key: 'random_value' })
+        .send({random_key: 'random_value'})
         .expect(409)
         .expect(/not allowed/i)
         .expect(/request's body/i)
@@ -147,7 +147,7 @@ describe('<Mock server>', function() {
 
     it('should respond with all the mocks we asked for', function(done) {
       var pages = ['/document_types', '/providers', '/users', '/company'];
-      anyfetch.getBatch({ pages: pages }, function(err, res) {
+      anyfetch.getBatch({pages: pages}, function(err, res) {
         should(err).not.be.ok;
         should(res.body).be.ok;
         res.body.should.have.keys(pages);
@@ -157,7 +157,7 @@ describe('<Mock server>', function() {
 
     it('should send 404 when one of the pages is missing', function(done) {
       var pages = ['/document_types', '/unknown', '/providers'];
-      anyfetch.getBatch({ pages: pages }, function(err) {
+      anyfetch.getBatch({pages: pages}, function(err) {
         should(err).be.ok;
         err.message.should.match(/404/i);
         done();

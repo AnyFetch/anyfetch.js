@@ -35,7 +35,7 @@ describe('<Low-level mapping functions>', function() {
     ];
 
     it('should carry out the request', function(done) {
-      anyfetch.getBatch({ pages: pages }, function(e, r) {
+      anyfetch.getBatch({pages: pages}, function(e, r) {
         res = r;
         done(e);
       });
@@ -80,7 +80,7 @@ describe('<Low-level mapping functions>', function() {
         },
         function checkProvider(id, res, cb) {
           var provider = res.body;
-          provider.should.have.properties({ 'id': id });
+          provider.should.have.properties({'id': id});
           cb(null);
         }
       ], function(err) {

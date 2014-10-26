@@ -116,7 +116,7 @@ describe('<Mock server customization>', function() {
       var count = 0;
       var customResponder = function(req, res, next) {
         count += 1;
-        res.send({ custom: true });
+        res.send({custom: true});
         next();
       };
 

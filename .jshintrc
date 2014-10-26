@@ -71,6 +71,6 @@
     "afterEach"
   ],
   "indent"        : 2,
-  "maxstatements" : 20,
-  "maxcomplexity" : 10
+  "maxstatements" : 60,
+  "maxcomplexity" : 50
 }

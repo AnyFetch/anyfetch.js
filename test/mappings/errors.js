@@ -40,7 +40,7 @@ describe('<Low-level mapping functions>', function() {
     });
 
     it('should err synchronously when passing an invalid POST argument', function(done) {
-      anyfetch.postUser({ random_key: 'random_value' }, function(err) {
+      anyfetch.postUser({random_key: 'random_value'}, function(err) {
         should(err).be.ok;
         err.message.should.match(/random_key/i);
         err.message.should.match(/not allowed in this request\'s body/i);
@@ -49,7 +49,7 @@ describe('<Low-level mapping functions>', function() {
     });
 
     it('should err synchronously when passing an invalid GET parameter', function(done) {
-      anyfetch.getBatch({ random_key: 'random_value' }, function(err) {
+      anyfetch.getBatch({random_key: 'random_value'}, function(err) {
         should(err).be.ok;
         err.message.should.match(/random_key/i);
         err.message.should.match(/not allowed in this request\'s get parameters/i);

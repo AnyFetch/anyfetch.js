@@ -81,7 +81,7 @@ describe('<Manager>', function() {
     });
 
     it('should be able to restrict to trusted providers', function(done) {
-      AnyFetch.getAvailableProviders({ trusted: true }, function(err, res) {
+      AnyFetch.getAvailableProviders({trusted: true}, function(err, res) {
         should(err).not.be.ok;
         should(res).be.ok;
 
@@ -98,7 +98,7 @@ describe('<Manager>', function() {
     });
 
     it('should be able to restrict to featured providers', function(done) {
-      AnyFetch.getAvailableProviders({ featured: true }, function(err, res) {
+      AnyFetch.getAvailableProviders({featured: true}, function(err, res) {
         should(err).not.be.ok;
         should(res).be.ok;
 

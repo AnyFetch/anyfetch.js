@@ -14,7 +14,7 @@ var apiDescriptors = require('../config/json/api-descriptors.json');
  * Extend the descriptors (extend subfunctions as well)
  */
 var extendAllDescriptors = function(descriptors, defaultDescriptor) {
-  for (var name in descriptors) {
+  for(var name in descriptors) {
     extendDefault(descriptors[name], defaultDescriptor);
 
     // While we're at it, convert the verb to a valid method name
@@ -22,7 +22,7 @@ var extendAllDescriptors = function(descriptors, defaultDescriptor) {
     descriptors[name].method = safeVerb(verb);
 
     // The sub-functions extend this descriptor
-    for (var subName in descriptors[name].subFunctions) {
+    for(var subName in descriptors[name].subFunctions) {
       var subConfig = descriptors[name].subFunctions[subName];
       extendDefault(subConfig, descriptors[name]);
       subConfig.endpoint = descriptors[name].endpoint + subConfig.endpoint;

@@ -15,7 +15,7 @@
   ],
   "scripts": {
     "test": "NODE_ENV=test mocha --recursive -R spec test/ -t 30000 -s 1000",
-    "lint": "jshint lib/ test/"
+    "lint": "jshint config/ lib/ test/ script/ && jscs config/ lib/ test/ script/"
   },
   "main": "./lib/",
   "repository": {
@@ -37,7 +37,9 @@
   "devDependencies": {
     "async": "^0.9.0",
     "mocha": "^1.20.0",
-    "should": "^4.0.0"
+    "should": "^4.0.0",
+    "jshint": "^2.5.6",
+    "jscs": "^1.7.3"
   },
   "licence": "MIT",
   "engines": {

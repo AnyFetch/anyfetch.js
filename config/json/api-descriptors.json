@@ -171,6 +171,9 @@
     "requireIdentifier": true,
     "expectedStatus": 204
   },
+  "getUser": {
+    "endpoint": "/user"
+  },
   "getUsers": {
     "endpoint": "/users"
   },

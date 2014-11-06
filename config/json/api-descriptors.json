@@ -172,7 +172,9 @@
     "expectedStatus": 204
   },
   "getUser": {
-    "endpoint": "/user"
+    "endpoint": "/user",
+    "verb": "GET",
+    "expectedStatus": 200,
   },
   "getUsers": {
     "endpoint": "/users"

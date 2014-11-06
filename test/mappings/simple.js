@@ -44,6 +44,7 @@ describe('<Low-level mapping functions>', function() {
   testEndpoint('getSubcompanies');
   testEndpoint('postCompanyUpdate');
   testEndpoint('getDocuments');
+  testEndpoint('getUser');
   testEndpoint('getUsers');
   testEndpoint('getDocumentTypes');
   testEndpoint('getProviders');

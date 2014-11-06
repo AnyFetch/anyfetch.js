@@ -6,6 +6,7 @@
     "hydraters": [
       "http://plaintext.hydrater.anyfetch.com/hydrate",
       "http://pdf.hydrater.anyfetch.com/hydrate"
-    ]
+    ],
+    "childs": []
   }
 ]

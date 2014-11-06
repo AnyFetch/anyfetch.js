@@ -37,19 +37,6 @@ describe('<High-level helper functions>', function() {
     });
   });
 
-  describe('getCurrentUser()', function() {
-    it('should get the correct user', function(done) {
-      anyfetch.getCurrentUser(function(err, user) {
-        should(err).not.be.ok;
-        should(user).be.ok;
-        should(user).have.properties('id', 'email', 'name', 'is_admin');
-        user.email.should.eql(configuration.test.user.email);
-
-        done();
-      });
-    });
-  });
-
   describe('createSubcompanyWithAdmin()', function() {
     before(function reset(done) {
       anyfetch.resetToBearer(done);

@@ -21,7 +21,7 @@ var anyfetchBasic = new AnyFetch('LOGIN', 'PASSWORD');
 // OR
 var anyfetch = new AnyFetch('TOKEN');
 
-anyfetch.getCurrentUser(function(err, user) {
+anyfetch.getUser(function(err, user) {
   console.log('Hello, my name is ' + user.name);
 };
 ```
@@ -184,7 +184,7 @@ anyfetch.createSubcompanyWithAdmin(subcompany, admin, function(err, company, adm
 This function allows you to retrieve the user's info from its credentials (login / password or token).
 
 ```js
-anyfetch.getCurrentUser(function(err, user) {
+anyfetch.getUser(function(err, user) {
   console.log('Hello, my name is ' + user.name);
 };
 ```

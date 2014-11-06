@@ -5,5 +5,16 @@
   "hydraters": [
     "http://plaintext.hydrater.anyfetch.com/hydrate",
     "http://pdf.hydrater.anyfetch.com/hydrate"
+  ],
+  "childs": [
+    {
+      "_type": "Company",
+      "id": "53ce561cc2453be57db39688",
+      "name": "the_fake_subcompany2",
+      "hydraters": [
+        "http://plaintext.hydrater.anyfetch.com/hydrate",
+        "http://pdf.hydrater.anyfetch.com/hydrate"
+      ]
+    }
   ]
 }

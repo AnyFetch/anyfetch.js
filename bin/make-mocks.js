@@ -78,8 +78,8 @@ mkdirp(mocksDirectory, function(err) {
     anyfetch = new AnyFetch(res.body.token);
 
     async.auto({
-      getCurrentUser: function(cb) {
-        anyfetch.getCurrentUser(function(err, user) {
+      getUser: function(cb) {
+        anyfetch.getUser(function(err, user) {
           userId = user.id;
           cb(err);
         });
@@ -124,7 +124,7 @@ mkdirp(mocksDirectory, function(err) {
       },
 
       // Now the fake content is setup, we can test all the gets in parallel
-      endpoints: ['getCurrentUser', 'postSubcompanies', 'postDocuments', function(cb) {
+      endpoints: ['getUser', 'postSubcompanies', 'postDocuments', function(cb) {
         var endpoints = [
           'getDocuments',
           'getStatus',

@@ -63,7 +63,12 @@
   "patchSubcompaniesById": {
     "endpoint": "/subcompanies/{id}",
     "requireId": true,
-    "verb": "PATCH"
+    "verb": "PATCH",
+    "body": [
+      "name",
+      "hydraters",
+      "documents_per_update"
+    ]
   },
   "deleteSubcompaniesById": {
     "endpoint": "/subcompanies/{id}",
@@ -187,7 +192,13 @@
   "patchUser": {
     "endpoint": "/user",
     "verb": "PATCH",
-    "expectedStatus": 200
+    "expectedStatus": 200,
+    "body": [
+      "email",
+      "name",
+      "password",
+      "is_admin"
+    ]
   },
   "getUsers": {
     "endpoint": "/users"

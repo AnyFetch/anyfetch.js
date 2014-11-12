@@ -1,0 +1,9 @@
+{
+  "_type": "Company",
+  "id": "53ce561cc2453be57db39687",
+  "name": "the_fake_subcompany",
+  "hydraters": [
+    "http://plaintext.hydrater.anyfetch.com/hydrate",
+    "http://pdf.hydrater.anyfetch.com/hydrate"
+  ]
+}

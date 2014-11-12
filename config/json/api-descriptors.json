@@ -22,6 +22,11 @@
   "getCompany": {
     "endpoint": "/company"
   },
+  "postCompany": {
+    "endpoint": "/company",
+    "verb": "POST",
+    "expectedStatus": 200
+  },
   "postCompanyUpdate": {
     "endpoint": "/company/update",
     "verb": "POST",
@@ -54,6 +59,11 @@
         "expectedStatus": 204
       }
     }
+  },
+  "patchSubcompaniesById": {
+    "endpoint": "/subcompanies/{id}",
+    "requireId": true,
+    "verb": "PATCH"
   },
   "deleteSubcompaniesById": {
     "endpoint": "/subcompanies/{id}",
@@ -173,6 +183,11 @@
   },
   "getUser": {
     "endpoint": "/user"
+  },
+  "postUser": {
+    "endpoint": "/user",
+    "verb": "POST",
+    "expectedStatus": 200
   },
   "getUsers": {
     "endpoint": "/users"

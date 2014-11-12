@@ -41,12 +41,10 @@ describe('<Low-level mapping functions>', function() {
   testEndpoint('getStatus');
   testEndpoint('getIndex');
   testEndpoint('getCompany');
-  testEndpoint('postCompany');
   testEndpoint('getSubcompanies');
   testEndpoint('postCompanyUpdate');
   testEndpoint('getDocuments');
   testEndpoint('getUser');
-  testEndpoint('postUser');
   testEndpoint('getUsers');
   testEndpoint('getDocumentTypes');
   testEndpoint('getProviders');

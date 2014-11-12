@@ -11,6 +11,7 @@
   "getUserById": "getUsersById",
   "patchUserById": "patchUsersById",
   "deleteUserById": "deleteUsersById",
+  "postUser": "postUsers",
   "getProviderById": "getProvidersById",
   "deleteProviderById": "deleteProvidersById"
 }

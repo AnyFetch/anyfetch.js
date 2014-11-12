@@ -22,9 +22,9 @@
   "getCompany": {
     "endpoint": "/company"
   },
-  "postCompany": {
+  "patchCompany": {
     "endpoint": "/company",
-    "verb": "POST",
+    "verb": "PATCH",
     "expectedStatus": 200
   },
   "postCompanyUpdate": {
@@ -184,9 +184,9 @@
   "getUser": {
     "endpoint": "/user"
   },
-  "postUser": {
+  "patchUser": {
     "endpoint": "/user",
-    "verb": "POST",
+    "verb": "PATCH",
     "expectedStatus": 200
   },
   "getUsers": {

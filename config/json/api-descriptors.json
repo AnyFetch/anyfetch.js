@@ -22,6 +22,11 @@
   "getCompany": {
     "endpoint": "/company"
   },
+  "patchCompany": {
+    "endpoint": "/company",
+    "verb": "PATCH",
+    "expectedStatus": 200
+  },
   "postCompanyUpdate": {
     "endpoint": "/company/update",
     "verb": "POST",
@@ -54,6 +59,16 @@
         "expectedStatus": 204
       }
     }
+  },
+  "patchSubcompaniesById": {
+    "endpoint": "/subcompanies/{id}",
+    "requireId": true,
+    "verb": "PATCH",
+    "body": [
+      "name",
+      "hydraters",
+      "documents_per_update"
+    ]
   },
   "deleteSubcompaniesById": {
     "endpoint": "/subcompanies/{id}",
@@ -173,6 +188,17 @@
   },
   "getUser": {
     "endpoint": "/user"
+  },
+  "patchUser": {
+    "endpoint": "/user",
+    "verb": "PATCH",
+    "expectedStatus": 200,
+    "body": [
+      "email",
+      "name",
+      "password",
+      "is_admin"
+    ]
   },
   "getUsers": {
     "endpoint": "/users"

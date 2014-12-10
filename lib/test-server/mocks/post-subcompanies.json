@@ -1,11 +1,25 @@
 {
   "_type": "Company",
-  "id": "54885dc3e782a7946271cf11",
+  "id": "54885fd6e782a7946271d03f",
   "name": "the_fake_subcompany",
-  "hydraters": [],
+  "hydraters": [
+    "https://deduplicator-staging.anyfetch.com/hydrate",
+    "https://embedmail-staging.anyfetch.com/hydrate",
+    "https://eml-staging.anyfetch.com/hydrate",
+    "https://event-staging.anyfetch.com/hydrate",
+    "https://filecleaner-staging.anyfetch.com/hydrate",
+    "https://ics-staging.anyfetch.com/hydrate",
+    "https://image-staging.anyfetch.com/hydrate",
+    "https://iptc-staging.anyfetch.com/hydrate",
+    "https://markdown-staging.anyfetch.com/hydrate",
+    "https://ocr-staging.anyfetch.com/hydrate",
+    "https://office-staging.anyfetch.com/hydrate",
+    "https://pdf-staging.anyfetch.com/hydrate",
+    "https://plaintext-staging.anyfetch.com/hydrate"
+  ],
   "document_count": 0,
   "user_count": 1,
   "subcompany_count": 0,
   "documents_per_update": 5000,
-  "last_update": "2014-12-10T14:50:43.129Z"
+  "last_update": "2014-12-10T14:59:34.390Z"
 }

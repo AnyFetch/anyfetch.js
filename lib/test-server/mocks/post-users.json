@@ -1,8 +1,8 @@
 {
   "_type": "User",
-  "id": "54885fd6e782a7946271d03e",
-  "email": "thechuck329@norris.com",
+  "id": "5488621a42d43c8b0b302732",
+  "email": "thechuck562@norris.com",
   "name": "Chuck Norris",
   "is_admin": true,
-  "user_url": "https://api-staging.anyfetch.com/users/54885fd6e782a7946271d03e"
+  "user_url": "https://api-staging.anyfetch.com/users/5488621a42d43c8b0b302732"
 }

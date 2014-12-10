@@ -1,9 +1,9 @@
 {
   "_type": "Document",
-  "id": "54885fd6caef098362955f54",
+  "id": "5488621a42d43c8b0b302733",
   "identifier": "the \"unique\" document identifier (éüà)",
-  "creation_date": "2014-12-10T14:59:34.132Z",
-  "modification_date": "2014-12-10T14:59:34.132Z",
+  "creation_date": "2014-12-10T15:09:14.626Z",
+  "modification_date": "2014-12-10T15:09:14.626Z",
   "provider": {
     "_type": "AccessToken",
     "id": "54885c04e782a7946271cf00",
@@ -42,7 +42,7 @@
     }
   },
   "actions": {},
-  "document_url": "https://api-staging.anyfetch.com/documents/54885fd6caef098362955f54",
+  "document_url": "https://api-staging.anyfetch.com/documents/5488621a42d43c8b0b302733",
   "projection_type": "raw",
   "data": {
     "foo": "some_string"

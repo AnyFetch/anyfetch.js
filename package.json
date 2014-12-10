@@ -15,7 +15,7 @@
   ],
   "scripts": {
     "test": "NODE_ENV=test mocha --recursive -R spec test/ -t 30000 -s 1000",
-    "lint": "jshint config/ lib/ test/ script/ && jscs config/ lib/ test/ script/"
+    "lint": "jshint config/ lib/ test/ script/ bin/ && jscs config/ lib/ test/ script/ bin/"
   },
   "main": "./lib/",
   "repository": {

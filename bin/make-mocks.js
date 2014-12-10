@@ -170,7 +170,7 @@ mkdirp(mocksDirectory, function(err) {
         var pre = anyfetch.getDocumentsById(documentId);
         var c = configuration.apiDescriptors.getDocumentsById.subFunctions;
 
-        async.map(subs, function(name, cb){
+        async.map(subs, function(name, cb) {
           pre[name](function(err, res) {
             saveMock(c[name], res.body);
             cb(err);

@@ -22,7 +22,7 @@ var applyAliases = function(descriptors, aliases) {
     descriptors[alias] = descriptors[original];
     delete descriptors[original];
   });
-}
+};
 
 var groupByEndpoint = function(descriptors) {
   var grouped = {};
@@ -52,7 +52,7 @@ var generateSignature = function(functionName, descriptor) {
   }
   if(descriptor.params) {
     args.push('[params]');
-    var params = descriptor.params.map(function(param){
+    var params = descriptor.params.map(function(param) {
       return '`' + param + '`';
     });
     details += '  - `params` (object): will be passed as GET parameters.\n';
@@ -60,7 +60,7 @@ var generateSignature = function(functionName, descriptor) {
   }
   if(descriptor.body) {
     args.push('[body]');
-    var body = descriptor.body.map(function(key){
+    var body = descriptor.body.map(function(key) {
       return '`' + key + '`';
     });
 
@@ -77,7 +77,7 @@ var generateSignature = function(functionName, descriptor) {
     result += '\n';
   }
   return result;
-}
+};
 
 var generateBody = function(descriptorsByEndpoint) {
   var body = '## Mapping functions ordered by API endpoint\n\n';
@@ -112,7 +112,7 @@ var generateBody = function(descriptorsByEndpoint) {
   });
 
   return body;
-}
+};
 
 var writeMarkdown = function(content) {
   fs.writeFileSync(outputFilename, content);
@@ -128,6 +128,6 @@ var make = function() {
 
   console.log('Reference documentation written to ' + outputFilename);
   process.exit(0);
-}
+};
 
 make();

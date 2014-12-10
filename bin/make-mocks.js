@@ -56,7 +56,6 @@ var mockEndpoint = function(name, args, cb) {
     cb(err);
   });
 
-  console.log(name, args);
   anyfetch[name].apply(anyfetch, args);
 };
 

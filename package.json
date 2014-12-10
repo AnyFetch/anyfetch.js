@@ -27,7 +27,7 @@
     "anyFetch"
   ],
   "dependencies": {
-    "supertest": "^0.14.0",
+    "supertest": "^0.15.0",
     "mkdirp": "^0.5.0",
     "rarity": "^2.1.1",
     "auto-load": "^1.1.0",
@@ -37,9 +37,9 @@
     "restify": "^2.8.3",
     "async": "^0.9.0",
     "mocha": "^2.0.1",
-    "should": "^4.1.0",
-    "jshint": "^2.5.6",
-    "jscs": "^1.7.3"
+    "should": "^4.3.0",
+    "jshint": "^2.5.10",
+    "jscs": "^1.8.1"
   },
   "licence": "MIT",
   "engines": {

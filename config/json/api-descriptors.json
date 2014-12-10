@@ -200,6 +200,11 @@
       "is_admin"
     ]
   },
+  "deleteUserReset": {
+    "endpoint": "/user/reset",
+    "verb": "DELETE",
+    "expectedStatus": 204
+  },
   "getUsers": {
     "endpoint": "/users"
   },
@@ -215,7 +220,14 @@
   },
   "getUsersById": {
     "endpoint": "/users/{id}",
-    "requireId": true
+    "requireId": true,
+    "subFunctions": {
+      "deleteReset": {
+        "endpoint": "/reset",
+        "verb": "DELETE",
+        "expectedStatus": 204
+      }
+    }
   },
   "patchUsersById": {
     "endpoint": "/users/{id}",

@@ -1,9 +1,11 @@
 {
   "_type": "Company",
-  "id": "53ce561cc2453be57db39687",
+  "id": "54885dc3e782a7946271cf11",
   "name": "the_fake_subcompany",
-  "hydraters": [
-    "http://plaintext.hydrater.anyfetch.com/hydrate",
-    "http://pdf.hydrater.anyfetch.com/hydrate"
-  ]
+  "hydraters": [],
+  "document_count": 0,
+  "user_count": 1,
+  "subcompany_count": 0,
+  "documents_per_update": 5000,
+  "last_update": "2014-12-10T14:50:43.129Z"
 }

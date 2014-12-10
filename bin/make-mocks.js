@@ -28,7 +28,7 @@ var mocksDirectory = __dirname + '/../lib/test-server/mocks/';
  * Save the response's body, at least if it's not empty
  */
 var saveMock = function(endpointConfig, body) {
-  if (endpointConfig.expectedStatus !== 204 && Object.keys(body).length > 0) {
+  if(endpointConfig.expectedStatus !== 204 && Object.keys(body).length > 0) {
     // We'll write pretty JSON
     var json = JSON.stringify(body, null, 2);
     var target = filename(endpointConfig) + '.json';
@@ -42,17 +42,21 @@ var saveMock = function(endpointConfig, body) {
 };
 
 var mockEndpoint = function(name, args, cb) {
-  if (!configuration.apiDescriptors[name]) {
+  if(!configuration.apiDescriptors[name]) {
     throw new Error('The endpoint ' + name + ' is not specified.');
   }
 
   // Add callback
-  args.push(function(err, res){
+  args.push(function(err, res) {
+    if(err) {
+      return cb(err);
+    }
     var body = res.body || null;
     saveMock(configuration.apiDescriptors[name], body);
     cb(err);
   });
 
+  console.log(name, args);
   anyfetch[name].apply(anyfetch, args);
 };
 
@@ -79,8 +83,11 @@ mkdirp(mocksDirectory, function(err) {
 
     async.auto({
       getUser: function(cb) {
-        anyfetch.getUser(function(err, user) {
-          userId = user.id;
+        anyfetch.getUser(function(err, res) {
+          if(err) {
+            return cb(err);
+          }
+          userId = res.body.id;
           cb(err);
         });
       },

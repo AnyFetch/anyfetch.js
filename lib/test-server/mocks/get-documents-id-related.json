@@ -1,11 +1,13 @@
 {
-  "title": {},
+  "title": {
+    "title": "Unknown document: no path."
+  },
   "document_type": {
     "_type": "DocumentType",
     "id": "5252ce4ce4cfcd16f55cfa3b",
     "name": "file",
     "templates": {
-      "title": "{{ title }}"
+      "title": "{{{ title }}}"
     }
   },
   "facets": {

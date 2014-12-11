@@ -1,0 +1,7 @@
+{
+  "_type": "Hydrater",
+  "id": "5252ce4ce4cfcd16f55a565c",
+  "url": "https://markdown.anyfetch.com/hydrate",
+  "short_name": "markdown",
+  "description": "AnyFetch Hydrater for markdown files."
+}

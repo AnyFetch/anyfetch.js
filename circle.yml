@@ -1,0 +1,8 @@
+machine:
+  node:
+    version: 0.10.26
+test:
+  pre:
+    - npm run-script lint
+  override:
+    - npm test

@@ -64,7 +64,6 @@ module.exports = {
     },
     fakeCompany: {
       name: 'the_fake_subcompany',
-      hydraters: []
     },
     fakeDocument: {
       identifier: 'the "unique" document identifier (éüà)',
@@ -73,6 +72,8 @@ module.exports = {
         foo: 'some_string'
       },
       metadata: {
+        title: 'Document title',
+        path: '/document.txt',
         some_key: 'some random sentence'
       }
     },
@@ -83,6 +84,8 @@ module.exports = {
         foo: 'some_other_string'
       },
       metadata: {
+        title: 'Document #2 title',
+        path: '/document2.txt',
         some_key: 'some different random sentence'
       }
     },

@@ -5,7 +5,8 @@ test:
   pre:
     - npm run-script lint
   override:
-    - npm run-script coverage
+    - ./circle.sh:
+        parallel: true
 deployment:
   automerge:
     branch: /.+/

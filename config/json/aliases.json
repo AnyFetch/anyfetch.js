@@ -13,5 +13,7 @@
   "deleteUserById": "deleteUsersById",
   "postUser": "postUsers",
   "getProviderById": "getProvidersById",
-  "deleteProviderById": "deleteProvidersById"
+  "deleteProviderById": "deleteProvidersById",
+  "getHydraterById": "getHydratersById",
+  "deleteHydraterById": "deleteHydratersById"
 }

@@ -5,4 +5,9 @@ test:
   pre:
     - npm run-script lint
   override:
-    - npm test
+    - npm run-script coverage
+deployment:
+  automerge:
+    branch: /.+/
+    commands:
+      - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js

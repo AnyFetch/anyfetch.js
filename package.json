@@ -1,21 +1,43 @@
 {
   "name": "anyfetch",
   "description": "AnyFetch API wrapper for Node.js",
-  "version": "2.1.3",
+  "version": "2.1.5",
   "author": "Merlin Nimier-David <merlin@anyfetch.com>",
   "contributors": [
     {
-      "name": "Matthieu Bacconnier",
-      "email": "matthieu.bacconnier@papiel.fr"
+      "name": "Hugo Duroux",
+      "email": "hugo.duroux@gmail.com",
+      "url": "https://github.com/Amoki"
+    },
+    {
+      "name": "Antoine Bolvy",
+      "email": "antoine.bolvy@gmail.com",
+      "url": "https://github.com/saveman71"
+    },
+    {
+      "name": "Quentin Buathier",
+      "email": "quentin.buathier@epitech.eu",
+      "url": "https://github.com/Quentin01"
     },
     {
       "name": "Robin Ricard",
-      "email": "ricard.robin@gmail.com"
+      "email": "",
+      "url": "https://github.com/rricard"
+    },
+    {
+      "name": "Matthieu Bacconnier",
+      "email": "neamar@neamar.fr",
+      "url": "https://github.com/Neamar"
+    },
+    {
+      "name": "Merlin Nimier-David",
+      "email": "",
+      "url": "https://github.com/merlinND"
     }
   ],
   "scripts": {
     "test": "NODE_ENV=test mocha --recursive -R spec test/ -t 30000 -s 1000",
-    "lint": "jshint config/ lib/ test/ script/ && jscs config/ lib/ test/ script/"
+    "lint": "jshint config/ lib/ test/ script/ bin/ && jscs config/ lib/ test/ script/ bin/"
   },
   "main": "./lib/",
   "repository": {
@@ -27,19 +49,21 @@
     "anyFetch"
   ],
   "dependencies": {
-    "restify": "^2.8.3",
-    "supertest": "^0.14.0",
+    "supertest": "^0.15.0",
     "mkdirp": "^0.5.0",
     "rarity": "^2.1.1",
     "auto-load": "^1.1.0",
     "dotenv": "^0.4.0"
   },
+  "optionalDependencies": {
+    "restify": "^2.8.3"
+  },
   "devDependencies": {
     "async": "^0.9.0",
     "mocha": "^2.0.1",
-    "should": "^4.1.0",
-    "jshint": "^2.5.6",
-    "jscs": "^1.7.3"
+    "should": "^4.3.0",
+    "jshint": "^2.5.10",
+    "jscs": "^1.8.1"
   },
   "licence": "MIT",
   "engines": {

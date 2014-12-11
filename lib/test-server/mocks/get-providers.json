@@ -1,11 +1,13 @@
 [
   {
     "_type": "AccessToken",
-    "id": "53c66af5d3bda13f3a848ab9",
+    "id": "54885c04e782a7946271cf00",
     "client": null,
     "is_basic_token": true,
     "account_name": "",
-    "document_count": 2,
-    "updated": "2014-07-22T12:16:28.613Z"
+    "current": true,
+    "document_count": 1,
+    "updated": "2014-12-10T15:09:14.681Z",
+    "providing": true
   }
 ]

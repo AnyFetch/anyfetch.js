@@ -4,24 +4,481 @@
     "id": "5252ce4ce4cfcd16f55cfa3b",
     "name": "file",
     "templates": {
-      "snippet": "<article>\n  <h1>{{{ title }}}</h1>\n  <code>{{{ path }}}</code>\n</article>\n",
-      "full": "<article>\n  <h1>{{{ title }}}</h1>\n  <code>{{{ path }}}</code>\n</article>\n",
-      "title": "{{ title }}"
+      "title": "{{{ title }}}",
+      "full": "<article class=\"anyfetch-document-full anyfetch-type-file\">\n  <header class=\"anyfetch-header\">\n    <hgroup class=\"anyfetch-title-group\">\n      <h1 class=\"anyfetch-title\">{{{ title }}}</h1>\n      <code class=\"anyfetch-title-detail\">{{{ path }}}</code>\n    </hgroup>\n  </header>\n</article>\n",
+      "snippet": "<article class=\"anyfetch-document-snippet anyfetch-type-file\">\n  <header class=\"anyfetch-header\">\n    <hgroup class=\"anyfetch-title-group\">\n      <h1 class=\"anyfetch-title\">{{{ title }}}</h1>\n      <code class=\"anyfetch-title-detail\">{{{ path }}}</code>\n    </hgroup>\n  </header>\n</article>\n"
     },
+    "owner": null,
     "description": "Most basic document type for any kind of binary content. When a provider sends data without any additional information, it will use this document_type.",
     "projections": {
-      "snippet": [
-        "title",
-        "path",
-        "extension"
-      ],
-      "full": [
-        "title",
-        "path",
-        "extension"
-      ]
+      "title": "{ \"title\": {{> title}} }",
+      "full": "{\n  \"title\": {{> title}},\n  \"path\": \"{{attr 'path'}}\",\n  \"extension\": \"{{extractExtension metadata.path}}\"\n}\n",
+      "snippet": "{\n  \"title\": {{> title}},\n  \"path\": \"{{attr 'path'}}\",\n  \"extension\": \"{{extractExtension metadata.path}}\"\n}\n"
     },
-    "document_count": 2,
-    "updated": "2014-07-22T12:16:28.613Z"
+    "es_mapping": {
+      "properties": {
+        "metadata": {
+          "properties": {
+            "extension": {
+              "index": "not_analyzed",
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "document_count": 1,
+    "updated": "2014-12-10T15:09:14.681Z"
+  },
+  {
+    "_type": "DocumentType",
+    "id": "5252ce4ce4cfcd16f55cfa3a",
+    "name": "contact",
+    "templates": {
+      "title": "{{{ name }}}",
+      "full": "<article class=\"anyfetch-document-full anyfetch-type-contact\">\n  <header class=\"anyfetch-header\">\n    <figure class=\"anyfetch-aside-image\">\n      <img src=\"{{ image }}\" alt=\"{{ name }}\" />\n    </figure>\n    <hgroup class=\"anyfetch-title-group\">\n      <h1 class=\"anyfetch-title\">{{{ name }}}</h1>\n      <p class=\"anyfetch-title-detail\">{{{ job }}}</p>\n    </hgroup>\n  </header>\n  <main class=\"anyfetch-content\">\n    {{ #phone.length }}\n      <h4 class=\"anyfetch-section-title\">Phone numbers:</h4>\n      <ul class=\"anyfetch-list-no-bullet\">\n        {{ #phone }}\n          <li class=\"anyfetch-phone\"><a href=\"tel:{{ . }}\">{{ . }}</a></li>\n        {{ /phone }}\n      </ul>\n    {{ /phone.length }}\n    {{ #email.length }}\n      <h4 class=\"anyfetch-section-title\">Email addresses:</h4>\n      <ul class=\"anyfetch-list-no-bullet\">\n        {{ #email }}\n          <li class=\"anyfetch-email\"><a href=\"mailto:{{ . }}\">{{ . }}</a></li>\n        {{ /email }}\n      </ul>\n    {{ /email.length }}\n    {{ #address.length }}\n      <h4 class=\"anyfetch-section-title\">Addresses:</h4>\n      <ul class=\"anyfetch-list-no-bullet\">\n        {{ #address }}\n          <li class=\"anyfetch-address\">{{ . }}</li>\n        {{ /address }}\n      </ul>\n    {{ /address.length }}\n    {{ #website.length }}\n      <h4 class=\"anyfetch-section-title\">Websites:</h4>\n      <ul class=\"anyfetch-list-no-bullet\">\n        {{ #website }}\n          <li class=\"anyfetch-website\"><a href=\"{{ . }}\">{{ . }}</a></li>\n        {{ /website }}\n      </ul>\n    {{ /website.length }}\n    {{ #birthday }}\n      <h4 class=\"anyfetch-section-title\">Birthday:</h4>\n      <time class=\"anyfetch-date anyfetch-birthday\" data-moment-format=\"LL\">{{{ birthday }}}</time>\n    {{ /birthday }}\n  </main>\n</article>\n",
+      "snippet": "<article class=\"anyfetch-document-snippet anyfetch-type-contact\">\n  <header class=\"anyfetch-header\">\n    <figure class=\"anyfetch-aside-image\">\n      <img src=\"{{ image }}\" alt=\"{{ name }}\" />\n    </figure>\n    <hgroup class=\"anyfetch-title-group\">\n      <h1 class=\"anyfetch-title\">{{{ name }}}</h1>\n      <p class=\"anyfetch-title-detail\">{{{ job }}}</p>\n    </hgroup>\n    <main class=\"anyfetch-content\">\n      <ul class=\"anyfetch-inline-list anyfetch-comma-list\">\n        {{ #email }}\n          <li><span class=\"anyfetch-email\">{{ . }}</span></li>\n        {{ /email }}\n      </ul>\n      <ul class=\"anyfetch-inline-list anyfetch-comma-list\">\n        {{ #phone }}\n          <li><span class=\"anyfetch-phone\">{{ . }}</span></li>\n        {{ /phone }}\n      </ul>\n      <ul class=\"anyfetch-inline-list anyfetch-comma-list\">\n        {{ #address }}\n          <li><span class=\"anyfetch-address\">{{ . }}</span></li>\n        {{ /address }}\n      </ul>\n    </main>\n  </header>\n</article>\n"
+    },
+    "owner": null,
+    "description": "A person (contact, client, ...)",
+    "projections": {
+      "title": "{ \"name\": {{> contact-name}} }",
+      "full": "{\n  \"name\": {{> contact-name}},\n  \"image\":\n    {{#if metadata.image}}\n      \"{{attr 'image'}}\"\n    {{else}}\n      {{#first metadata.email}}\n        \"{{gravatar email}}\"\n      {{/first}}\n      {{#unless metadata.email}}\n        \"https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&s=96\"\n      {{/unless}}\n    {{/if}},\n  \"birthday\": \"{{attr 'birthday'}}\",\n  \"job\": \"{{attr 'jobTitle'}} {{attr 'worksFor'}}\",\n  \"phone\": [ {{#list metadata.phone}}\"{{#escapeQuotes .}}{{phone}}{{/escapeQuotes}}\"{{/list}} ],\n  \"email\": [ {{#list metadata.email}}\"{{#escapeQuotes .}}{{email}}{{/escapeQuotes}}\"{{/list}} ],\n  \"address\": [ {{#list metadata.address}}\"{{#escapeQuotes .}}{{address}}{{/escapeQuotes}}\"{{/list}} ],\n  \"website\": [ {{#list metadata.website}}\"{{#escapeQuotes .}}{{.}}{{/escapeQuotes}}\"{{/list}} ]\n}\n",
+      "snippet": "{\n  \"name\": {{> contact-name}},\n  \"image\":\n    {{#if metadata.image}}\n      \"{{attr 'image'}}\"\n    {{else}}\n      {{#first metadata.email}}\n        \"{{gravatar email}}\"\n      {{/first}}\n      {{#unless metadata.email}}\n        \"https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&s=96\"\n      {{/unless}}\n    {{/if}},\n  \"birthday\": \"{{attr 'birthday'}}\",\n  \"job\": \"{{attr 'jobTitle'}} {{attr 'worksFor'}}\",\n  \"phone\": [ {{#list metadata.phone}}\"{{#escapeQuotes .}}{{phone}}{{/escapeQuotes}}\"{{/list}} ],\n  \"email\": [ {{#list metadata.email}}\"{{#escapeQuotes .}}{{email}}{{/escapeQuotes}}\"{{/list}} ],\n  \"address\": [ {{#list metadata.address}}\"{{#escapeQuotes .}}{{address}}{{/escapeQuotes}}\"{{/list}} ],\n  \"website\": [ {{#list metadata.website}}\"{{#escapeQuotes .}}{{.}}{{/escapeQuotes}}\"{{/list}} ]\n}\n"
+    },
+    "es_mapping": {
+      "properties": {
+        "metadata": {
+          "properties": {
+            "groups": {
+              "type": "string"
+            },
+            "birthday": {
+              "type": "date"
+            },
+            "website": {
+              "boost": 2,
+              "analyzer": "url_email",
+              "type": "string"
+            },
+            "address": {
+              "properties": {
+                "type": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "address": {
+                  "type": "string"
+                }
+              }
+            },
+            "email": {
+              "properties": {
+                "type": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "email": {
+                  "boost": 4,
+                  "analyzer": "url_email",
+                  "type": "string"
+                }
+              }
+            },
+            "phone": {
+              "properties": {
+                "type": {
+                  "index": "not_analyzed",
+                  "type": "string"
+                },
+                "phone": {
+                  "analyzer": "phone_number",
+                  "type": "string"
+                }
+              }
+            },
+            "worksFor": {
+              "type": "string"
+            },
+            "jobTitle": {
+              "type": "string"
+            },
+            "nickname": {
+              "boost": 12,
+              "type": "string"
+            },
+            "given_name": {
+              "boost": 12,
+              "type": "string"
+            },
+            "family_name": {
+              "boost": 12,
+              "type": "string"
+            },
+            "name": {
+              "boost": 12,
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "document_count": 0,
+    "updated": null
+  },
+  {
+    "_type": "DocumentType",
+    "id": "5252ce4ce4cfcd16f55cfa3c",
+    "name": "document",
+    "templates": {
+      "title": "{{{ title }}}",
+      "full": "<article class=\"anyfetch-document-full anyfetch-type-document\">\n  <header class=\"anyfetch-header\">\n    <hgroup class=\"anyfetch-title-group\">\n      <h1 class=\"anyfetch-title\">{{{ title }}}</h1>\n      <code class=\"anyfetch-title-detail\">{{ path }}</code>\n    </hgroup>\n  </header>\n\n  <main class=\"anyfetch-content\">\n    {{{ content }}}\n  </main>\n</article>\n",
+      "snippet": "<article class=\"anyfetch-document-snippet anyfetch-type-document\">\n  <header class=\"anyfetch-header\">\n    <h1 class=\"anyfetch-title\">{{{ title }}}</h1>\n  </header>\n  <main class=\"anyfetch-content\">\n    <p>{{{ snippet }}}</p>\n  </main>\n</article>\n"
+    },
+    "owner": null,
+    "description": "A document from which we were able to extract a clean HTML representation: text, doc, xls, epub...",
+    "projections": {
+      "title": "{ \"name\": {{> title}} }",
+      "full": "{\n  \"title\": {{> title}},\n  \"path\": \"{{attr 'path'}}\",\n  \"content\": {{> data}}\n}\n",
+      "snippet": "{\n  \"title\": {{> title}},\n  \"path\": \"{{attr 'path'}}\",\n  \"snippet\": \"{{#trim .}}{{shortAttr 'text'}}{{/trim}}\"\n}\n"
+    },
+    "es_mapping": {},
+    "document_count": 0,
+    "updated": null
+  },
+  {
+    "_type": "DocumentType",
+    "id": "5252ce4ce4cfcd16f55cfa3d",
+    "name": "image",
+    "templates": {
+      "title": "{{{ title }}}",
+      "full": "<article class=\"anyfetch-document-full anyfetch-type-image\">\n  <header class=\"anyfetch-header\">\n    <hgroup class=\"anyfetch-title-group\">\n      <h1 class=\"anyfetch-title\">{{{ title }}}</h1>\n      {{#author}}\n        <p class=\"anyfetch-title-detail anyfetch-person\">{{.}}</p>\n      {{/author}}\n    </hgroup>\n    <ul class=\"anyfetch-pill-list\">\n      {{#keywords}}\n        <li class=\"anyfetch-pill anyfetch-label\">{{.}}</li>\n      {{/keywords}}\n    </ul>\n  </header>\n\n  <main class=\"anyfetch-content\">\n    <figure class=\"anyfetch-full-image\">\n      {{#display}}\n        <img src=\"{{.}}\" alt=\"{{{ title }}}\" />\n      {{/display}}\n      {{#description}}\n        <figcaption class=\"anyfetch-image-caption\">{{{description}}}</figcaption>\n      {{/description}}\n    </figure>\n  </main>\n\n</article>\n",
+      "snippet": "<article class=\"anyfetch-document-snippet anyfetch-type-image\">\n  <header class=\"anyfetch-header\">\n    {{#thumb}}\n      <figure class=\"anyfetch-aside-image\">\n        <img src=\"{{ thumb }}\" alt=\"{{ title }}\" />\n      </figure>\n    {{/thumb}}\n    <hgroup class=\"anyfetch-title-group\">\n      <h1 class=\"anyfetch-title\">{{{ title }}}</h1>\n      {{#author}}\n        <p class=\"anyfetch-title-detail anyfetch-person\">{{.}}</p>\n      {{/author}}\n      <ul class=\"anyfetch-pill-list anyfetch-participants\">\n      {{#keywords}}\n        <li class=\"anyfetch-pill anyfetch-name\">{{.}}</li>\n      {{/keywords}}\n      </ul>\n    </hgroup>\n  </header>\n</article>\n"
+    },
+    "owner": null,
+    "description": "Display thumbnail and preview data encoded in base64.",
+    "projections": {
+      "title": "{ \"title\": {{> title}} }",
+      "full": "{\n  \"title\": {{> title}},\n  \"display\": \"{{{attr 'display'}}}\",\n  \"author\": \"{{attr 'author'}}\",\n  \"description\": \"{{attr 'description'}}\",\n  \"keywords\": \"{{attr 'keywords'}}\"\n}\n",
+      "snippet": "{\n  \"title\": {{> title}},\n  \"thumb\": \"{{{attr 'thumb'}}}\"\n}\n"
+    },
+    "es_mapping": {
+      "properties": {
+        "metadata": {
+          "properties": {
+            "keywords": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "author": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "document_count": 0,
+    "updated": null
+  },
+  {
+    "_type": "DocumentType",
+    "id": "5252ce4ce4cfcd16f55cfa3f",
+    "name": "email",
+    "templates": {
+      "title": "{{{ subject }}}",
+      "full": "<article class=\"anyfetch-document-full anyfetch-type-email\">\n  <header class=\"anyfetch-header\">\n    <hgroup class=\"anyfetch-title-group\">\n      <h1 class=\"anyfetch-title\">{{{subject}}}</h1>\n      <p class=\"anyfetch-title-detail\"><time class=\"anyfetch-date\">{{ date }}</time></p>\n    </hgroup>\n    <ul class=\"anyfetch-pill-list\">\n      {{#from}}\n        <li class=\"anyfetch-pill {{#highlight}}anyfetch-hlt{{/highlight}}\">\n          <span class=\"anyfetch-name\">{{{name}}}</span>\n          <span class=\"anyfetch-email\">{{{address}}}</span>\n        </li>\n      {{/from}}\n      <li class=\"anyfetch-right-arrow\"></li>\n      {{#to}}\n        <li class=\"anyfetch-pill {{#highlight}}anyfetch-hlt{{/highlight}}\">\n          <span class=\"anyfetch-name\">{{{name}}}</span>\n          <span class=\"anyfetch-email\">{{{address}}}</span>\n        </li>\n      {{/to}}\n    </ul>\n  </header>\n\n  <main class=\"anyfetch-content\">\n    {{{html}}}\n  </main>\n</article>\n",
+      "snippet": "<article class=\"anyfetch-document-snippet anyfetch-type-email\">\n  <header class=\"anyfetch-header\">\n    <h1 class=\"anyfetch-title\">{{{subject}}}</h1>\n    <ul class=\"anyfetch-pill-list\">\n      {{#from}}\n       <li class=\"anyfetch-pill {{#highlight}}anyfetch-hlt{{/highlight}}\">\n          <span class=\"anyfetch-name\">{{{name}}}</span>\n          <span class=\"anyfetch-email\">{{{address}}}</span>\n        </li>\n      {{/from}}\n      <li class=\"anyfetch-right-arrow\"></li>\n      {{#to}}\n       <li class=\"anyfetch-pill {{#highlight}}anyfetch-hlt{{/highlight}}\">\n          <span class=\"anyfetch-name\">{{{name}}}</span>\n          <span class=\"anyfetch-email\">{{{address}}}</span>\n        </li>\n      {{/to}}\n    </ul>\n  </header>\n\n  <main class=\"anyfetch-content\">\n    <p>{{{snippet}}}</p>\n  </main>\n</article>\n"
+    },
+    "owner": null,
+    "description": "An email",
+    "projections": {
+      "title": "{ \"subject\": \"{{attr \"subject\"}}\" }",
+      "full": "{\n  \"subject\": \"{{attr 'subject'}}\",\n  \"from\": [\n    {{#list from}}\n      {\n        {{#if name}}\"name\": \"{{#escapeQuotes .}}{{name}}{{/escapeQuotes}}\",{{/if}}\n        \"address\": \"{{#escapeQuotes .}}{{address}}{{/escapeQuotes}}\",\n        \"highlight\": {{isHighlight .}}\n      }\n    {{/list}}\n  ],\n  \"to\": [\n    {{#list to}}\n      {\n        {{#if name}}\"name\": \"{{#escapeQuotes .}}{{name}}{{/escapeQuotes}}\",{{/if}}\n        \"address\": \"{{#escapeQuotes .}}{{address}}{{/escapeQuotes}}\",\n        \"highlight\": {{isHighlight .}}\n      }\n    {{/list}}\n  ],\n  \"date\": \"{{dateRfc metadata.date}}\",\n  \"html\": {{> data}},\n  \"attachmentCount\": {{safeInt metadata.attachmentsCount}},\n  \"labels\": [ {{#list labels}}\"{{#escapeQuotes .}}{{.}}{{/escapeQuotes}}\"{{/list}} ]\n}\n",
+      "snippet": "{\n  \"subject\": \"{{attr 'subject'}}\",\n  \"from\": [\n    {{#list from}}\n      {\n        {{#if name}}\"name\": \"{{#escapeQuotes .}}{{name}}{{/escapeQuotes}}\",{{/if}}\n        \"address\": \"{{hideDomainEmail address}}\",\n        \"highlight\": {{isHighlight .}}\n      }\n    {{/list}}\n  ],\n  \"to\": [\n    {{#list to}}\n      {\n        {{#if name}}\"name\": \"{{#escapeQuotes .}}{{name}}{{/escapeQuotes}}\",{{/if}}\n        \"address\": \"{{#escapeQuotes .}}{{address}}{{/escapeQuotes}}\",\n        \"highlight\": {{isHighlight .}}\n      }\n    {{/list}}\n  ],\n  \"date\": \"{{dateRfc metadata.date}}\",\n  \"snippet\": \"{{#trim .}}{{shortAttr 'text'}}{{/trim}}\",\n  \"attachmentCount\": {{safeInt metadata.attachmentsCount}}\n}\n"
+    },
+    "es_mapping": {
+      "properties": {
+        "metadata": {
+          "properties": {
+            "attachmentsCount": {
+              "type": "integer"
+            },
+            "labels": {
+              "type": "string"
+            },
+            "date": {
+              "type": "date"
+            },
+            "subject": {
+              "boost": 4,
+              "type": "string"
+            },
+            "to": {
+              "properties": {
+                "address": {
+                  "boost": 2,
+                  "analyzer": "url_email",
+                  "type": "string"
+                },
+                "name": {
+                  "boost": 2,
+                  "analyzer": "url_email",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "from": {
+              "properties": {
+                "address": {
+                  "boost": 2,
+                  "analyzer": "url_email",
+                  "type": "string"
+                },
+                "name": {
+                  "boost": 2,
+                  "analyzer": "url_email",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "document_count": 0,
+    "updated": null
+  },
+  {
+    "_type": "DocumentType",
+    "id": "5252ce4ce4cfcd16f55cfa3e",
+    "name": "trello-card",
+    "templates": {
+      "title": "{{{ title }}}",
+      "full": "<article class=\"anyfetch-document-full anyfetch-type-trello-card\">\n  <header class=\"anyfetch-header\">\n    <hgroup class=\"anyfetch-title-group\">\n      <h1 class=\"anyfetch-title\">\n        {{{title}}}\n      </h1>\n      <p class=\"anyfetch-title-detail\">\n        <span>{{ board }}</span>\n        <span class=\"anyfetch-right-arrow\"></span>\n        <span>{{ list }}</span>\n        <time class=\"anyfetch-date\">{{ date }}</time>\n      </p>\n\n      <ul class=\"anyfetch-pill-list\">\n        {{ #members }}\n          <li class=\"anyfetch-pill {{#highlight}}anyfetch-hlt{{/highlight}}\">\n            <span class=\"anyfetch-name\">{{ . }}</span>\n          </li>\n        {{ /members }}\n      </ul>\n    </hgroup>\n  </header>\n  <main class=\"anyfetch-content\">\n    <p>{{{description}}}</p>\n    <ul class=\"anyfetch-check-list\">\n      {{ #checklists }}\n        <li>\n          <h3 class=\"anyfetch-title-list\">{{ name }}</h3>\n          <ul class=\"anyfetch-check-list\">\n            {{ #checkItems }}\n              <li>{{#completed}}<span>✓</span>{{/completed}}{{^completed}}<span>✕</span>{{/completed}} {{ name }}</li>\n            {{ /checkItems }}\n          </ul>\n        </li>\n      {{ /checklists }}\n    </ul>\n\n    <ul class=\"anyfetch-comment-list\">\n      {{ #comments }}\n        <li>{{ text }} <span class=\"anyfetch-comment-author\"> {{ creator }}</span></li>\n      {{ /comments }}\n    </ul>\n\n  </main>\n</article>\n",
+      "snippet": "<article class=\"anyfetch-document-snippet anyfetch-type-trello-card\">\n  <header class=\"anyfetch-header\">\n    <hgroup class=\"anyfetch-title-group\">\n      <h1 class=\"anyfetch-title\">\n        {{{title}}}\n      </h1>\n      <p class=\"anyfetch-title-detail\">\n        <span>{{ board }}</span>\n        <span class=\"anyfetch-right-arrow\"></span>\n        <span>{{ list }}</span>\n        <time class=\"anyfetch-date\">{{ date }}</time>\n      </p>\n\n      <ul class=\"anyfetch-pill-list\">\n        {{ #members }}\n          <li class=\"anyfetch-pill {{#highlight}}anyfetch-hlt{{/highlight}}\">\n            <span class=\"anyfetch-name\">{{ . }}</span>\n          </li>\n        {{ /members }}\n      </ul>\n    </hgroup>\n  </header>\n</article>\n"
+    },
+    "owner": null,
+    "description": "Display Trello cards",
+    "projections": {
+      "title": "{ \"title\": {{> title}} }",
+      "full": "{\n  \"title\": \"{{attr 'title'}}\",\n  \"board\": \"{{attr 'board'}}\",\n  \"list\": \"{{attr 'list'}}\",\n  \"date\": \"{{dateRfc metadata.dateLastActivity}}\",\n  \"description\": \"{{attr 'description'}}\",\n  \"members\": [\n    {{#list metadata.members}}\n      \"{{.}}\"\n    {{/list}}\n  ],\n  \"labels\": [\n    {{#list metadata.labels}}\n      {\n        \"name\": \"{{#escapeQuotes .}}{{name}}{{/escapeQuotes}}\",\n        \"color\": \"{{#escapeQuotes .}}{{color}}{{/escapeQuotes}}\"\n      }\n    {{/list}}\n  ],\n  \"comments\": [\n    {{#list metadata.comments}}\n      {\n        \"text\": \"{{#escapeQuotes .}}{{text}}{{/escapeQuotes}}\",\n        \"creator\": \"{{#escapeQuotes .}}{{creator}}{{/escapeQuotes}}\"\n      }\n    {{/list}}\n  ],\n  \"checklists\": [\n    {{#list metadata.checklists}}\n      {\n        \"name\": \"{{#escapeQuotes .}}{{name}}{{/escapeQuotes}}\",\n        \"checkItems\": [\n          {{#list checkItems}}\n            {\n              \"name\": \"{{#escapeQuotes .}}{{name}}{{/escapeQuotes}}\",\n              \"completed\": {{#escapeQuotes .}}{{completed}}{{/escapeQuotes}}\n            }\n          {{/list}}\n        ]\n      }\n    {{/list}}\n  ]\n}\n",
+      "snippet": "{\n  \"title\": \"{{attr 'title'}}\",\n  \"board\": \"{{attr 'board'}}\",\n  \"list\": \"{{attr 'list'}}\",\n  \"date\": \"{{dateRfc metadata.dateLastActivity}}\",\n  \"description\": \"{{attr 'description'}}\",\n  \"members\": [\n    {{#list metadata.members}}\n      \"{{.}}\"\n    {{/list}}\n  ],\n  \"labels\": [\n    {{#list metadata.labels}}\n      {\n        \"name\": \"{{#escapeQuotes .}}{{name}}{{/escapeQuotes}}\",\n        \"color\": \"{{#escapeQuotes .}}{{color}}{{/escapeQuotes}}\"\n      }\n    {{/list}}\n  ]\n}\n"
+    },
+    "es_mapping": {
+      "properties": {
+        "metadata": {
+          "properties": {
+            "checklist": {
+              "properties": {
+                "checkItems": {
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "name": {
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "comment": {
+              "properties": {
+                "creator": {
+                  "type": "string"
+                },
+                "text": {
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "author": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "members": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "document_count": 0,
+    "updated": null
+  },
+  {
+    "_type": "DocumentType",
+    "id": "5252ce4ce4cfcd16f55cfa40",
+    "name": "event",
+    "templates": {
+      "title": "{{{ name }}}",
+      "full": "<article class=\"anyfetch-document-full anyfetch-type-event\">\n  <header class=\"anyfetch-header\">\n    <hgroup class=\"anyfetch-title-group\">\n      <h1 class=\"anyfetch-title\">\n        {{#eventName}}\n          {{{eventName}}}\n        {{/eventName}}\n        {{^eventName}}\n          (untitled event)\n        {{/eventName}}\n      </h1>\n      <p class=\"anyfetch-title-detail\">\n        <time class=\"anyfetch-date\">{{ startDate }}</time>\n        <span class=\"anyfetch-right-arrow\"></span>\n        <time class=\"anyfetch-date\">{{ endDate }}</time>\n      </p>\n      {{#location}}\n        <p>\n          {{{location}}}\n        </p>\n      {{/location}}\n    </hgroup>\n  </header>\n  <main class=\"anyfetch-content\">\n    <h4 class=\"anyfetch-section-title\">Attendees</h4>\n    {{ #attendee.length }}\n      <ul class=\"anyfetch-list-no-bullet\">\n        {{ #attendee }}\n          <li>\n            <span class=\"anyfetch-icon-people\"></span>\n            <span class=\"anyfetch-pill anyfetch-person {{#highlight}}anyfetch-hlt{{/highlight}}\">\n              {{#name}}{{{name}}}{{/name}} &lt;{{{address}}}&gt;\n            </span>\n          </li>\n        {{ /attendee }}\n      </ul>\n    {{ /attendee.length }}\n    {{ ^attendee.length }}\n      <p>\n        (no attendees to this event)\n      </p>\n    {{ /attendee.length }}\n\n    <h4 class=\"anyfetch-section-title\">Description</h4>\n    <p>\n      {{#description}}\n        {{{description}}}\n      {{/description}}\n      {{^description}}\n        (no description)\n      {{/description}}\n    </p>\n  </main>\n</article>\n",
+      "snippet": "<article class=\"anyfetch-document-snippet anyfetch-type-event\">\n  <header class=\"anyfetch-header\">\n    <hgroup class=\"anyfetch-title-group\">\n      <h1 class=\"anyfetch-title\">\n        {{#eventName}}\n          {{{eventName}}}\n        {{/eventName}}\n        {{^eventName}}\n          (untitled event)\n        {{/eventName}}\n      </h1>\n      <p class=\"anyfetch-title-detail anyfetch-date-span\">\n        <time class=\"anyfetch-date\">{{ startDate }}</time>\n        <span class=\"anyfetch-right-arrow\"></span>\n        <time class=\"anyfetch-date\">{{ endDate }}</time>\n      </p>\n      <ul class=\"anyfetch-pill-list anyfetch-participants\">\n        {{#attendee}}\n          <li class=\"anyfetch-pill anyfetch-name {{#highlight}}anyfetch-hlt{{/highlight}}\">\n            {{#name}}\n              {{{.}}}\n            {{/name}}\n            {{^name}}\n              {{{address}}}\n            {{/name}}\n          </li>\n        {{/attendee}}\n      </ul>\n    </hgroup>\n  </header>\n</article>\n"
+    },
+    "owner": null,
+    "description": "An event, from a calendar for instance.",
+    "projections": {
+      "title": "{ \"name\": \"{{attr \"name\"}}\" }",
+      "full": "{\n  \"eventName\": \"{{attr 'name'}}\",\n  \"startDate\": \"{{dateRfc metadata.startDate}}\",\n  \"endDate\": \"{{dateRfc metadata.endDate}}\",\n  \"description\": \"{{#toBr}}{{attr 'description'}}{{/toBr}}\",\n  \"organizer\": \"{{#if name}}{{#escapeQuotes .}}{{name}}{{/escapeQuotes}}{{/if}} &lt;{{#escapeQuotes .}}{{mail}}{{/escapeQuotes}}&gt;\",\n  \"attendee\": [\n    {{#list metadata.attendee}}\n      {\n        {{#if name}}\"name\": \"{{#escapeQuotes .}}{{name}}{{/escapeQuotes}}\",{{/if}}\n        \"address\": \"{{#escapeQuotes .}}{{mail}}{{/escapeQuotes}}\",\n        \"highlight\": {{isHighlight .}}\n      }\n    {{/list}}\n  ],\n  \"location\" : \"{{#if metadata.location}}{{attr 'location'}}{{/if}}\"\n}\n",
+      "snippet": "{\n  \"eventName\": \"{{attr 'name'}}\",\n  \"startDate\": \"{{dateRfc metadata.startDate}}\",\n  \"endDate\": \"{{dateRfc metadata.endDate}}\",\n  \"description\": \"{{#toBr}}{{attr 'description'}}{{/toBr}}\",\n  \"organizer\": \"{{#if name}}{{#escapeQuotes .}}{{name}}{{/escapeQuotes}}{{/if}} &lt;{{#escapeQuotes .}}{{mail}}{{/escapeQuotes}}&gt;\",\n  \"attendee\": [\n    {{#list metadata.attendee}}\n      {\n        {{#if name}}\"name\": \"{{#escapeQuotes .}}{{name}}{{/escapeQuotes}}\",{{/if}}\n        \"address\": \"{{#escapeQuotes .}}{{mail}}{{/escapeQuotes}}\",\n        \"highlight\": {{isHighlight .}}\n      }\n    {{/list}}\n  ],\n  \"location\" : \"{{#if metadata.location}}{{attr 'location'}}{{/if}}\"\n}\n"
+    },
+    "es_mapping": {
+      "properties": {
+        "metadata": {
+          "properties": {
+            "location": {
+              "type": "string"
+            },
+            "organizer": {
+              "properties": {
+                "mail": {
+                  "analyzer": "url_email",
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "attendee": {
+              "properties": {
+                "mail": {
+                  "analyzer": "url_email",
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "description": {
+              "type": "string"
+            },
+            "name": {
+              "boost": 8,
+              "type": "string"
+            },
+            "endDate": {
+              "type": "date"
+            },
+            "startDate": {
+              "type": "date"
+            }
+          }
+        }
+      }
+    },
+    "document_count": 0,
+    "updated": null
+  },
+  {
+    "_type": "DocumentType",
+    "id": "656d61696c2d746872656164",
+    "name": "email-thread",
+    "templates": {
+      "title": "{{{ subject }}}",
+      "full": "{{^singleEmail}}\n<article class=\"anyfetch-document-full anyfetch-type-email-thread\">\n  <header class=\"anyfetch-header\">\n    <hgroup class=\"anyfetch-title-group\">\n      <h1 class=\"anyfetch-title\">\n        <span class=\"anyfetch-number anyfetch-message-count\">{{messagesCount}}</span>\n        {{#subject}}\n          {{{subject}}}\n        {{/subject}}\n        {{^subject}}\n          (no subject)\n        {{/subject}}\n      </h1>\n    </hgroup>\n    <ul class=\"anyfetch-pill-list anyfetch-participants\">\n      <li class=\"anyfetch-title-detail\">{{participantsCount}}<span class=\"anyfetch-icon-people\"></span></li>\n      {{#attachmentCount}}\n        <li class=\"anyfetch-title-detail\">{{attachmentCount}}<span class=\"anyfetch-icon-attachment\"></span></li>\n      {{/attachmentCount}}\n      {{#participants}}\n        <li class=\"anyfetch-pill anyfetch-name {{#highlight}}anyfetch-hlt{{/highlight}}\">\n          {{#name}}\n            {{{.}}}\n          {{/name}}\n          {{^name}}\n            {{{address}}}\n          {{/name}}\n        </li>\n      {{/participants}}\n    </ul>\n  </header>\n  <main class=\"anyfetch-content\">\n{{/singleEmail}}\n  {{#messages}}\n    <article class=\"{{#singleEmail}}anyfetch-document-full anyfetch-type-email{{/singleEmail}}{{^singleEmail}}anyfetch-thread-part{{/singleEmail}}\">\n      <header class=\"anyfetch-header\">\n        <hgroup class=\"anyfetch-title-group\">\n          {{#singleEmail}}\n            <h1 class=\"anyfetch-title\">\n              {{#subject}}\n                {{{subject}}}\n              {{/subject}}\n              {{^subject}}\n                (no subject)\n              {{/subject}}\n            </h1>\n          {{/singleEmail}}\n          <p class=\"anyfetch-title-detail\">\n            {{#singleEmail}}\n              {{#attachmentCount}}\n                {{attachmentCount}}<span class=\"anyfetch-icon-attachment\"></span>\n              {{/attachmentCount}}\n            {{/singleEmail}}\n            <time class=\"anyfetch-date\">{{date}}</time>\n          </p>\n        </hgroup>\n        <ul class=\"anyfetch-pill-list\">\n          {{#singleEmail}}\n            <li class=\"anyfetch-title-detail\">{{participantsCount}}<span class=\"anyfetch-icon-people\"></span></li>\n          {{/singleEmail}}\n          {{#from}}\n            <li class=\"anyfetch-pill {{#highlight}}anyfetch-hlt{{/highlight}}\">\n              <span class=\"anyfetch-name\">{{{name}}}</span>\n              <span class=\"anyfetch-email\">{{{address}}}</span>\n            </li>\n          {{/from}}\n          <li class=\"anyfetch-right-arrow\"></li>\n          {{#to}}\n            <li class=\"anyfetch-pill {{#highlight}}anyfetch-hlt{{/highlight}}\">\n              <span class=\"anyfetch-name\">{{{name}}}</span>\n              <span class=\"anyfetch-email\">{{{address}}}</span>\n            </li>\n          {{/to}}\n        </ul>\n      </header>\n      <main class=\"anyfetch-content\">\n        {{{html}}}\n      </main>\n    </article>\n  {{/messages}}\n{{^singleEmail}}\n  </main>\n</article>\n{{/singleEmail}}\n\n\n\n",
+      "snippet": "<article class=\"anyfetch-document-snippet anyfetch-type-email-thread\">\n  <header class=\"anyfetch-header\">\n    <h1 class=\"anyfetch-title\">\n    {{^singleEmail}}\n      <span class=\"anyfetch-number anyfetch-message-count\">{{messagesCount}}</span>\n    {{/singleEmail}}\n    {{#subject}}\n      {{{subject}}}\n    {{/subject}}\n    {{^subject}}\n      (no subject)\n    {{/subject}}\n    </h1>\n    <ul class=\"anyfetch-pill-list anyfetch-participants\">\n      <li class=\"anyfetch-title-detail\">{{participantsCount}} <span class=\"anyfetch-icon-people\"></li>\n      {{#participants}}\n        <li class=\"anyfetch-pill anyfetch-name {{#highlight}}anyfetch-hlt{{/highlight}}\">\n          {{#name}}\n            {{{.}}}\n          {{/name}}\n          {{^name}}\n            {{{address}}}\n          {{/name}}\n        </li>\n      {{/participants}}\n    </ul>\n  </header>\n  <main class=\"anyfetch-content\">\n    <p>{{{snippet}}}</p>\n  </main>\n</article>\n"
+    },
+    "owner": null,
+    "description": "An email thread or conversation",
+    "projections": {
+      "title": "{ \"subject\": \"{{attr \"subject\"}}\" }",
+      "full": "{\n  \"subject\": \"{{attr 'subject'}}\",\n  \"date\": \"{{dateRfc metadata.date}}\",\n  \"participants\": [\n    {{#list metadata.participants}}\n      {\n        {{#if name}}\"name\": \"{{#escapeQuotes .}}{{name}}{{/escapeQuotes}}\",{{/if}}\n        \"address\": \"{{#escapeQuotes .}}{{address}}{{/escapeQuotes}}\",\n        \"highlight\": {{isHighlight .}}\n      }\n    {{/list}}\n  ],\n  \"labels\": [ {{#list metadata.labels}}\"{{#escapeQuotes .}}{{.}}{{/escapeQuotes}}\"{{/list}} ],\n  \"messages\": [\n    {{#reverseList metadata.messages sibling=data.messages}}\n      {\n        \"subject\": \"{{#escapeQuotes .}}{{subject}}{{/escapeQuotes}}\",\n        {{#if date}}\n          \"date\": \"{{dateRfc date}}\",\n        {{/if}}\n        \"from\": [\n          {{#list from}}\n            {\n              {{#if name}}\"name\": \"{{#escapeQuotes .}}{{name}}{{/escapeQuotes}}\",{{/if}}\n              \"address\": \"{{#escapeQuotes .}}{{address}}{{/escapeQuotes}}\",\n              \"highlight\": {{isHighlight .}}\n            }\n          {{/list}}\n        ],\n        \"to\": [\n          {{#list to}}\n            {\n              {{#if name}}\"name\": \"{{#escapeQuotes .}}{{name}}{{/escapeQuotes}}\",{{/if}}\n              \"address\": \"{{#escapeQuotes .}}{{address}}{{/escapeQuotes}}\",\n              \"highlight\": {{isHighlight .}}\n            }\n          {{/list}}\n        ],\n        \"html\":\n          {{#contextLookup ../data.messages reverse=true field=@index}}\n            {{#if looked.html}}\n              \"{{htmlHighlighter looked.html}}\"\n            {{else}}\n              \"{{#toBr}}{{textHighlighter text}}{{/toBr}}\"\n            {{/if}}\n          {{/contextLookup}}\n      }\n    {{/reverseList}}\n  ],\n  \"attachmentCount\": {{safeInt metadata.attachmentsCount}},\n  \"messagesCount\": {{safeInt metadata.messages.length}},\n  \"participantsCount\": {{safeInt metadata.participants.length}},\n  \"singleEmail\":\n    {{#if metadata.messages.[1]}}\n      false\n    {{else}}\n      true\n    {{/if}}\n\n}\n",
+      "snippet": "{\n  \"subject\": \"{{attr 'subject'}}\",\n  \"date\": \"{{dateRfc metadata.date}}\",\n  \"participants\": [\n    {{#list metadata.participants l=3}}\n      {\n        {{#if name}}\"name\": \"{{#escapeQuotes .}}{{name}}{{/escapeQuotes}}\",{{/if}}\n        \"address\": \"{{hideDomainEmail address}}\",\n        \"highlight\": {{isHighlight .}}\n      }\n    {{/list}}\n  ],\n  \"labels\": [ {{#list metadata.labels}}\"{{.}}\"{{/list}} ],\n  \"snippet\":\n    {{#contextLookup highlight field='messages.text'}}\n      {{#if looked}}\n        \"{{#escapeQuotes .}}{{{looked}}}{{/escapeQuotes}}\"\n      {{else}}\n        {{#if highlight.text}}\n          \"{{#escapeQuotes .}}{{{highlight.text}}}{{/escapeQuotes}}\"\n        {{else}}\n          {{#last metadata.messages}}\n            \"{{#escapeQuotes .}}{{#shorten .}}{{text}}{{/shorten}}{{/escapeQuotes}}\"\n          {{else}}\n            \"\"\n          {{/last}}\n        {{/if}}\n      {{/if}}\n    {{/contextLookup}},\n  \"attachmentCount\": {{safeInt metadata.attachmentsCount}},\n  \"participantsCount\": {{safeInt metadata.participants.length}},\n  \"messagesCount\": {{safeInt metadata.messages.length}},\n  \"singleEmail\":\n    {{#if metadata.messages.[1]}}\n      false\n    {{else}}\n      true\n    {{/if}}\n}\n"
+    },
+    "es_mapping": {
+      "properties": {
+        "metadata": {
+          "properties": {
+            "attachmentsCount": {
+              "type": "integer"
+            },
+            "messages": {
+              "properties": {
+                "text": {
+                  "boost": 1.5,
+                  "type": "string"
+                },
+                "labels": {
+                  "type": "string"
+                },
+                "date": {
+                  "type": "date"
+                },
+                "subject": {
+                  "type": "string"
+                },
+                "to": {
+                  "properties": {
+                    "name": {
+                      "boost": 2,
+                      "type": "string"
+                    },
+                    "address": {
+                      "boost": 2,
+                      "analyzer": "url_email",
+                      "type": "string"
+                    }
+                  }
+                },
+                "from": {
+                  "properties": {
+                    "name": {
+                      "boost": 2,
+                      "type": "string"
+                    },
+                    "address": {
+                      "boost": 2,
+                      "analyzer": "url_email",
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "participants": {
+              "properties": {
+                "name": {
+                  "boost": 2,
+                  "type": "string"
+                },
+                "address": {
+                  "boost": 2,
+                  "analyzer": "url_email",
+                  "type": "string"
+                }
+              }
+            },
+            "labels": {
+              "type": "string"
+            },
+            "date": {
+              "type": "date"
+            },
+            "subject": {
+              "boost": 4,
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "document_count": 0,
+    "updated": null
   }
 ]

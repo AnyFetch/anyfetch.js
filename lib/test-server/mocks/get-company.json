@@ -3,16 +3,23 @@
   "id": "52f0bb24c8318c2d65000035",
   "name": "test@anyfetch.com",
   "hydraters": [
-    "https://plaintext-staging.anyfetch.com/hydrate",
-    "https://pdf-staging.anyfetch.com/hydrate",
-    "https://office-staging.anyfetch.com/hydrate",
+    "https://deduplicator-staging.anyfetch.com/hydrate",
+    "https://embedmail-staging.anyfetch.com/hydrate",
+    "https://eml-staging.anyfetch.com/hydrate",
+    "https://event-staging.anyfetch.com/hydrate",
+    "https://filecleaner-staging.anyfetch.com/hydrate",
+    "https://ics-staging.anyfetch.com/hydrate",
     "https://image-staging.anyfetch.com/hydrate",
-    "https://ocr-staging.anyfetch.com/hydrate",
     "https://iptc-staging.anyfetch.com/hydrate",
     "https://markdown-staging.anyfetch.com/hydrate",
-    "https://eml-staging.anyfetch.com/hydrate",
-    "https://embedmail-staging.anyfetch.com/hydrate",
-    "https://ics-staging.anyfetch.com/hydrate",
-    "https://filecleaner-staging.anyfetch.com/hydrate"
-  ]
+    "https://ocr-staging.anyfetch.com/hydrate",
+    "https://office-staging.anyfetch.com/hydrate",
+    "https://pdf-staging.anyfetch.com/hydrate",
+    "https://plaintext-staging.anyfetch.com/hydrate"
+  ],
+  "document_count": 1,
+  "user_count": 13,
+  "subcompany_count": 1,
+  "documents_per_update": 5000,
+  "last_update": "2014-12-10T15:05:32.750Z"
 }

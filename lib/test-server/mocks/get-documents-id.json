@@ -1,11 +1,12 @@
 {
   "_type": "Document",
-  "id": "53ce561c6564a8a47dd6d5fc",
+  "id": "5488621a42d43c8b0b302733",
   "identifier": "the \"unique\" document identifier (éüà)",
-  "creation_date": "2014-07-22T12:16:28.606Z",
+  "creation_date": "2014-12-10T15:09:14.626Z",
+  "modification_date": "2014-12-10T15:09:14.626Z",
   "provider": {
     "_type": "AccessToken",
-    "id": "53c66af5d3bda13f3a848ab9",
+    "id": "54885c04e782a7946271cf00",
     "client": null,
     "is_basic_token": true,
     "account_name": ""
@@ -16,13 +17,17 @@
     "id": "5252ce4ce4cfcd16f55cfa3b",
     "name": "file",
     "templates": {
-      "full": "<article>\n  <h1>{{{ title }}}</h1>\n  <code>{{{ path }}}</code>\n</article>\n"
+      "title": "{{{ title }}}",
+      "full": "<article class=\"anyfetch-document-full anyfetch-type-file\">\n  <header class=\"anyfetch-header\">\n    <hgroup class=\"anyfetch-title-group\">\n      <h1 class=\"anyfetch-title\">{{{ title }}}</h1>\n      <code class=\"anyfetch-title-detail\">{{{ path }}}</code>\n    </hgroup>\n  </header>\n</article>\n"
     }
   },
   "actions": {},
-  "document_url": "/documents/53ce561c6564a8a47dd6d5fc",
+  "document_url": "https://api-staging.anyfetch.com/documents/5488621a42d43c8b0b302733",
   "projection_type": "full",
-  "data": {},
-  "related": [],
-  "title": {}
+  "data": {
+    "title": "Document title",
+    "path": "/document.txt",
+    "extension": "txt"
+  },
+  "related": []
 }

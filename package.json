@@ -37,6 +37,7 @@
   ],
   "scripts": {
     "test": "NODE_ENV=test mocha --recursive -R spec test/ -t 30000 -s 1000",
+    "coverage": "NODE_ENV=test istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- --recursive -R spec test/ -t 30000 -s 1000",
     "lint": "jshint config/ lib/ test/ script/ bin/ && jscs config/ lib/ test/ script/ bin/"
   },
   "main": "./lib/",
@@ -60,10 +61,13 @@
   },
   "devDependencies": {
     "async": "^0.9.0",
-    "mocha": "^2.0.1",
-    "should": "^4.3.0",
+    "coveralls": "^2.11.2",
+    "istanbul": "^0.3.5",
+    "jscs": "^1.8.1",
     "jshint": "^2.5.10",
-    "jscs": "^1.8.1"
+    "mocha": "^2.0.1",
+    "mocha-lcov-reporter": "0.0.1",
+    "should": "^4.3.0"
   },
   "licence": "MIT",
   "engines": {

@@ -268,5 +268,30 @@
     "verb": "DELETE",
     "requireId": true,
     "expectedStatus": 204
+  },
+  "getHydraters": {
+    "endpoint": "/hydraters"
+  },
+  "postHydraters": {
+    "endpoint": "/hydraters",
+    "verb": "POST",
+    "body": [
+      "url",
+      "description",
+      "short_name",
+      "filters",
+      "company",
+      "required_data"
+    ]
+  },
+  "getHydratersById": {
+    "endpoint": "/hydraters/{id}",
+    "requireId": true
+  },
+  "deleteHydratersById": {
+    "endpoint": "/hydraters/{id}",
+    "verb": "DELETE",
+    "requireId": true,
+    "expectedStatus": 204
   }
 }

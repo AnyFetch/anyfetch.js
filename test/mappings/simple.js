@@ -48,4 +48,5 @@ describe('<Low-level mapping functions>', function() {
   testEndpoint('getUsers');
   testEndpoint('getDocumentTypes');
   testEndpoint('getProviders');
+  testEndpoint('getHydraters');
 });

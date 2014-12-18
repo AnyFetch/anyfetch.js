@@ -1,7 +1,13 @@
 'use strict';
 
 require('should');
-var restify = require('restify');
+var restify;
+try {
+  restify = require('restify');
+}
+catch(e) {
+  // No restify.
+}
 
 var routeExists = require('../../lib/test-server/helpers/route-exists.js');
 

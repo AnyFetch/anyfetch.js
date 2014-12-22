@@ -4,5 +4,5 @@
   "email": "test@anyfetch.com",
   "name": "Anyfetch Test",
   "is_admin": true,
-  "user_url": "/users/52f0bb24c8318c2d65000036"
+  "user_url": "https://api-staging.anyfetch.com/users/52f0bb24c8318c2d65000036"
 }

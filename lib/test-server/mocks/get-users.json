@@ -9,98 +9,34 @@
   },
   {
     "_type": "User",
-    "id": "5460f239fc0973bc40c19b23",
-    "email": "test-1415639535837@anyfetch.com",
-    "name": "test-1415639535837",
-    "is_admin": false,
-    "user_url": "https://api-staging.anyfetch.com/users/5460f239fc0973bc40c19b23"
-  },
-  {
-    "_type": "User",
-    "id": "5409823bee7d24ef49b598fa",
-    "email": "test-1409909291901@anyfetch.com",
-    "name": "test-1409909291901",
-    "is_admin": false,
-    "user_url": "https://api-staging.anyfetch.com/users/5409823bee7d24ef49b598fa"
-  },
-  {
-    "_type": "User",
-    "id": "542d1639ecc49603190b329b",
-    "email": "test-1412240938476@anyfetch.com",
-    "name": "test-1412240938476",
-    "is_admin": false,
-    "user_url": "https://api-staging.anyfetch.com/users/542d1639ecc49603190b329b"
-  },
-  {
-    "_type": "User",
-    "id": "542d1758ecc49603190b32a7",
-    "email": "test-1412241225962@anyfetch.com",
-    "name": "test-1412241225962",
-    "is_admin": false,
-    "user_url": "https://api-staging.anyfetch.com/users/542d1758ecc49603190b32a7"
-  },
-  {
-    "_type": "User",
-    "id": "542d176eecc49603190b32b1",
-    "email": "test-1412241248666@anyfetch.com",
-    "name": "test-1412241248666",
-    "is_admin": false,
-    "user_url": "https://api-staging.anyfetch.com/users/542d176eecc49603190b32b1"
-  },
-  {
-    "_type": "User",
-    "id": "542d55b030ba6e9e401c2cf7",
-    "email": "test-1412257186238@anyfetch.com",
-    "name": "test-1412257186238",
-    "is_admin": false,
-    "user_url": "https://api-staging.anyfetch.com/users/542d55b030ba6e9e401c2cf7"
-  },
-  {
-    "_type": "User",
-    "id": "542d55cd30ba6e9e401c2cfa",
-    "email": "test-1412257217162@anyfetch.com",
-    "name": "test-1412257217162",
-    "is_admin": false,
-    "user_url": "https://api-staging.anyfetch.com/users/542d55cd30ba6e9e401c2cfa"
-  },
-  {
-    "_type": "User",
-    "id": "542d563530ba6e9e401c2d06",
-    "email": "test-1412257318508@anyfetch.com",
-    "name": "test-1412257318508",
-    "is_admin": false,
-    "user_url": "https://api-staging.anyfetch.com/users/542d563530ba6e9e401c2d06"
-  },
-  {
-    "_type": "User",
-    "id": "5459f18aca8af8393bf6ad1d",
-    "email": "test-1415180623644@anyfetch.com",
-    "name": "test-1415180623644",
-    "is_admin": false,
-    "user_url": "https://api-staging.anyfetch.com/users/5459f18aca8af8393bf6ad1d"
-  },
-  {
-    "_type": "User",
-    "id": "54773946dd97385e73bc73a4",
-    "email": "test-1417099574755@anyfetch.com",
-    "name": "test-1417099574755",
-    "is_admin": false,
-    "user_url": "https://api-staging.anyfetch.com/users/54773946dd97385e73bc73a4"
-  },
-  {
-    "_type": "User",
-    "id": "547c84b797ea79f73dd331b3",
-    "email": "test-1417446547567@anyfetch.com",
-    "name": "test-1417446547567",
-    "is_admin": false,
-    "user_url": "https://api-staging.anyfetch.com/users/547c84b797ea79f73dd331b3"
-  },
-  {
-    "_type": "User",
-    "id": "54885c37e782a7946271cf03",
-    "email": "thechuck762@norris.com",
+    "id": "5498a48dcfd1d28a0d96ea83",
+    "email": "thechuck968@norris.com",
     "name": "Chuck Norris",
     "is_admin": true,
-    "user_url": "https://api-staging.anyfetch.com/users/54885c37e782a7946271cf03"
+    "user_url": "https://api-staging.anyfetch.com/users/5498a48dcfd1d28a0d96ea83"
+  },
+  {
+    "_type": "User",
+    "id": "5498a48dcfd1d28a0d96ea82",
+    "email": "thechuck299@norris.com",
+    "name": "Chuck Norris",
+    "is_admin": true,
+    "user_url": "https://api-staging.anyfetch.com/users/5498a48dcfd1d28a0d96ea82"
+  },
+  {
+    "_type": "User",
+    "id": "5498a48d8163887f0dd66ed9",
+    "email": "thechuck906@norris.com",
+    "name": "Chuck Norris",
+    "is_admin": true,
+    "user_url": "https://api-staging.anyfetch.com/users/5498a48d8163887f0dd66ed9"
+  },
+  {
+    "_type": "User",
+    "id": "5498a48d8163887f0dd66eda",
+    "email": "thechuck227@norris.com",
+    "name": "Chuck Norris",
+    "is_admin": true,
+    "user_url": "https://api-staging.anyfetch.com/users/5498a48d8163887f0dd66eda"
   }
 ]

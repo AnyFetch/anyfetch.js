@@ -200,6 +200,11 @@
       "is_admin"
     ]
   },
+  "postUserUpdate": {
+    "endpoint": "/user/update",
+    "verb": "POST",
+    "expectedStatus": 200
+  },
   "deleteUserReset": {
     "endpoint": "/user/reset",
     "verb": "DELETE",

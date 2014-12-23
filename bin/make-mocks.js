@@ -67,6 +67,7 @@ mkdirp(mocksDirectory, function(err) {
 
   // ----- Fill with fake content
   var userId;
+  var usersToClear = [];
   var chuckId;
   var subcompanyId;
   var documentId;
@@ -92,11 +93,24 @@ mkdirp(mocksDirectory, function(err) {
       },
 
       postUsers: function(cb) {
-        anyfetch.postUsers(configuration.test.fakeUser, function(err, res) {
-          if(res.body && res.body.id) {
-            chuckId = res.body.id;
-            saveMock(configuration.apiDescriptors.postUsers, res.body);
+        // generate 5 users, first one for migration
+        async.times(5, function(n, cb) {
+          var user = configuration.test.fakeUser;
+          // regenerate a random email
+          user.email = 'thechuck' + Math.round(Math.random() * 1337) + '@norris.com';
+          anyfetch.postUsers(user, function(err, res) {
+            cb(err, res.body);
+          });
+        }, function(err, users) {
+          if(err) {
+            return cb(err);
           }
+          var first = users.shift();
+          if(first && first.id) {
+            chuckId = first.id;
+            saveMock(configuration.apiDescriptors.postUsers, first);
+          }
+          usersToClear = users;
           cb(err);
         });
       },
@@ -139,6 +153,7 @@ mkdirp(mocksDirectory, function(err) {
           'getSubcompanies',
           'postCompanyUpdate',
           'getUsers',
+          'getUser',
           'getDocumentTypes',
           'getProviders',
           ['getSubcompaniesById', subcompanyId],
@@ -188,7 +203,14 @@ mkdirp(mocksDirectory, function(err) {
 
         deleteDocumentByIdentifier: function(cb) {
           anyfetch.deleteDocumentsByIdentifier(documentIdentifier, cb);
+        },
+
+        deleteUsers: function(cb) {
+          async.map(usersToClear, function(user, cb) {
+            anyfetch.deleteUserById(user.id, cb);
+          }, cb);
         }
+
 
       }, function(cleanupErr) {
         // A bit weird, but we'd like to try and clean-up even if there's
@@ -201,7 +223,5 @@ mkdirp(mocksDirectory, function(err) {
         }
       });
     });
-
   });
-
 });

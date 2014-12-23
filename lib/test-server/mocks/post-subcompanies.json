@@ -1,25 +1,25 @@
 {
   "_type": "Company",
-  "id": "5488621ae181a1a20b5aa579",
+  "id": "5498a48ecfd1d28a0d96ea84",
   "name": "the_fake_subcompany",
   "hydraters": [
-    "https://deduplicator-staging.anyfetch.com/hydrate",
-    "https://embedmail-staging.anyfetch.com/hydrate",
-    "https://eml-staging.anyfetch.com/hydrate",
-    "https://event-staging.anyfetch.com/hydrate",
-    "https://filecleaner-staging.anyfetch.com/hydrate",
-    "https://ics-staging.anyfetch.com/hydrate",
-    "https://image-staging.anyfetch.com/hydrate",
-    "https://iptc-staging.anyfetch.com/hydrate",
-    "https://markdown-staging.anyfetch.com/hydrate",
-    "https://ocr-staging.anyfetch.com/hydrate",
-    "https://office-staging.anyfetch.com/hydrate",
-    "https://pdf-staging.anyfetch.com/hydrate",
-    "https://plaintext-staging.anyfetch.com/hydrate"
+    "5252ce4ce4cfcd16f55cfb11",
+    "5252ce4ce4cfcd16f55cfb08",
+    "5252ce4ce4cfcd16f55cfb07",
+    "5252ce4ce4cfcd16f55cfb12",
+    "5252ce4ce4cfcd16f55cfb10",
+    "5252ce4ce4cfcd16f55cfb09",
+    "5252ce4ce4cfcd16f55cfb03",
+    "5252ce4ce4cfcd16f55cfb05",
+    "5252ce4ce4cfcd16f55cfb06",
+    "5252ce4ce4cfcd16f55cfb04",
+    "5252ce4ce4cfcd16f55cfb02",
+    "5252ce4ce4cfcd16f55cfb01",
+    "5252ce4ce4cfcd16f55cfb00"
   ],
   "document_count": 0,
   "user_count": 1,
   "subcompany_count": 0,
-  "documents_per_update": 5000,
-  "last_update": "2014-12-10T15:09:14.862Z"
+  "documents_per_update": 3000,
+  "last_update": "2014-12-22T23:09:02.021Z"
 }

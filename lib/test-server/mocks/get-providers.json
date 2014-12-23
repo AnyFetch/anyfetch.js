@@ -5,9 +5,30 @@
     "client": null,
     "is_basic_token": true,
     "account_name": "",
+    "last_used": "2014-12-22T23:09:02.680Z",
+    "scopes": [
+      "read_documents",
+      "write_documents",
+      "delete_documents",
+      "read_document_types",
+      "write_document_types",
+      "delete_document_types",
+      "read_users",
+      "write_users",
+      "delete_users",
+      "read_companies",
+      "write_companies",
+      "delete_companies",
+      "read_tokens",
+      "write_tokens",
+      "delete_tokens",
+      "read_hydraters",
+      "write_hydraters",
+      "delete_hydraters"
+    ],
     "current": true,
     "document_count": 1,
-    "updated": "2014-12-10T15:09:14.681Z",
+    "updated": "2014-12-22T23:09:01.816Z",
     "providing": true
   }
 ]

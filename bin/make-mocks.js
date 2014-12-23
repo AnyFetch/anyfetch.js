@@ -96,7 +96,7 @@ mkdirp(mocksDirectory, function(err) {
         // generate 5 users, first one for migration
         async.times(5, function(n, cb) {
           var user = configuration.test.fakeUser;
-          // regerate a random email
+          // regenerate a random email
           user.email = 'thechuck' + Math.round(Math.random() * 1337) + '@norris.com';
           anyfetch.postUsers(user, function(err, res) {
             cb(err, res.body);

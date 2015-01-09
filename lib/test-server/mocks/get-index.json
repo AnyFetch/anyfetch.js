@@ -1,6 +1,7 @@
 {
   "user_email": "test@anyfetch.com",
   "user_id": "52f0bb24c8318c2d65000036",
+  "company_id": "53e0b2256f18dce71fce0bfe",
   "documents_url": "https://api-staging.anyfetch.com/documents/",
   "document_types_url": "https://api-staging.anyfetch.com/document_types/",
   "providers_url": "https://api-staging.anyfetch.com/providers/",

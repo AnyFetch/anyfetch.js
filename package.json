@@ -54,20 +54,20 @@
     "mkdirp": "^0.5.0",
     "rarity": "^2.1.1",
     "auto-load": "^1.1.0",
-    "dotenv": "^0.4.0"
+    "dotenv": "^0.5.1"
   },
   "optionalDependencies": {
-    "restify": "^2.8.3"
+    "restify": "^2.8.5"
   },
   "devDependencies": {
     "async": "^0.9.0",
     "coveralls": "^2.11.2",
-    "istanbul": "^0.3.5",
-    "jscs": "^1.8.1",
-    "jshint": "^2.5.10",
-    "mocha": "^2.0.1",
+    "istanbul": "^0.3.6",
+    "jscs": "^1.11.3",
+    "jshint": "^2.6.0",
+    "mocha": "^2.1.0",
     "mocha-lcov-reporter": "0.0.1",
-    "should": "^4.3.0"
+    "should": "^5.0.0"
   },
   "licence": "MIT",
   "engines": {

@@ -298,5 +298,16 @@
     "verb": "DELETE",
     "requireId": true,
     "expectedStatus": 204
+  },
+  "trackProviderUpdate": {
+    "endpoint": "/track/provider-updated",
+    "verb": "POST",
+    "body": [
+      "is_first",
+      "time_spent_on_queue",
+      "time_spent_on_tasks",
+      "total_time_spent"
+    ],
+    "expectedStatus": 204
   }
 }

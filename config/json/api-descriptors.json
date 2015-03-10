@@ -19,6 +19,11 @@
     "verb": "DELETE",
     "expectedStatus": 204
   },
+  "refreshToken": {
+    "endpoint": "/token/refresh",
+    "verb": "POST",
+    "expectedStatus": 204
+  },
   "getCompany": {
     "endpoint": "/company"
   },

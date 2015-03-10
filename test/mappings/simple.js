@@ -38,7 +38,6 @@ describe('<Low-level mapping functions>', function() {
     });
   };
 
-  testEndpoint('refreshToken');
   testEndpoint('getStatus');
   testEndpoint('getIndex');
   testEndpoint('getCompany');
